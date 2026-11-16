@@ -5,6 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>周冰红 · 产品运营 / AI 应用运营</title>
 <meta name="description" content="周冰红 - 产品运营 / AI 应用运营。1-3年经验，擅长把重复零散的运营工作流沉淀为可复用的 AI 工具与 SOP。">
+<meta name="author" content="周冰红">
+<meta name="keywords" content="周冰红,产品运营,AI应用运营,运营,金融产品运营,作品集,广州求职">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://jobingho.github.io/">
+
+<!-- Open Graph / 微信、脉脉转发时的缩略图与摘要 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="周冰红 · 作品集">
+<meta property="og:title" content="周冰红 · 产品运营 / AI 应用运营">
+<meta property="og:description" content="1-3 年金融产品运营经验，把重复零散的运营工作流沉淀为可复用的 AI 工具与 SOP。两款产品单量分别提升 20%、10%。">
+<meta property="og:url" content="https://jobingho.github.io/">
+<meta property="og:image" content="https://jobingho.github.io/assets/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="周冰红 · 产品运营 / AI 应用运营">
+<meta name="twitter:description" content="1-3 年金融产品运营经验，把重复零散的运营工作流沉淀为可复用的 AI 工具与 SOP。">
+<meta name="twitter:image" content="https://jobingho.github.io/assets/og-cover.jpg">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
 <style>
 :root{
   --ink:#12131a; --ink-2:#3d4152; --ink-3:#6b7080; --line:#e6e7ee;
@@ -25,6 +47,11 @@ img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 
+/* 键盘用户跳过导航（视觉隐藏，聚焦时出现） */
+.skip{position:absolute;left:-9999px;top:0;z-index:999;background:var(--ink);color:#fff;
+  padding:11px 20px;border-radius:0 0 10px 0;font-size:14px;font-weight:600}
+.skip:focus{left:0}
+
 /* ---------- nav ---------- */
 .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;gap:28px;height:62px}
@@ -42,6 +69,31 @@ a{color:inherit;text-decoration:none}
 @media(max-width:1080px){.nav-dl{display:none}}
 @media(max-width:860px){.nav-links{display:none}}
 
+/* ---------- 移动端汉堡菜单 ---------- */
+/* ≤860px 时 .nav-links 直接隐藏，若不补这套，手机上没有任何跳转入口，
+   页面高近万 px，只能一路滑到底。 */
+.nav-burger{display:none;width:40px;height:40px;flex:none;border:1px solid var(--line);background:#fff;
+  border-radius:11px;cursor:pointer;padding:0;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  margin-left:auto;font-family:inherit;transition:.18s}
+.nav-burger span{display:block;width:17px;height:2px;background:var(--ink);border-radius:2px;transition:.22s}
+.nav-burger:hover{border-color:var(--brand)}
+.nav-burger.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.on span:nth-child(2){opacity:0}
+.nav-burger.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:860px){
+  .nav-burger{display:flex}
+  .nav-cta{display:none}
+  .nav-in{height:58px;gap:12px}
+  .mnav{position:absolute;left:0;right:0;top:100%;background:#fff;border-bottom:1px solid var(--line);
+    box-shadow:0 18px 34px -22px rgba(18,19,26,.35);padding:8px 24px 20px;display:flex;flex-direction:column;gap:2px}
+  .mnav[hidden]{display:none}
+  .mnav a{padding:13px 4px;font-size:15.5px;font-weight:500;border-bottom:1px solid var(--bg-2);color:var(--ink-2)}
+  .mnav a:active{color:var(--brand)}
+  .mnav-acts{display:flex;gap:10px;padding-top:16px}
+  .mnav-acts .nav-dl{display:inline-flex;align-items:center;justify-content:center;flex:1;text-decoration:none}
+  .mnav-acts .nav-cta{display:inline-flex;align-items:center;justify-content:center;flex:1;margin-left:0;text-decoration:none}
+}
+
 /* ---------- hero ---------- */
 .hero{position:relative;overflow:hidden;padding:76px 0 64px;background:
   radial-gradient(1100px 480px at 78% -8%, rgba(108,92,231,.16), transparent 62%),
@@ -53,7 +105,7 @@ a{color:inherit;text-decoration:none}
   background-size:56px 56px;mask-image:radial-gradient(circle at 50% 30%,#000,transparent 72%);-webkit-mask-image:radial-gradient(circle at 50% 30%,#000,transparent 72%);pointer-events:none}
 .hero-in{position:relative;display:grid;grid-template-columns:1.35fr .65fr;gap:52px;align-items:center}
 @media(max-width:900px){.hero-in{grid-template-columns:1fr;gap:34px}.hero{padding:52px 0 44px}}
-.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,184,148,.1);color:#00806a;border:1px solid rgba(0,184,148,.26);padding:6px 14px;border-radius:999px;font-size:13px;font-weight:500}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,184,148,.1);color:#006b58;border:1px solid rgba(0,184,148,.26);padding:6px 14px;border-radius:999px;font-size:13px;font-weight:500}
 .badge b{width:7px;height:7px;border-radius:50%;background:var(--brand-3);box-shadow:0 0 0 3px rgba(0,184,148,.2)}
 h1{font-size:clamp(34px,5.4vw,58px);line-height:1.14;letter-spacing:-.035em;font-weight:700;margin:20px 0 0}
 h1 .grad{background:linear-gradient(105deg,var(--brand) 8%,var(--brand-2) 58%,var(--brand-3));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -113,7 +165,7 @@ section:nth-of-type(even){background:var(--bg-2)}
 .exp-list li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--brand);margin-top:9px}
 .exp-list li b{color:var(--ink);font-weight:600}
 .exp-list li .hl{color:var(--brand);font-weight:600}
-.exp-now{display:inline-block;background:rgba(0,184,148,.11);color:#00806a;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:6px;margin-left:8px;vertical-align:middle;letter-spacing:.02em}
+.exp-now{display:inline-block;background:rgba(0,184,148,.11);color:#006b58;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:6px;margin-left:8px;vertical-align:middle;letter-spacing:.02em}
 /* 实习经历压缩：视觉更轻，占屏更少 */
 .exp-card.sm{padding:22px 26px;box-shadow:none;background:var(--bg-2)}
 .exp-card.sm::before{background:var(--ink-3);opacity:.45}
@@ -137,7 +189,7 @@ section:nth-of-type(even){background:var(--bg-2)}
 .p-steps b{flex:none;font-size:11px;font-weight:700;color:#fff;background:var(--ink-3);border-radius:5px;padding:2px 7px;margin-top:3px;letter-spacing:.03em}
 .p-steps .rl b{background:var(--brand)}
 .p-steps .rl span{color:var(--ink);font-weight:600}
-.p-role{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;font-weight:600;color:#2c3cba;background:rgba(59,79,224,.09);border:1px solid rgba(59,79,224,.2);padding:6px 12px;border-radius:8px;margin-top:14px;line-height:1.5}
+.p-role{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;font-weight:600;color:#2a3ab0;background:rgba(59,79,224,.09);border:1px solid rgba(59,79,224,.2);padding:6px 12px;border-radius:8px;margin-top:14px;line-height:1.5}
 .p-role::before{content:"我的角色";flex:none;font-size:10.5px;font-weight:700;letter-spacing:.05em;color:var(--ink-3);background:#fff;border:1px solid var(--line);padding:1px 6px;border-radius:5px;margin-top:1px}
 .p-note{font-size:12.8px;color:var(--ink-3);margin-top:14px;padding:10px 13px;background:var(--bg-2);border-radius:10px;border-left:3px solid var(--warm);line-height:1.6}
 .p-note b{color:var(--ink-2);font-weight:600}
@@ -153,10 +205,10 @@ section:nth-of-type(even){background:var(--bg-2)}
 .grow.g::after{background:radial-gradient(circle,rgba(0,184,148,.12),transparent 70%)}
 .grow-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .grow-h b{font-size:15.5px;font-weight:700}
-.grow-tag{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:7px;background:rgba(59,79,224,.09);color:#2c3cba}
-.grow.g .grow-tag{background:rgba(0,184,148,.1);color:#00806a}
+.grow-tag{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:7px;background:rgba(59,79,224,.09);color:#2a3ab0}
+.grow.g .grow-tag{background:rgba(0,184,148,.1);color:#006b58}
 .grow-num{font-size:38px;font-weight:800;letter-spacing:-.035em;line-height:1.1;margin:12px 0 2px;color:#d0342c}
-.grow.g .grow-num{color:#00806a}
+.grow.g .grow-num{color:#006b58}
 .grow-num small{font-size:15px;font-weight:600;color:var(--ink-3);margin-left:8px;letter-spacing:0}
 .grow-desc{font-size:13.8px;color:var(--ink-2);margin-top:8px}
 .grow-desc b{color:var(--ink);font-weight:600}
@@ -179,9 +231,9 @@ section:nth-of-type(even){background:var(--bg-2)}
 .tagwrap{display:flex;flex-wrap:wrap;gap:8px}
 .tg{font-size:13.5px;background:var(--bg-2);border:1px solid var(--line);padding:6px 13px;border-radius:8px;color:var(--ink-2);transition:.18s}
 .tg:hover{border-color:var(--brand);color:var(--brand);transform:translateY(-1px)}
-.tg.l1{background:rgba(59,79,224,.08);border-color:rgba(59,79,224,.2);color:#2c3cba;font-weight:500}
-.tg.l2{background:rgba(0,184,148,.09);border-color:rgba(0,184,148,.22);color:#00806a;font-weight:500}
-.tg.l3{background:rgba(255,138,61,.1);border-color:rgba(255,138,61,.24);color:#b8621f;font-weight:500}
+.tg.l1{background:rgba(59,79,224,.08);border-color:rgba(59,79,224,.2);color:#2a3ab0;font-weight:500}
+.tg.l2{background:rgba(0,184,148,.09);border-color:rgba(0,184,148,.22);color:#006b58;font-weight:500}
+.tg.l3{background:rgba(255,138,61,.1);border-color:rgba(255,138,61,.24);color:#9a4f12;font-weight:500}
 .lv-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;font-size:13px;color:var(--ink-3)}
 .lv-legend span{display:flex;align-items:center;gap:7px}
 .dot{width:9px;height:9px;border-radius:3px}
@@ -195,7 +247,7 @@ section:nth-of-type(even){background:var(--bg-2)}
 .cert:hover{border-color:rgba(59,79,224,.35);transform:translateY(-2px)}
 .cert b{display:block;font-size:14.5px;font-weight:700;letter-spacing:-.01em}
 .cert span{display:block;font-size:12.5px;color:var(--ink-3);margin-top:5px;line-height:1.6}
-.cert .cert-k{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;color:#2c3cba;background:rgba(59,79,224,.09);padding:2px 8px;border-radius:6px;margin-bottom:9px}
+.cert .cert-k{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;color:#2a3ab0;background:rgba(59,79,224,.09);padding:2px 8px;border-radius:6px;margin-bottom:9px}
 
 /* ---------- works：平台合集（网格排布 + 封面大图） ---------- */
 .works{display:grid;gap:22px}
@@ -203,7 +255,7 @@ section:nth-of-type(even){background:var(--bg-2)}
 .w-group:hover{box-shadow:0 2px 4px rgba(18,19,26,.05),0 22px 48px -18px rgba(18,19,26,.22)}
 .w-head{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;padding:26px 28px 20px;border-bottom:1px solid var(--line)}
 .w-head-l{min-width:0}
-.w-plat{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;padding:3px 9px;border-radius:6px;background:rgba(59,79,224,.08);color:#2c3cba;margin-bottom:11px}
+.w-plat{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;padding:3px 9px;border-radius:6px;background:rgba(59,79,224,.08);color:#2a3ab0;margin-bottom:11px}
 .w-head h3{font-size:19px;font-weight:700;letter-spacing:-.025em}
 .w-head p{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:620px;line-height:1.65}
 .w-head-r{display:flex;flex-direction:column;align-items:flex-end;gap:11px;flex:none}
@@ -213,6 +265,7 @@ section:nth-of-type(even){background:var(--bg-2)}
 .w-like:hover{border-color:var(--brand);color:var(--brand);background:rgba(59,79,224,.05)}
 .w-like svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;transition:.2s}
 .w-like .w-like-num{font-variant-numeric:tabular-nums;color:var(--ink-3);font-weight:700;min-width:8px}
+.w-like .w-like-num[hidden]{display:none}
 .w-like.on{color:#d0342c;border-color:rgba(208,52,44,.34);background:rgba(208,52,44,.06)}
 .w-like.on svg{fill:#d0342c;stroke:#d0342c;transform:scale(1.08)}
 .w-like.on .w-like-num{color:#d0342c}
@@ -338,19 +391,96 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 .rv.in{animation:rvIn .7s cubic-bezier(.2,.7,.3,1) both}
 @keyframes rvIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.rv,.rv.in{animation:none;opacity:1;transform:none}html{scroll-behavior:auto}}
+
+/* ---------- print ---------- */
+/* 目标：浏览器直接打印 / 另存为 PDF（尤其是"不打印背景图形"这一默认设置）时，
+   页面依然完整可读。此前深色按钮、渐变标题、联系区深底白字会整块消失。 */
+@media print{
+  @page{margin:12mm 12mm 14mm}
+  html,body{background:#fff!important;color:#14151c!important;font-size:11pt}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+  /* 导航与交互件：打印无意义，直接移除 */
+  .nav,.nav-cta,.hero-cta,.c-acts,.lb,.lb-x,.w-like,.ql-go,.w-hint,
+  .scroll-top,.modal,.toast,.skip{display:none!important}
+
+  /* 渐变标题：background-clip:text 在不打印背景时会整段空白，
+     改为实体色 + 保留层次 */
+  h1 .grad{background:none!important;color:#3b4fd8!important;-webkit-text-fill-color:#3b4fd8!important}
+
+  /* 深色按钮改白底描边，文字保持可见 */
+  .btn-p{background:#fff!important;color:#14151c!important;border:1.5pt solid #14151c!important;box-shadow:none!important}
+  .btn-d{background:#fff!important;color:#3b4fd8!important;border:1.5pt solid #3b4fd8!important;box-shadow:none!important}
+  .btn-s{background:#fff!important;color:#14151c!important;border:1pt solid #8a8f9c!important}
+
+  /* 联系区深底白字 → 白底黑字 */
+  .contact{background:#fff!important;color:#14151c!important;border-top:2pt solid #14151c}
+  .contact::before,.contact::after{display:none!important}
+  .contact .sec-head p{color:#3c4051!important}
+  .contact .sec-num{color:#3b4fd8!important}
+  .c-mail{color:#14151c!important;-webkit-text-fill-color:#14151c!important;border-bottom-color:#8a8f9c!important}
+  .c-mail:hover{color:#14151c!important}
+  .c-note{color:#3c4051!important}
+  .c-lab{background:#fff!important;color:#3b4fd8!important;border-color:#3b4fd8!important}
+  .c-item{background:#fff!important;border:1px solid #c9ccd6!important}
+  /* 白色文字原本靠 .contact 继承，必须逐条覆盖，否则白字落到白底上 */
+  .contact .c-item span{color:#5a5f6b!important}
+  .contact .c-item b,.contact .c-item a{color:#14151c!important}
+  .contact .fact-row span{color:#5a5f6b!important}
+  .contact .fact-row b{color:#14151c!important}
+  .contact .c-list span{color:#5a5f6b!important}
+  .contact .c-list b{color:#14151c!important}
+  .contact .c-act{background:#fff!important;color:#14151c!important;border-color:#8a8f9c!important}
+  .contact .c-act.pri{background:#fff!important;color:#3b4fd8!important;border-color:#3b4fd8!important}
+  .contact .c-act.ok{background:#fff!important;color:#00755c!important;border-color:#00755c!important}
+  .contact .c-points div{color:#3c4051!important}
+  .contact .c-points{border-top-color:#dfe1e9!important}
+  .contact .c-points div::before{color:#00755c!important}
+
+  /* 彩色图标底：保证图标不会因背景丢失而变成白底白字 */
+  .s-card h3 i,.certs-h i{background:var(--brand)!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
+  /* 步骤标签（背景/动作/结果）：深底保留，白字可见 */
+  .p-steps b{background:var(--ink-3)!important;color:#fff!important}
+  /* 截图序号角标 */
+  .w-shot::after{background:rgba(18,19,26,.82)!important;color:#fff!important}
+
+  /* 版面：单列、去掉大留白与卡片阴影 */
+  .hero{padding:0 0 8mm!important;background:#fff!important}
+  .hero::before{display:none!important}
+  .hero-in{grid-template-columns:1fr!important;gap:6mm!important}
+  section{padding:6mm 0!important;border-top:1px solid #dfe1e9!important}
+  .kpi,.pj,.w-shot,.ql,.c-item,.cert,.cert-row{box-shadow:none!important}
+  .c-grid{grid-template-columns:1fr!important;gap:8mm!important}
+  .c-list{grid-template-columns:repeat(2,1fr)!important}
+
+  /* 作品截图：网格改单列排布，避免打印时图片被裁掉 */
+  .w-stack{grid-template-columns:1fr 1fr!important}
+  .w-shot.wide{grid-column:span 2!important}
+  .w-shot img{break-inside:avoid}
+  .w-shot figcaption{color:#5a5f6b!important}
+
+  /* 分页控制：标题不与正文分离，模块整块不跨页 */
+  .sec-head,h2,h3,.p-h{break-after:avoid;page-break-after:avoid}
+  .kpi,.pj,.job,.w-group,.ql,.c-item{break-inside:avoid;page-break-inside:avoid}
+
+  a{text-decoration:none!important;color:#14151c!important}
+  .ql-u em{background:#dfe1e9!important;color:#14151c!important}
+}
 </style>
 </head>
 <body>
 
+<a class="skip" href="#about">跳到主要内容</a>
+
 <div class="lb" id="lb">
   <button class="lb-x" id="lbX" aria-label="关闭">&times;</button>
-  <img id="lbImg" alt="作品大图">
+  <img loading="lazy" id="lbImg" alt="作品大图">
 </div>
 
 <nav class="nav">
   <div class="wrap nav-in">
     <div class="logo"><i></i>周冰红</div>
-    <div class="nav-links">
+    <div class="nav-links" aria-label="主导航">
       <a href="#top">首页</a>
       <a href="#proj">项目案例</a>
       <a href="#skill">技能专长</a>
@@ -359,6 +489,20 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     </div>
     <a class="nav-dl" href="resume.pdf" download>下载简历 PDF</a>
     <a class="nav-cta" href="#contact">联系我</a>
+    <button class="nav-burger" type="button" aria-label="打开导航菜单" aria-expanded="false" aria-controls="mnav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mnav" id="mnav" hidden>
+    <a href="#top">首页</a>
+    <a href="#proj">项目案例</a>
+    <a href="#skill">技能专长</a>
+    <a href="#exp">工作履历</a>
+    <a href="#work">作品与工具</a>
+    <div class="mnav-acts">
+      <a class="nav-dl" href="resume.pdf" download>下载简历 PDF</a>
+      <a class="nav-cta" href="#contact">联系我</a>
+    </div>
   </div>
 </nav>
 
@@ -394,6 +538,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
       <div class="fact-row"><span>求职状态</span><b>在职，考虑新机会</b></div>
       <div class="fact-row"><span>到岗方式</span><b>全职线下到岗</b></div>
       <div class="fact-row"><span>邮箱</span><b>2748044259@qq.com</b></div>
+      <div class="fact-row"><span>教育背景</span><b>广东财经大学 · 汉语言文学（商务文秘）本科</b></div>
     </aside>
   </div>
   <div class="wrap hero-kpis">
@@ -416,11 +561,12 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 </header>
 
 <!-- ABOUT -->
-<section id="about">
+<main id="main">
+<section id="about" aria-labelledby="h-about">
   <div class="wrap">
     <div class="sec-head rv">
       <div class="sec-num">01 / 关于我</div>
-      <h2>用产品化思维解决运营问题</h2>
+      <h2 id="h-about">用产品化思维解决运营问题</h2>
       <p>我的工作重心：<b>识别高频重复场景 → 找到可被工具化的环节 → 独立搭出最小可用方案 → 推给团队用起来</b>。不只是把活干完，而是让下次少干一点。</p>
     </div>
     <div class="exp rv" id="exp">
@@ -436,7 +582,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           <li><span><b>产品运营与业绩：</b>独立负责 2 个金融产品的场景化运营与增长，从用户真实路径出发调整功能、投放与活动节奏——<span class="hl">总单量分别提升 20% 与 10%</span>，且持续刷新该项目的日 / 月最高单量纪录。</span></li>
           <li><span><b>AI 工作台（0→1，独立搭建）：</b>自研 8 个 AI 模块（周报 / 日报 / 月报、文案创作、广告自动铺设、素材库、AI 出图、文章自动上传），组内全员复用，<span class="hl">单份报表人均节省 2-3 天工时</span>。</span></li>
           <li><span><b>月度活动全流程统筹：</b>每月一轮，输出 APP 弹窗 / PC 弹窗 / 活动页 / 海报 4 类物料，用 Axure 做原型推动设计与技术落地。</span></li>
-          <li><span><b>内容矩阵运营：</b>负责 2 公众号 + 2 微博 + 1 头条号 + 1 财富号的排版发布与后台答疑，主导小白教学栏目内容结构（已产出完整图文成品）。</span></li>
+          <li><span><b>内容矩阵运营：</b>负责 2 公众号 + 2 微博 + 1 头条号 + 1 财富号的排版发布与后台答疑，主导小白教学栏目内容结构（已完成部分，因业务排期暂停，未正式上线）。</span></li>
           <li><span><b>AI 客服 SOP 话术体系：</b>按用户群体分类编写标准话术文档，交付 AI 客服在各场景稳定应答。</span></li>
           <li><span><b>直播运营：</b>负责公司日常直播的线上宣传与内容跟进，实时处理不良言论与用户提问。</span></li>
           <li><span><b>跨部门协作与企微文案：</b>长期对接产品 / 技术 / 设计推动需求闭环，并承担企业微信侧产品与功能对外传播。</span></li>
@@ -460,17 +606,17 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 </section>
 
 <!-- PROJECTS -->
-<section id="proj">
+<section id="proj" aria-labelledby="h-proj">
   <div class="wrap">
     <div class="sec-head rv">
       <div class="sec-num">02 / 项目案例</div>
-      <h2>把流程做成系统，而不是做完就丢</h2>
+      <h2 id="h-proj">把流程做成系统，而不是做完就丢</h2>
       <p>以下项目均标注了<b>我的角色</b>与<b>量化结果</b>。共同方法：看清业务链路 → 决定哪段值得工具化 → 交付到团队真的愿意用。项目之外，我还直接负责两个金融产品的场景化运营，并背总单量指标。</p>
     </div>
     <div class="proj">
       <article class="p-card rv">
         <div class="p-body">
-          <span class="p-tag" style="background:rgba(59,79,224,.09);color:#2c3cba">核心亮点</span>
+          <span class="p-tag" style="background:rgba(59,79,224,.09);color:#2a3ab0">核心亮点</span>
           <h3>AI 运营工作台搭建与落地</h3>
           <p>把组内分散在多个平台的手工流程，收拢成一套可复用的 AI 工作台体系。</p>
           <div class="p-role">独立从零到一设计、搭建、推广落地</div>
@@ -489,7 +635,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 
       <article class="p-card rv">
         <div class="p-body">
-          <span class="p-tag" style="background:rgba(0,184,148,.1);color:#00806a">内容矩阵</span>
+          <span class="p-tag" style="background:rgba(0,184,148,.1);color:#006b58">内容矩阵</span>
           <h3>多平台内容运营矩阵</h3>
           <p>同时负责 6 个内容账号的日常运营，从排版发布到用户答疑的完整链路。</p>
           <div class="p-role">独立负责日常运营；小白教学栏目由我主导内容结构</div>
@@ -509,7 +655,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 
       <article class="p-card rv">
         <div class="p-body">
-          <span class="p-tag" style="background:rgba(255,138,61,.12);color:#b8621f">活动统筹</span>
+          <span class="p-tag" style="background:rgba(255,138,61,.12);color:#9a4f12">活动统筹</span>
           <h3>月度活动全流程策划与落地</h3>
           <p>每月活动从策划到物料上线的一体化负责，保障节奏与质量。</p>
           <div class="p-role">主导策划排期与全套物料产出，对接设计与技术落地</div>
@@ -528,7 +674,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 
       <article class="p-card rv">
         <div class="p-body">
-          <span class="p-tag" style="background:rgba(108,92,231,.1);color:#5a4bc4">AI 客服</span>
+          <span class="p-tag" style="background:rgba(108,92,231,.1);color:#4a3ba8">AI 客服</span>
           <h3>智能客服 SOP 话术体系</h3>
           <p>为 AI 客服落地提供可执行的标准话术底座，支撑不同用户群体的准确应答。</p>
           <div class="p-role">独立梳理场景并编写全量话术，交付产品使用</div>
@@ -547,7 +693,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 
       <article class="p-card wide rv">
         <div class="p-body">
-          <span class="p-tag" style="background:rgba(208,52,44,.1);color:#c0392b">业绩成果</span>
+          <span class="p-tag" style="background:rgba(208,52,44,.1);color:#a82c1f">业绩成果</span>
           <h3>负责产品的总单量增长</h3>
           <p>工具是为了把事做快，业绩是这件事值不值钱的答案。以下是我直接负责运营的两个产品，在任职期间交出的增长结果。</p>
           <div class="grow-grid">
@@ -580,11 +726,11 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 </section>
 
 <!-- SKILLS -->
-<section id="skill">
+<section id="skill" aria-labelledby="h-skill">
   <div class="wrap">
     <div class="sec-head rv">
       <div class="sec-num">03 / 技能专长</div>
-      <h2>工具、方法与协作能力</h2>
+      <h2 id="h-skill">工具、方法与协作能力</h2>
       <p>工具解决效率问题，方法解决判断问题，协作解决落地问题——三者缺一，方案都走不到最后一步。</p>
     </div>
     <div class="skill-grid">
@@ -648,11 +794,11 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 </section>
 
 <!-- WORKS -->
-<section id="work">
+<section id="work" aria-labelledby="h-work">
   <div class="wrap">
     <div class="sec-head rv">
       <div class="sec-num">04 / 作品与工具</div>
-      <h2>亲手做出来的东西</h2>
+      <h2 id="h-work">亲手做出来的东西</h2>
       <p>下面这些不是 PPT 里的示意图，而是我实际搭建并投入使用的平台与工具。每个平台的所有界面截图已归为一组，以网格排布呈现；点击任意截图可查看大图，想亲手操作可前往页面下方的「在线演示平台」。</p>
     </div>
     <div class="works">
@@ -665,40 +811,40 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           </div>
           <div class="w-head-r">
             <span class="w-count">7 个模块</span>
-            <button class="w-like" type="button" data-like="wk" data-base="32" aria-label="为周报平台点赞">
+            <button class="w-like" type="button" data-like="wk" aria-label="为周报平台点赞" aria-pressed="false">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
               <span class="w-like-txt">点赞</span>
-              <span class="w-like-num">32</span>
+              <span class="w-like-num" hidden></span>
             </button>
           </div>
         </div>
         <div class="w-stack">
         <figure class="w-shot wide" data-no="01" data-img="assets/coll/wk-1-workbench.jpg">
-          <img src="assets/coll/wk-1-workbench.jpg" alt="个人 AI 工作台">
+          <img loading="eager" src="assets/coll/wk-1-workbench.jpg" alt="个人 AI 工作台">
           <figcaption>个人 AI 工作台</figcaption>
         </figure>
         <figure class="w-shot" data-no="02" data-img="assets/coll/wk-2-calendar.jpg">
-          <img src="assets/coll/wk-2-calendar.jpg" alt="活动排期日历">
+          <img loading="lazy" src="assets/coll/wk-2-calendar.jpg" alt="活动排期日历">
           <figcaption>活动排期日历</figcaption>
         </figure>
         <figure class="w-shot" data-no="03" data-img="assets/coll/wk-3-dashboard.jpg">
-          <img src="assets/coll/wk-3-dashboard.jpg" alt="每日经营总览与数据可视化">
+          <img loading="lazy" src="assets/coll/wk-3-dashboard.jpg" alt="每日经营总览与数据可视化">
           <figcaption>每日经营总览与数据可视化</figcaption>
         </figure>
         <figure class="w-shot" data-no="04" data-img="assets/coll/wk-4-adauto.jpg">
-          <img src="assets/coll/wk-4-adauto.jpg" alt="广告自动化：复制并换图">
+          <img loading="lazy" src="assets/coll/wk-4-adauto.jpg" alt="广告自动化：复制并换图">
           <figcaption>广告自动化：复制并换图</figcaption>
         </figure>
         <figure class="w-shot" data-no="05" data-img="assets/coll/wk-5-news.jpg">
-          <img src="assets/coll/wk-5-news.jpg" alt="AI 资讯快报与复盘总结">
+          <img loading="lazy" src="assets/coll/wk-5-news.jpg" alt="AI 资讯快报与复盘总结">
           <figcaption>AI 资讯快报与复盘总结</figcaption>
         </figure>
         <figure class="w-shot" data-no="06" data-img="assets/coll/wk-6-upload.jpg">
-          <img src="assets/coll/wk-6-upload.jpg" alt="公众号文章自动上传">
+          <img loading="lazy" src="assets/coll/wk-6-upload.jpg" alt="公众号文章自动上传">
           <figcaption>公众号文章自动上传</figcaption>
         </figure>
         <figure class="w-shot" data-no="07" data-img="assets/coll/wk-7-monthly.jpg">
-          <img src="assets/coll/wk-7-monthly.jpg" alt="月度广告分析平台">
+          <img loading="lazy" src="assets/coll/wk-7-monthly.jpg" alt="月度广告分析平台">
           <figcaption>月度广告分析平台</figcaption>
         </figure>
         <span class="w-hint">点击任意截图查看大图</span>
@@ -713,36 +859,36 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           </div>
           <div class="w-head-r">
             <span class="w-count">6 个模块</span>
-            <button class="w-like" type="button" data-like="mat" data-base="24" aria-label="为素材库点赞">
+            <button class="w-like" type="button" data-like="mat" aria-label="为素材库点赞" aria-pressed="false">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
               <span class="w-like-txt">点赞</span>
-              <span class="w-like-num">24</span>
+              <span class="w-like-num" hidden></span>
             </button>
           </div>
         </div>
         <div class="w-stack">
         <figure class="w-shot wide" data-no="01" data-img="assets/coll/mat-1-library.jpg">
-          <img src="assets/coll/mat-1-library.jpg" alt="素材库">
+          <img loading="lazy" src="assets/coll/mat-1-library.jpg" alt="素材库">
           <figcaption>素材库</figcaption>
         </figure>
         <figure class="w-shot" data-no="02" data-img="assets/coll/mat-2-schedule.jpg">
-          <img src="assets/coll/mat-2-schedule.jpg" alt="素材排期表">
+          <img loading="lazy" src="assets/coll/mat-2-schedule.jpg" alt="素材排期表">
           <figcaption>素材排期表</figcaption>
         </figure>
         <figure class="w-shot" data-no="03" data-img="assets/coll/mat-3-quality.jpg">
-          <img src="assets/coll/mat-3-quality.jpg" alt="优质素材沉淀体系">
+          <img loading="lazy" src="assets/coll/mat-3-quality.jpg" alt="优质素材沉淀体系">
           <figcaption>优质素材沉淀体系</figcaption>
         </figure>
         <figure class="w-shot" data-no="04" data-img="assets/coll/mat-4-import.jpg">
-          <img src="assets/coll/mat-4-import.jpg" alt="每日弹窗数据自动导入">
+          <img loading="lazy" src="assets/coll/mat-4-import.jpg" alt="每日弹窗数据自动导入">
           <figcaption>每日弹窗数据自动导入</figcaption>
         </figure>
         <figure class="w-shot" data-no="05" data-img="assets/coll/mat-5-ab.jpg">
-          <img src="assets/coll/mat-5-ab.jpg" alt="备用素材库 · A/B 对比">
+          <img loading="lazy" src="assets/coll/mat-5-ab.jpg" alt="备用素材库 · A/B 对比">
           <figcaption>备用素材库 · A/B 对比</figcaption>
         </figure>
         <figure class="w-shot tail" data-no="06" data-img="assets/coll/mat-6-chatchat.jpg">
-          <img src="assets/coll/mat-6-chatchat.jpg" alt="私聊文案 AI 工作台">
+          <img loading="lazy" src="assets/coll/mat-6-chatchat.jpg" alt="私聊文案 AI 工作台">
           <figcaption>私聊文案 AI 工作台</figcaption>
         </figure>
         <span class="w-hint">点击任意截图查看大图</span>
@@ -757,16 +903,16 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           </div>
           <div class="w-head-r">
             <span class="w-count">1 个模块</span>
-            <button class="w-like" type="button" data-like="inv" data-base="15" aria-label="为投资分析小工具点赞">
+            <button class="w-like" type="button" data-like="inv" aria-label="为投资分析小工具点赞" aria-pressed="false">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
               <span class="w-like-txt">点赞</span>
-              <span class="w-like-num">15</span>
+              <span class="w-like-num" hidden></span>
             </button>
           </div>
         </div>
         <div class="w-stack solo">
         <figure class="w-shot wide" data-no="01" data-img="assets/coll/inv-1.jpg">
-          <img src="assets/coll/inv-1.jpg" alt="K 线 / MACD 指标体系">
+          <img loading="lazy" src="assets/coll/inv-1.jpg" alt="K 线 / MACD 指标体系">
           <figcaption>K 线 / MACD 指标体系</figcaption>
         </figure>
         <span class="w-hint">点击查看大图</span>
@@ -795,7 +941,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
         <a class="ql" data-key="inv" href="demo.html?p=inv" rel="nofollow noopener">
           <span class="ql-t">投资分析小工具</span>
           <span class="ql-d">K 线 / MACD 指标 · 评分信号 · 形态识别</span>
-          <span class="ql-u">ec23b558<em>e19b4fe4adfaffc38ee0f5c6</em>.gz1.agentos-app.net</span>
+          <span class="ql-u">ec23b558<em>................</em>agentos-app.net</span>
           <span class="ql-go">进入演示</span>
         </a>
       </div>
@@ -804,11 +950,11 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="contact">
+<section id="contact" class="contact" aria-labelledby="h-contact">
   <div class="wrap">
     <div class="sec-head rv">
       <div class="sec-num">05 / 联系方式</div>
-      <h2>期待与你聊聊</h2>
+      <h2 id="h-contact">期待与你聊聊</h2>
       <p>如果你在找一位能自己动手把方案做出来、并且愿意把工具留给团队的产品运营，欢迎直接联系我。</p>
     </div>
     <div class="c-grid">
@@ -841,6 +987,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     </div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap">
@@ -876,6 +1023,35 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 
 <script>
 (function(){
+  // 移动端汉堡菜单：≤860px 展开/收起，点击菜单项后自动关闭
+  var burger = document.querySelector('.nav-burger');
+  var mnav = document.getElementById('mnav');
+  if (burger && mnav){
+    function closeMnav(){
+      burger.classList.remove('on');
+      burger.setAttribute('aria-expanded','false');
+      burger.setAttribute('aria-label','打开导航菜单');
+      mnav.hidden = true;
+    }
+    burger.addEventListener('click', function(){
+      var open = mnav.hidden;
+      mnav.hidden = !open;
+      burger.classList.toggle('on', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
+    });
+    mnav.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', closeMnav);
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && !mnav.hidden) closeMnav();
+    });
+    // 视口放大回桌面尺寸时复位，避免残留展开态
+    window.addEventListener('resize', function(){
+      if (window.innerWidth > 860 && !mnav.hidden) closeMnav();
+    });
+  }
+
   // 滚动淡入
   // 安全原则：淡入只负责「装饰」，不负责「显示」。
   // 元素默认 opacity:1，动画结束后同样是 opacity:1；
@@ -941,9 +1117,9 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
   // 排版：CSS Grid 自适应列数（桌面 3 列 / 平板 2 列 / 手机 1 列），
   // 首张封面跨两列作视觉锚点，其余等宽平铺，无需 JS 计算步长。
 
-  // 点赞：点击 +1，再次点击取消（-1）。状态与增量写入 localStorage，
-  // 刷新后仍保持；初始基数取自 data-base。
-  var LIKE_KEY = 'job_portfolio_likes_v1';
+  // 点赞：点击 +1，再次点击取消（-1）。状态写入 localStorage，刷新后仍保持。
+  // 不设任何初始基数——数字只在真实产生过点赞之后才显示，避免出现无从追溯的假数据。
+  var LIKE_KEY = 'job_portfolio_likes_v2';
   var likeState = {};
   try {
     var raw = localStorage.getItem(LIKE_KEY);
@@ -957,30 +1133,37 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
   document.querySelectorAll('.w-like').forEach(function(btn){
     var key = btn.getAttribute('data-like');
     if (!key) return;
-    var base = parseInt(btn.getAttribute('data-base'), 10) || 0;
     var numEl = btn.querySelector('.w-like-num');
     var txtEl = btn.querySelector('.w-like-txt');
 
     function render(){
       var st = likeState[key] || {};
-      var count = base + (st.delta || 0);
+      var count = st.n || 0;                 // 真实累计点赞数，初始为 0
       var liked = !!st.liked;
-      numEl.textContent = count;
+      // 没有任何点赞时不展示数字，避免"凭空多出来的赞"
+      if (count > 0){
+        numEl.textContent = count;
+        numEl.hidden = false;
+      } else {
+        numEl.textContent = '';
+        numEl.hidden = true;
+      }
       btn.classList.toggle('on', liked);
       btn.setAttribute('aria-pressed', liked ? 'true' : 'false');
-      btn.setAttribute('aria-label', (liked ? '取消点赞' : '点赞') + '，当前 ' + count + ' 赞');
+      btn.setAttribute('aria-label', liked
+        ? ('取消点赞，当前 ' + count + ' 赞')
+        : (count > 0 ? ('点赞，当前 ' + count + ' 赞') : '点赞'));
       if (txtEl) txtEl.textContent = liked ? '已赞' : '点赞';
     }
 
     btn.addEventListener('click', function(){
-      var st = likeState[key] || (likeState[key] = {});
+      var st = likeState[key] || (likeState[key] = {n:0});
       if (st.liked){
         st.liked = false;
-        st.delta = (st.delta || 0) - 1;
-        if (st.delta < 0) st.delta = 0;
+        st.n = Math.max(0, (st.n || 0) - 1);
       } else {
         st.liked = true;
-        st.delta = (st.delta || 0) + 1;
+        st.n = (st.n || 0) + 1;
       }
       saveLikes();
       render();

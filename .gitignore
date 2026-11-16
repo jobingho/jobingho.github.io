@@ -6,4 +6,20 @@ _push*.cjs
 _diag*.cjs
 _v*.cjs
 _final.cjs
+_final_check.cjs
 _live*.cjs
+_og*.cjs
+_r*.cjs
+_tplshot.cjs
+
+# 调试产物
+_*.png
+_*.pdf
+_og.html
+_tpl/
+_ts.txt
+
+# 简历生成中间物（正式产物见 assets/resume/ 与 resume.pdf）
+_build_resume.py
+_export_resume.ps1
+resume_tpl.html
