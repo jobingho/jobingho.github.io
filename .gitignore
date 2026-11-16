@@ -1,2 +1,9 @@
 index.html.bak.*
 *.bak.*
+
+# 部署/诊断临时脚本
+_push*.cjs
+_diag*.cjs
+_v*.cjs
+_final.cjs
+_live*.cjs
