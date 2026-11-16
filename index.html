@@ -56,8 +56,8 @@ h1{font-size:clamp(34px,5.4vw,58px);line-height:1.14;letter-spacing:-.035em;font
 h1 .grad{background:linear-gradient(105deg,var(--brand) 8%,var(--brand-2) 58%,var(--brand-3));-webkit-background-clip:text;background-clip:text;color:transparent}
 .lead{font-size:clamp(16px,1.6vw,18px);color:var(--ink-2);margin-top:20px;max-width:640px}
 .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
-.chip{background:#fff;border:1px solid var(--line);padding:7px 15px;border-radius:999px;font-size:13.5px;color:var(--ink-2);box-shadow:0 1px 2px rgba(18,19,26,.04)}
-.chip.k{border-color:transparent;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;font-weight:500}
+.chip{background:rgba(59,79,224,.07);border:1px solid rgba(59,79,224,.26);padding:7px 15px;border-radius:999px;font-size:13.5px;color:var(--brand);font-weight:500;transition:background .18s,border-color .18s,transform .18s}
+.chip:hover{background:rgba(59,79,224,.13);border-color:rgba(59,79,224,.45);transform:translateY(-1px)}
 .hero-cta{display:flex;gap:13px;margin-top:32px;flex-wrap:wrap}
 .btn{padding:13px 26px;border-radius:12px;font-size:15px;font-weight:500;transition:transform .18s,box-shadow .18s,background .18s;display:inline-flex;align-items:center;gap:8px}
 .btn-p{background:var(--ink);color:#fff;box-shadow:0 10px 24px -12px rgba(18,19,26,.6)}
@@ -226,7 +226,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--ink-3);font-s
       <h1>用 AI 把运营流程<br>做成<span class="grad">可复用的工具</span></h1>
       <p class="lead">1-3 年产品运营经验，横跨活动策划、内容运营与 AI 工作流搭建。擅长从真实业务场景出发，把重复、零散的手工流程，沉淀成团队能复用的平台、模板与 SOP——目前已自建 8 个 AI 工作台并在组内全面推广。</p>
       <div class="chips">
-        <span class="chip k">产品运营</span>
+        <span class="chip">产品运营</span>
         <span class="chip">AI 应用落地</span>
         <span class="chip">活动统筹</span>
         <span class="chip">内容运营</span>
