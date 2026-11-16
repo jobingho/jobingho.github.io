@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周冰红 · 产品运营 / AI 应用运营</title>
+<meta name="description" content="周冰红 - 产品运营 / AI 应用运营。1-3年经验，擅长把重复零散的运营工作流沉淀为可复用的 AI 工具与 SOP。">
+<style>
+:root{
+  --ink:#12131a; --ink-2:#3d4152; --ink-3:#6b7080; --line:#e6e7ee;
+  --bg:#ffffff; --bg-2:#f5f6fa; --bg-3:#eef0f7;
+  --brand:#3b4fe0; --brand-2:#6c5ce7; --brand-3:#00b894;
+  --accent:#ff5a5f; --warm:#ff8a3d;
+  --r:16px; --r-lg:22px;
+  --max:1120px;
+  --shadow:0 1px 2px rgba(18,19,26,.05), 0 12px 32px -12px rgba(18,19,26,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:28px;height:62px}
+.logo{font-weight:700;letter-spacing:-.02em;font-size:17px;display:flex;align-items:center;gap:9px}
+.logo i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:block;font-style:normal}
+.nav-links{display:flex;gap:22px;margin-left:auto;font-size:14px;color:var(--ink-2)}
+.nav-links a{position:relative;padding:4px 0;transition:color .18s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--brand);transition:width .22s;border-radius:2px}
+.nav-links a:hover{color:var(--brand)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{margin-left:auto;background:var(--ink);color:#fff;padding:9px 18px;border-radius:999px;font-size:14px;font-weight:500;transition:transform .18s,box-shadow .18s}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px -8px rgba(18,19,26,.5)}
+@media(max-width:860px){.nav-links{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;padding:76px 0 64px;background:
+  radial-gradient(1100px 480px at 78% -8%, rgba(108,92,231,.16), transparent 62%),
+  radial-gradient(760px 380px at 8% 6%, rgba(59,79,224,.13), transparent 60%),
+  linear-gradient(180deg,#fbfbfe 0%,#fff 100%);}
+.hero::before{content:"";position:absolute;inset:0;background-image:
+  linear-gradient(rgba(18,19,26,.045) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(18,19,26,.045) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:radial-gradient(circle at 50% 30%,#000,transparent 72%);-webkit-mask-image:radial-gradient(circle at 50% 30%,#000,transparent 72%);pointer-events:none}
+.hero-in{position:relative;display:grid;grid-template-columns:1.35fr .65fr;gap:52px;align-items:center}
+@media(max-width:900px){.hero-in{grid-template-columns:1fr;gap:34px}.hero{padding:52px 0 44px}}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,184,148,.1);color:#00806a;border:1px solid rgba(0,184,148,.26);padding:6px 14px;border-radius:999px;font-size:13px;font-weight:500}
+.badge b{width:7px;height:7px;border-radius:50%;background:var(--brand-3);box-shadow:0 0 0 3px rgba(0,184,148,.2)}
+h1{font-size:clamp(34px,5.4vw,58px);line-height:1.14;letter-spacing:-.035em;font-weight:700;margin:20px 0 0}
+h1 .grad{background:linear-gradient(105deg,var(--brand) 8%,var(--brand-2) 58%,var(--brand-3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(16px,1.6vw,18px);color:var(--ink-2);margin-top:20px;max-width:640px}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+.chip{background:#fff;border:1px solid var(--line);padding:7px 15px;border-radius:999px;font-size:13.5px;color:var(--ink-2);box-shadow:0 1px 2px rgba(18,19,26,.04)}
+.chip.k{border-color:transparent;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;font-weight:500}
+.hero-cta{display:flex;gap:13px;margin-top:32px;flex-wrap:wrap}
+.btn{padding:13px 26px;border-radius:12px;font-size:15px;font-weight:500;transition:transform .18s,box-shadow .18s,background .18s;display:inline-flex;align-items:center;gap:8px}
+.btn-p{background:var(--ink);color:#fff;box-shadow:0 10px 24px -12px rgba(18,19,26,.6)}
+.btn-p:hover{transform:translateY(-2px)}
+.btn-s{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.btn-s:hover{border-color:var(--brand);color:var(--brand)}
+.fact{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow)}
+.fact h4{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-3);font-weight:600;margin-bottom:16px}
+.fact-row{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.fact-row:last-child{border-bottom:0}
+.fact-row span{color:var(--ink-3)}
+.fact-row b{font-weight:500;text-align:right}
+
+/* ---------- section ---------- */
+section{padding:78px 0}
+section:nth-of-type(even){background:var(--bg-2)}
+.sec-head{margin-bottom:38px}
+.sec-num{font-size:12px;letter-spacing:.16em;color:var(--brand);font-weight:600;text-transform:uppercase}
+.sec-head h2{font-size:clamp(25px,3.2vw,34px);letter-spacing:-.028em;font-weight:700;margin-top:8px}
+.sec-head p{color:var(--ink-2);margin-top:9px;max-width:660px;font-size:15.5px}
+
+/* ---------- experience ---------- */
+.exp{display:grid;grid-template-columns:1fr;gap:20px}
+.exp-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:30px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.exp-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--brand),var(--brand-2))}
+.exp-card.now::before{background:linear-gradient(180deg,var(--brand-3),#00d2a0)}
+.exp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.exp-co{font-size:19px;font-weight:700;letter-spacing:-.02em}
+.exp-po{color:var(--brand);font-size:14.5px;font-weight:500;margin-top:3px}
+.exp-date{font-size:13.5px;color:var(--ink-3);background:var(--bg-2);border:1px solid var(--line);padding:5px 13px;border-radius:999px;white-space:nowrap}
+.exp-list{list-style:none;display:grid;gap:12px}
+.exp-list li{display:flex;gap:12px;font-size:14.8px;color:var(--ink-2)}
+.exp-list li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--brand);margin-top:9px}
+.exp-list li b{color:var(--ink);font-weight:600}
+.exp-list li .hl{color:var(--brand);font-weight:600}
+.exp-now{display:inline-block;background:rgba(0,184,148,.11);color:#00806a;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:6px;margin-left:8px;vertical-align:middle;letter-spacing:.02em}
+
+/* ---------- projects ---------- */
+.proj{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px;align-items:stretch}
+.p-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s}
+.p-card:hover{transform:translateY(-4px);box-shadow:0 2px 4px rgba(18,19,26,.05),0 22px 48px -18px rgba(18,19,26,.22)}
+.p-body{padding:26px;flex:1;display:flex;flex-direction:column}
+.p-tag{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.05em;padding:4px 11px;border-radius:7px;margin-bottom:13px;align-self:flex-start}
+.p-body h3{font-size:18px;font-weight:700;letter-spacing:-.02em}
+.p-body>p{font-size:14.5px;color:var(--ink-2);margin-top:9px}
+.p-steps{margin-top:16px;display:grid;gap:9px;font-size:13.8px;flex:1}
+.p-steps div{display:flex;gap:10px;align-items:flex-start}
+.p-steps b{flex:none;font-size:11px;font-weight:700;color:#fff;background:var(--ink-3);border-radius:5px;padding:2px 7px;margin-top:3px;letter-spacing:.03em}
+.p-metrics{display:flex;gap:22px;margin-top:20px;padding-top:18px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.p-metrics div span{display:block;font-size:11.5px;color:var(--ink-3);letter-spacing:.03em}
+.p-metrics div b{font-size:21px;font-weight:700;letter-spacing:-.02em;color:var(--brand)}
+/* 2x2 布局：让四张卡片等高同行 */
+@media(min-width:1000px){
+  .proj{grid-template-columns:repeat(2,1fr)}
+}
+@media(min-width:1360px){
+  .proj{grid-template-columns:repeat(4,1fr)}
+  .p-steps{font-size:13.2px}
+  .p-metrics{gap:16px}
+  .p-metrics div b{font-size:19px}
+}
+
+/* ---------- skills ---------- */
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.s-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow)}
+.s-card h3{font-size:16px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.s-card h3 i{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-style:normal;font-size:14px;color:#fff}
+.tagwrap{display:flex;flex-wrap:wrap;gap:8px}
+.tg{font-size:13.5px;background:var(--bg-2);border:1px solid var(--line);padding:6px 13px;border-radius:8px;color:var(--ink-2);transition:.18s}
+.tg:hover{border-color:var(--brand);color:var(--brand);transform:translateY(-1px)}
+.tg.l1{background:rgba(59,79,224,.08);border-color:rgba(59,79,224,.2);color:#2c3cba;font-weight:500}
+.tg.l2{background:rgba(0,184,148,.09);border-color:rgba(0,184,148,.22);color:#00806a;font-weight:500}
+.tg.l3{background:rgba(255,138,61,.1);border-color:rgba(255,138,61,.24);color:#b8621f;font-weight:500}
+.lv-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;font-size:13px;color:var(--ink-3)}
+.lv-legend span{display:flex;align-items:center;gap:7px}
+.dot{width:9px;height:9px;border-radius:3px}
+
+/* ---------- works ---------- */
+.works{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.w-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s}
+.w-card:hover{transform:translateY(-4px);box-shadow:0 2px 4px rgba(18,19,26,.05),0 22px 48px -18px rgba(18,19,26,.22)}
+.w-img{aspect-ratio:16/9;overflow:hidden;background:var(--bg-3);border-bottom:1px solid var(--line);cursor:zoom-in}
+.w-img img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+.w-card:hover .w-img img{transform:scale(1.04)}
+.w-body{padding:20px;flex:1;display:flex;flex-direction:column}
+.w-body h3{font-size:16px;font-weight:700;letter-spacing:-.015em}
+.w-body p{font-size:13.8px;color:var(--ink-2);margin-top:8px;flex:1}
+.w-plat{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;padding:3px 9px;border-radius:6px;background:rgba(59,79,224,.08);color:#2c3cba;margin-bottom:10px;align-self:flex-start}
+
+/* ---------- 快速访问（链接打码） ---------- */
+.ql-wrap{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow)}
+.ql-head h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.ql-head p{font-size:13.5px;color:var(--ink-3);margin-top:5px}
+.ql-list{display:grid;gap:11px;margin-top:18px}
+.ql{display:grid;grid-template-columns:132px 1fr auto;gap:18px;align-items:center;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:15px 18px;transition:.2s}
+.ql:hover{border-color:var(--brand);background:#fff;transform:translateX(3px);box-shadow:0 6px 18px -10px rgba(59,79,224,.4)}
+.ql-t{font-weight:600;font-size:14.5px}
+.ql-d{font-size:13px;color:var(--ink-3);line-height:1.5}
+.ql-u{font-family:"SFMono-Regular",Consolas,monospace;font-size:12px;color:var(--brand);background:rgba(59,79,224,.07);padding:5px 11px;border-radius:8px;white-space:nowrap}
+.ql-u em{font-style:normal;background:var(--ink);color:var(--ink);border-radius:3px;padding:0 3px;letter-spacing:1px}
+@media(max-width:760px){.ql{grid-template-columns:1fr;gap:8px}.ql-u{white-space:normal;word-break:break-all}}
+
+/* ---------- contact ---------- */
+.contact{background:linear-gradient(135deg,#171a24 0%,#232741 52%,#2b2350 100%);color:#fff;position:relative;overflow:hidden}
+.contact::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.4),transparent 68%);top:-190px;right:-140px}
+.contact::after{content:"";position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,148,.24),transparent 68%);bottom:-170px;left:-110px}
+.contact .sec-head p{color:rgba(255,255,255,.72)}
+.contact .sec-num{color:#9aa6ff}
+.c-grid{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:start}
+@media(max-width:880px){.c-grid{grid-template-columns:1fr;gap:32px}}
+.c-mail{font-size:clamp(22px,3.4vw,34px);font-weight:700;letter-spacing:-.03em;display:inline-block;border-bottom:2px solid rgba(255,255,255,.28);padding-bottom:7px;transition:.2s}
+.c-mail:hover{border-color:#9aa6ff;color:#b8c0ff}
+.c-note{margin-top:20px;color:rgba(255,255,255,.66);font-size:14.5px}
+.c-list{display:grid;gap:12px}
+.c-item{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:15px 18px;display:flex;justify-content:space-between;gap:14px;align-items:center;backdrop-filter:blur(6px)}
+.c-item span{font-size:13px;color:rgba(255,255,255,.6)}
+.c-item b{font-size:14.5px;font-weight:500}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:26px 0;color:var(--ink-3);font-size:13.5px}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;background:rgba(10,11,16,.9);z-index:200;display:none;align-items:center;justify-content:center;padding:28px;cursor:zoom-out;backdrop-filter:blur(4px)}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;box-shadow:0 30px 80px -20px rgba(0,0,0,.7)}
+.lb-x{position:absolute;top:20px;right:24px;color:#fff;font-size:30px;line-height:1;opacity:.75;background:none;border:0;cursor:pointer}
+.lb-x:hover{opacity:1}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="lb" id="lb">
+  <button class="lb-x" id="lbX" aria-label="关闭">&times;</button>
+  <img id="lbImg" alt="作品大图">
+</div>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <div class="logo"><i></i>周冰红</div>
+    <div class="nav-links">
+      <a href="#about">关于</a>
+      <a href="#exp">经历</a>
+      <a href="#proj">项目</a>
+      <a href="#skill">技能</a>
+      <a href="#work">作品</a>
+    </div>
+    <a class="nav-cta" href="#contact">联系我</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap hero-in">
+    <div>
+      <div class="badge"><b></b>在职 · 考虑新机会</div>
+      <h1>用 AI 把运营流程<br>做成<span class="grad">可复用的工具</span></h1>
+      <p class="lead">1-3 年产品运营经验，横跨活动策划、内容运营与 AI 工作流搭建。擅长从真实业务场景出发，把重复、零散的手工流程，沉淀成团队能复用的平台、模板与 SOP——目前已自建 8 个 AI 工作台并在组内全面推广。</p>
+      <div class="chips">
+        <span class="chip k">产品运营</span>
+        <span class="chip">AI 应用落地</span>
+        <span class="chip">活动统筹</span>
+        <span class="chip">内容运营</span>
+        <span class="chip">数据分析</span>
+        <span class="chip">跨部门协作</span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-p" href="#work">看我的作品 ↓</a>
+        <a class="btn btn-s" href="mailto:2748044259@qq.com">发邮件给我</a>
+      </div>
+    </div>
+    <aside class="fact">
+      <h4>基本信息</h4>
+      <div class="fact-row"><span>姓名</span><b>周冰红</b></div>
+      <div class="fact-row"><span>目标岗位</span><b>产品运营 / AI 应用运营</b></div>
+      <div class="fact-row"><span>所在城市</span><b>广州</b></div>
+      <div class="fact-row"><span>期望城市</span><b>广州 / 佛山 / 深圳</b></div>
+      <div class="fact-row"><span>工作经验</span><b>1-3 年</b></div>
+      <div class="fact-row"><span>求职状态</span><b>在职，考虑新机会</b></div>
+      <div class="fact-row"><span>邮箱</span><b>2748044259@qq.com</b></div>
+    </aside>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">01 / 关于我</div>
+      <h2>用产品化思维解决运营问题</h2>
+      <p>我关注的不是"把活干完"，而是"下次能不能少干一点"。所以我的工作重心一直是：识别高频重复场景 → 找到可被工具化的环节 → 独立搭出最小可用方案 → 推给团队用起来。</p>
+    </div>
+    <div class="exp rv">
+      <div class="exp-card now">
+        <div class="exp-top">
+          <div>
+            <div class="exp-co">广州经传多赢投资咨询有限公司</div>
+            <div class="exp-po">产品运营</div>
+          </div>
+          <div class="exp-date">2025.05 – 至今 <span class="exp-now">在职</span></div>
+        </div>
+        <ul class="exp-list">
+          <li><span><b>AI 工作台搭建 —— 从 0 到 1 独立完成，成果被组内全员复用。</b>覆盖数据统计分析（周报 / 日报 / 月报平台）、文案 AI 创作、广告线上自动铺设、素材库 AI 管理、AI 出图、文章自动上传等方向，把原本依赖手工搬运的数据与投放流程，压缩为「拉取—处理—输出」的自动化链路。</span></li>
+          <li><span><b>月度活动全流程统筹：</b>负责每月活动的策划与落地，并配套产出 APP 弹窗、PC 弹窗、活动页面、海报等线上物料，通过 Axure 原型与设计团队对接推进落地。</span></li>
+          <li><span><b>内容运营矩阵：</b>负责 2 个公众号、2 个微博、1 个头条号、1 个财富号的日常内容运营——完成老师文章的排版发布、承接后台用户咨询，并曾主导小白教学栏目的内容结构搭建（已产出完整图文成品）。</span></li>
+          <li><span><b>产品场景化优化：</b>针对负责的产品做场景化优化，从用户真实使用路径出发调整功能与交互，持续提升使用体验。</span></li>
+          <li><span><b>AI 客服 SOP 话术体系：</b>依据智能客服的产品需求，梳理并编写覆盖不同用户群体的标准话术文档，支撑 AI 客服在各场景稳定落地。</span></li>
+          <li><span><b>直播运营：</b>负责公司日常直播的线上宣传与内容跟进，直播过程中实时处理直播间不良言论与用户提问，保障直播秩序与体验。</span></li>
+          <li><span><b>跨部门协作：</b>长期与产品、技术、设计等团队对接需求与落地问题；对接业务方沟通需求、定位并推动问题闭环。</span></li>
+          <li><span><b>日常企微文案：</b>撰写企业微信侧宣传文案，持续承担产品与功能的对外传播。</span></li>
+        </ul>
+      </div>
+      <div class="exp-card">
+        <div class="exp-top">
+          <div>
+            <div class="exp-co">广州澳捷尔智能科技有限公司</div>
+            <div class="exp-po">文案实习生</div>
+          </div>
+          <div class="exp-date">2024.10 – 2025.01</div>
+        </div>
+        <ul class="exp-list">
+          <li><span>深入分析用户行为数据与市场需求，精准定位目标消费群体并优化产品描述文案，<span class="hl">平均点击率提升 20%</span>，有效驱动流量增长。</span></li>
+          <li><span>强化界面表达，优化文案布局与视觉呈现，减少用户阅读障碍，<span class="hl">页面停留时间延长 20%</span>，用户体验满意度提升至 15% 以上。</span></li>
+          <li><span>定期整合文案资料并形成内部数据库，提升团队整体内容创作与数据分析能力，<span class="hl">团队效率提升 30%</span>。</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="proj">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">02 / 项目案例</div>
+      <h2>把流程做成系统，而不是做完就丢</h2>
+      <p>以下四个项目是我入职后独立主导或深度参与的核心项目。每个项目都遵循同一套方法：先看清业务链路，再决定哪一段值得工具化，最后交付到团队真的愿意用。</p>
+    </div>
+    <div class="proj">
+      <article class="p-card rv">
+        <div class="p-body">
+          <span class="p-tag" style="background:rgba(59,79,224,.09);color:#2c3cba">核心亮点</span>
+          <h3>AI 运营工作台搭建与落地</h3>
+          <p>把组内分散在多个平台的手工流程，收拢成一套可复用的 AI 工作台体系，并完成组内推广。</p>
+          <div class="p-steps">
+            <div><b>背景</b><span>数据统计、文案撰写、广告铺设、素材管理、文章发布等环节高度依赖人工搬运，重复劳动多、口径不统一、交接成本高。</span></div>
+            <div><b>做法</b><span>逐环节梳理工作流并拆解自动化路径，自主搭建周报 / 日报 / 月报统计平台、文案 AI 创作、广告 AI 线上铺设、素材库 AI 管理、AI 出图与文章自动上传等模块。</span></div>
+            <div><b>结果</b><span>全部 AI 能力被组内同事日常复用，从"个人提效工具"升级为"团队基础设施"。</span></div>
+          </div>
+          <div class="p-metrics">
+            <div><span>自建平台/模块</span><b>8 个</b></div>
+            <div><span>覆盖业务环节</span><b>6 类</b></div>
+            <div><span>推广范围</span><b>全组</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-card rv">
+        <div class="p-body">
+          <span class="p-tag" style="background:rgba(0,184,148,.1);color:#00806a">内容矩阵</span>
+          <h3>多平台内容运营矩阵</h3>
+          <p>同时负责 6 个内容账号的日常运营，从内容排版发布到用户答疑的完整链路。</p>
+          <div class="p-steps">
+            <div><b>背景</b><span>多平台账号并行，需要建立可复用的排版与发布节奏，同时承接各渠道涌入的用户咨询。</span></div>
+            <div><b>做法</b><span>负责 2 公众号 + 2 微博 + 1 头条号 + 1 财富号的内容排版发布与后台答疑；尝试搭建面向新手的教学栏目，并完成栏目的内容结构设计与图文成品产出。</span></div>
+            <div><b>结果</b><span>形成稳定的日常内容供给节奏，用户咨询有据可依；同时沉淀出可复用的排版模板与栏目框架。</span></div>
+          </div>
+          <div class="p-metrics">
+            <div><span>运营账号</span><b>6 个</b></div>
+            <div><span>覆盖平台</span><b>4 类</b></div>
+            <div><span>教学栏目</span><b>已出成品</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-card rv">
+        <div class="p-body">
+          <span class="p-tag" style="background:rgba(255,138,61,.12);color:#b8621f">活动统筹</span>
+          <h3>月度活动全流程策划与落地</h3>
+          <p>每月活动从策划到物料上线的一体化负责，保障节奏与质量。</p>
+          <div class="p-steps">
+            <div><b>背景</b><span>活动需要产品、技术、设计多方协作，需求传达链路长、素材口径容易走样。</span></div>
+            <div><b>做法</b><span>主导月度活动的策划排期，输出 APP 弹窗、PC 弹窗、活动页面、海报等全套线上物料；用 Axure 做原型，与设计师对接落地细节。</span></div>
+            <div><b>结果</b><span>活动按月稳定落地，形成可复用的物料生产与协作流程。</span></div>
+          </div>
+          <div class="p-metrics">
+            <div><span>节奏</span><b>每月一轮</b></div>
+            <div><span>物料类型</span><b>4 类</b></div>
+            <div><span>原型工具</span><b>Axure</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-card rv">
+        <div class="p-body">
+          <span class="p-tag" style="background:rgba(108,92,231,.1);color:#5a4bc4">AI 客服</span>
+          <h3>智能客服 SOP 话术体系</h3>
+          <p>为 AI 客服落地提供可执行的标准话术底座，支撑不同用户群体的准确应答。</p>
+          <div class="p-steps">
+            <div><b>背景</b><span>智能客服要覆盖多类用户提问，缺少统一话术会导致答非所问、口径不一。</span></div>
+            <div><b>做法</b><span>根据产品需求梳理客服场景，按用户群体分类编写标准话术文档，形成结构化 SOP 并交付使用。</span></div>
+            <div><b>结果</b><span>AI 智能客服具备可落地的应答依据，覆盖多群体差异化的沟通场景。</span></div>
+          </div>
+          <div class="p-metrics">
+            <div><span>覆盖群体</span><b>多类</b></div>
+            <div><span>产出形式</span><b>结构化 SOP</b></div>
+            <div><span>状态</span><b>已交付</b></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skill">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">03 / 技能专长</div>
+      <h2>工具、方法与协作能力</h2>
+      <p>工具解决效率问题，方法解决判断问题，协作解决落地问题——三者缺一，方案都走不到最后一步。</p>
+    </div>
+    <div class="skill-grid">
+      <div class="s-card rv">
+        <h3><i style="background:linear-gradient(135deg,var(--brand),var(--brand-2))">⚙</i>工具技能</h3>
+        <div class="tagwrap">
+          <span class="tg l1">Axure</span><span class="tg l1">Excel / 数据透视</span><span class="tg l1">AI 大模型应用</span>
+          <span class="tg l1">通义万相（AI 出图）</span><span class="tg l2">图床与素材管理</span><span class="tg l2">公众号排版</span>
+          <span class="tg l2">直播运营</span><span class="tg l3">单页 HTML 工具开发</span><span class="tg l3">GitHub Pages 部署</span>
+          <span class="tg l3">JSON / API 接入</span>
+        </div>
+      </div>
+      <div class="s-card rv">
+        <h3><i style="background:linear-gradient(135deg,var(--brand-3),#00d2a0)">◈</i>方法能力</h3>
+        <div class="tagwrap">
+          <span class="tg l1">活动策划与统筹</span><span class="tg l1">AI 工作流拆解</span><span class="tg l1">SOP 体系搭建</span>
+          <span class="tg l1">内容运营与矩阵</span><span class="tg l2">投放数据分析</span><span class="tg l2">A/B 测试与素材迭代</span>
+          <span class="tg l2">产品场景化优化</span><span class="tg l3">用户视角分析</span><span class="tg l3">复盘与经验沉淀</span>
+        </div>
+      </div>
+      <div class="s-card rv">
+        <h3><i style="background:linear-gradient(135deg,var(--accent),var(--warm))">◎</i>协作与软技能</h3>
+        <div class="tagwrap">
+          <span class="tg l1">跨部门对接</span><span class="tg l1">需求拆解与推进</span><span class="tg l2">产品 / 技术 / 设计协作</span>
+          <span class="tg l2">业务方沟通</span><span class="tg l2">文案表达</span><span class="tg l3">落地执行力</span>
+          <span class="tg l3">独立从 0 搭建</span><span class="tg l3">团队推广与复用</span>
+        </div>
+      </div>
+    </div>
+    <div class="lv-legend rv">
+      <span><i class="dot" style="background:var(--brand)"></i>熟练 — 可独立负责并产出结果</span>
+      <span><i class="dot" style="background:var(--brand-3)"></i>掌握 — 熟悉流程，能配合落地</span>
+      <span><i class="dot" style="background:var(--warm)"></i>了解 — 有实践，可快速上手</span>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">04 / 作品与工具</div>
+      <h2>亲手做出来的东西</h2>
+      <p>下面这些不是 PPT 里的示意图，而是我实际搭建并投入使用的平台与工具。链接中的部分字符做了打码处理，点击后仍会正常跳转。</p>
+    </div>
+    <div class="works">
+      <article class="w-card rv">
+        <div class="w-img" data-img="assets/shots/059Z-3cf7ed7f.jpg"><img src="assets/shots/059Z-3cf7ed7f.jpg" alt="个人工作台首页" loading="lazy"></div>
+        <div class="w-body">
+          <span class="w-plat">周报平台</span>
+          <h3>个人 AI 工作台</h3>
+          <p>首页集成当日核心指标、指标结构、待办事项、资讯快报与活动日历，把日常运营的关键信息收敛到一屏之内。</p>
+        </div>
+      </article>
+      <article class="w-card rv">
+        <div class="w-img" data-img="assets/shots/071Z-9f2e6872.jpg"><img src="assets/shots/071Z-9f2e6872.jpg" alt="活动排期日历" loading="lazy"></div>
+        <div class="w-body">
+          <span class="w-plat">周报平台</span>
+          <h3>活动排期日历</h3>
+          <p>按月视图统一排布活动节奏，自动计算距里程碑天数、今日待办与活动归档状态，避免遗漏与撞档。</p>
+        </div>
+      </article>
+      <article class="w-card rv">
+        <div class="w-img" data-img="assets/shots/073Z-d2f6a5c9.jpg"><img src="assets/shots/073Z-d2f6a5c9.jpg" alt="每日经营总览与数据可视化" loading="lazy"></div>
+        <div class="w-body">
+          <span class="w-plat">周报平台</span>
+          <h3>每日经营总览与数据可视化</h3>
+          <p>把广告数、弹出数、点击、提交订单、成交、点击率、付款完成率等核心口径统一到一个看板，支持按日 / 周 / 月出图。</p>
+        </div>
+      </article>
+      <article class="w-card rv">
+        <div class="w-img" data-img="assets/shots/075Z-46cd36d9.jpg"><img src="assets/shots/075Z-46cd36d9.jpg" alt="广告自动化任务配置" loading="lazy"></div>
+        <div class="w-body">
+          <span class="w-plat">周报平台</span>
+          <h3>广告自动化：复制并换图</h3>
+          <p>配置广告分组与素材替换规则，批量完成复制换图任务，保留完整运行记录与未匹配广告 ID 清单，便于回溯核对。</p>
+        </div>
+      </article>
+      <article class="w-card rv">
+        <div class="w-img" data-img="assets/shots/081Z-eb96e27d.jpg"><img src="assets/shots/081Z-eb96e27d.jpg" alt="资讯快报与复盘总结" loading="lazy"></div>
+        <div class="w-body">
+          <span class="w-plat">周报平台</span>
+          <h3>AI 资讯快报与复盘总结</h3>
+          <p>自动汇总盘前、盘中、盘后、热点与竞品资讯，生成市场现状 / 主线与轮动 / 关键变量 / 下周策略四段式复盘，并给出影响判断与运营建议。</p>
+        </div>
+      </article>
+      <article class="w-card rv">
+        <div class="w-img" data-img="assets/shots/087Z-e8f2790f.jpg"><img src="assets/shots/087Z-e8f2790f.jpg" alt="文章自动上传与成稿配置" loading="lazy"></div>
+        <div class="w-body">
+          <span class="w-plat">周报平台</span>
+          <h3>公众号文章自动上传</h3>
+          <p>从原始 Word 或网页链接导入成稿，生成公众号完整稿与微博 / 头条 / 财富号删减稿，执行前可预览完整排版与 6 个账号分发目标。</p>
+        </div>
+      </article>
+      <article class="w-card rv">
+        <div class="w-img" data-img="assets/shots/089Z-e6a5e781.jpg"><img src="assets/shots/089Z-e6a5e781.jpg" alt="私聊文案工作台" loading="lazy"></div>
+        <div class="w-body">
+          <span class="w-plat">素材库</span>
+          <h3>私聊文案 AI 工作台</h3>
+          <p>面向不同文案的私聊场景生成针对性回复，支持风格切换与条数控制，输出可直接使用的成稿内容。</p>
+        </div>
+      </article>
+      <article class="w-card rv">
+        <div class="w-img" data-img="assets/shots/091Z-601285d4.jpg"><img src="assets/shots/091Z-601285d4.jpg" alt="月度广告分析平台" loading="lazy"></div>
+        <div class="w-body">
+          <span class="w-plat">周报平台</span>
+          <h3>月度广告分析平台</h3>
+          <p>按月拆解投放漏斗（曝光 → 点击 → 购买点击 → 提交订单 → 成交），对比 APP / PC 渠道效率，定位流失最大的环节。</p>
+        </div>
+      </article>
+      <article class="w-card rv">
+        <div class="w-img" data-img="assets/shots/098Z-727b0a2e.jpg"><img src="assets/shots/098Z-727b0a2e.jpg" alt="投资分析小工具" loading="lazy"></div>
+        <div class="w-body">
+          <span class="w-plat">独立工具</span>
+          <h3>投资分析小工具</h3>
+          <p>集成 K 线与 MACD 指标体系，输出评分与信号标注，支持均线多头排列、背驰顶背离等实战形态的识别与复盘。</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="ql-wrap rv">
+      <div class="ql-head">
+        <h3>快速访问</h3>
+        <p>链接中的部分字符已做打码处理，点击后仍会正常跳转。</p>
+      </div>
+      <div class="ql-list">
+        <a class="ql" data-key="wk" href="#" rel="nofollow noopener">
+          <span class="ql-t">周报平台</span>
+          <span class="ql-d">工作台 · 活动排期 · 数据看板 · 广告自动化 · 资讯快报 · 文章自动上传</span>
+          <span class="ql-u">jobingho.github.io/dxw-<em>weekly</em>-report-pages</span>
+        </a>
+        <a class="ql" data-key="mat" href="#" rel="nofollow noopener">
+          <span class="ql-t">素材库</span>
+          <span class="ql-d">素材工作台 · 私聊文案 · A/B 测试 · 优质素材</span>
+          <span class="ql-u">jobingho.github.io/dxw-<em>materials</em></span>
+        </a>
+        <a class="ql" data-key="inv" href="#" rel="nofollow noopener">
+          <span class="ql-t">投资分析小工具</span>
+          <span class="ql-d">K 线 / MACD 指标 · 评分信号 · 形态识别</span>
+          <span class="ql-u">ec23b558<em>e19b4fe4adfaffc38ee0f5c6</em>.gz1.agentos-app.net</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">05 / 联系方式</div>
+      <h2>期待与你聊聊</h2>
+      <p>如果你在找一位能自己动手把方案做出来、并且愿意把工具留给团队的产品运营，欢迎直接联系我。</p>
+    </div>
+    <div class="c-grid">
+      <div class="rv">
+        <a class="c-mail" href="mailto:2748044259@qq.com">2748044259@qq.com</a>
+        <p class="c-note">工作日一般 24 小时内回复。邮件可直接附上你的岗位描述，我会针对具体业务场景说明我能承接的部分。</p>
+      </div>
+      <div class="c-list rv">
+        <div class="c-item"><span>姓名</span><b>周冰红</b></div>
+        <div class="c-item"><span>求职意向</span><b>产品运营 / AI 应用运营</b></div>
+        <div class="c-item"><span>期望城市</span><b>广州 / 佛山 / 深圳</b></div>
+        <div class="c-item"><span>到岗时间</span><b>一个月内</b></div>
+        <div class="c-item"><span>作品集</span><b>本页「作品与工具」</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 周冰红 · 产品运营 / AI 应用运营</span>
+    <span>本站为个人求职主页 · 广州</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // 滚动淡入
+  var els = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(el,i){ el.style.transitionDelay = (i%4)*70 + 'ms'; io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // 灯箱
+  var lb=document.getElementById('lb'), lbImg=document.getElementById('lbImg');
+  document.querySelectorAll('[data-img]').forEach(function(el){
+    el.addEventListener('click', function(){
+      lbImg.src = el.getAttribute('data-img');
+      lb.classList.add('on');
+      document.body.style.overflow='hidden';
+    });
+  });
+  function close(){ lb.classList.remove('on'); document.body.style.overflow=''; lbImg.src=''; }
+  lb.addEventListener('click', close);
+  document.getElementById('lbX').addEventListener('click', function(e){ e.stopPropagation(); close(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&lb.classList.contains('on')) close(); });
+
+  // 链接打码：真实地址以十六进制分段存放，源码中不可直接检索；
+  // 页面显示为打码后的文本，点击时运行时解码并新窗口打开。
+  var HEX = {
+    wk:  ['68747470733a','2f2f6a6f6269','6e67686f2e67','69746875622e','696f2f647877','2d7765656b6c','792d7265706f','72742d706167','65732f'],
+    mat: ['68747470733a','2f2f6a6f6269','6e67686f2e67','69746875622e','696f2f647877','2d6d61746572','69616c732f'],
+    inv: ['68747470733a','2f2f65633233','623535386531','396234666534','616466616666','633338656530','663563362e67','7a312e616765','6e746f732d61','70702e6e6574']
+  };
+  function decode(k){
+    var h = HEX[k].join('');
+    var bytes = new Uint8Array(h.length / 2);
+    for (var i = 0; i < bytes.length; i++) bytes[i] = parseInt(h.substr(i * 2, 2), 16);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+  document.querySelectorAll('.ql').forEach(function(a){
+    a.setAttribute('target','_blank');
+    a.setAttribute('rel','noopener noreferrer nofollow');
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var u = decode(a.getAttribute('data-key'));
+      window.open(u, '_blank', 'noopener');
+    });
+  });
+})();
+</script>
+</body>
+</html>
