@@ -135,21 +135,54 @@ section:nth-of-type(even){background:var(--bg-2)}
 .lv-legend span{display:flex;align-items:center;gap:7px}
 .dot{width:9px;height:9px;border-radius:3px}
 
-/* ---------- works ---------- */
-.works{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.w-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s}
-.w-card:hover{transform:translateY(-4px);box-shadow:0 2px 4px rgba(18,19,26,.05),0 22px 48px -18px rgba(18,19,26,.22)}
-.w-img{aspect-ratio:16/9;overflow:hidden;background:var(--bg-3);border-bottom:1px solid var(--line);cursor:zoom-in}
-.w-img img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
-.w-card:hover .w-img img{transform:scale(1.04)}
-.w-body{padding:20px;flex:1;display:flex;flex-direction:column}
-.w-body h3{font-size:16px;font-weight:700;letter-spacing:-.015em}
-.w-body p{font-size:13.8px;color:var(--ink-2);margin-top:8px;flex:1}
-.w-plat{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;padding:3px 9px;border-radius:6px;background:rgba(59,79,224,.08);color:#2c3cba;margin-bottom:10px;align-self:flex-start}
-.w-demo{margin-top:14px;display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#fff;background:var(--ink);padding:8px 15px;border-radius:9px;border:none;cursor:pointer;align-self:flex-start;transition:.18s;font-family:inherit}
+/* ---------- works：平台合集（交叠叠放 + 悬停展开） ---------- */
+.works{display:grid;gap:22px}
+.w-group{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .25s}
+.w-group:hover{box-shadow:0 2px 4px rgba(18,19,26,.05),0 22px 48px -18px rgba(18,19,26,.22)}
+.w-head{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;padding:26px 28px 20px;border-bottom:1px solid var(--line)}
+.w-head-l{min-width:0}
+.w-plat{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;padding:3px 9px;border-radius:6px;background:rgba(59,79,224,.08);color:#2c3cba;margin-bottom:11px}
+.w-head h3{font-size:19px;font-weight:700;letter-spacing:-.025em}
+.w-head p{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:620px;line-height:1.65}
+.w-head-r{display:flex;flex-direction:column;align-items:flex-end;gap:11px;flex:none}
+.w-count{font-size:12px;color:var(--ink-3);letter-spacing:.03em;white-space:nowrap}
+.w-demo{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#fff;background:var(--ink);padding:9px 16px;border-radius:9px;border:none;cursor:pointer;align-self:flex-start;transition:.18s;font-family:inherit;text-decoration:none;white-space:nowrap}
 .w-demo:hover{background:var(--brand);transform:translateX(2px)}
 .w-demo::after{content:"→";font-size:13px;transition:.18s}
 .w-demo:hover::after{transform:translateX(2px)}
+
+/* 交叠叠放：默认像一叠照片，悬停时横向展开 */
+.w-stack{position:relative;height:320px;padding:26px 28px 30px;transition:transform .3s cubic-bezier(.2,.7,.3,1)}
+.w-group:hover .w-stack{transform:translateY(-4px)}
+.w-shot{position:absolute;top:26px;left:28px;width:320px;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:0 10px 28px -14px rgba(18,19,26,.34);cursor:zoom-in;
+  transform:translateX(calc(var(--i) * var(--step,52px))) translateY(calc(var(--i) * 6px)) rotate(calc(var(--i) * 1.1deg - 3deg));
+  transition:transform .5s cubic-bezier(.2,.75,.25,1),box-shadow .3s;z-index:calc(var(--i) + 1)}
+/* 第 1 张压在最上层，保证封面标题条完整可读 */
+.w-shot:first-child{z-index:30}
+.w-shot img{display:block;width:100%;height:200px;object-fit:cover;object-position:center top;background:var(--bg-3)}
+.w-shot figcaption{font-size:11.5px;color:var(--ink-3);padding:7px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-top:1px solid var(--line);background:#fff}
+/* 悬停展开：整叠横向铺开，每张再各自微旋 */
+.w-stack:hover .w-shot{transform:translateX(calc(var(--i) * var(--spread,112px))) translateY(0) rotate(calc(var(--i) * .6deg - 2deg));box-shadow:0 16px 38px -16px rgba(18,19,26,.42)}
+.w-stack:hover .w-shot:hover{transform:translateX(calc(var(--i) * var(--spread,112px))) translateY(-10px) rotate(0deg) scale(1.03);box-shadow:0 26px 60px -18px rgba(18,19,26,.5);z-index:60}
+.w-hint{position:absolute;right:26px;bottom:16px;font-size:12px;color:var(--ink-2);background:rgba(255,255,255,.9);border:1px solid var(--line);padding:6px 13px;border-radius:999px;pointer-events:none;transition:opacity .25s;display:inline-flex;align-items:center;gap:7px}
+.w-hint::before{content:"⇢";font-size:13px;color:var(--brand);font-weight:700}
+.w-stack:hover .w-hint{opacity:0}
+/* 单张（独立工具）：直接铺满 */
+.w-stack.solo{height:auto;padding:26px 28px}
+.w-stack.solo .w-shot{position:relative;top:0;left:0;width:100%;transform:none}
+.w-stack.solo .w-shot img{height:340px}
+.w-stack.solo .w-shot:hover{transform:translateY(-4px) scale(1.01)}
+@media(max-width:1200px){.w-stack{--spread:92px}}
+@media(max-width:980px){.w-stack{--spread:70px}}
+@media(max-width:860px){
+  .w-head{grid-template-columns:1fr;gap:14px}
+  .w-head-r{align-items:flex-start}
+  .w-stack{height:auto;padding:20px 18px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .w-shot{position:relative;top:0;left:0;width:100%;transform:none!important}
+  .w-stack:hover .w-shot{transform:none!important}
+  .w-hint{display:none}
+}
+@media(max-width:560px){.w-stack{grid-template-columns:1fr}}
 
 /* ---------- 快速访问（链接打码） ---------- */
 .ql-wrap{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow)}
@@ -430,79 +463,110 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--ink-3);font-s
     <div class="sec-head rv">
       <div class="sec-num">04 / 作品与工具</div>
       <h2>亲手做出来的东西</h2>
-      <p>下面这些不是 PPT 里的示意图，而是我实际搭建并投入使用的平台与工具。可点击卡片上的「在线演示」直接体验，原站地址不会暴露在地址栏中。</p>
+      <p>下面这些不是 PPT 里的示意图，而是我实际搭建并投入使用的平台与工具。每个平台的所有界面截图已归为一组，鼠标悬停即可展开查看；点「在线演示」可进入站内演示页直接体验，原站地址不会暴露在地址栏中。</p>
     </div>
     <div class="works">
-      <article class="w-card rv">
-        <div class="w-img" data-img="assets/shots/059Z-3cf7ed7f.jpg"><img src="assets/shots/059Z-3cf7ed7f.jpg" alt="个人工作台首页" loading="lazy"></div>
-        <div class="w-body">
-          <span class="w-plat">周报平台</span>
-          <h3>个人 AI 工作台</h3>
-          <p>首页集成当日核心指标、指标结构、待办事项、资讯快报与活动日历，把日常运营的关键信息收敛到一屏之内。</p>
+      <article class="w-group rv">
+        <div class="w-head">
+          <div class="w-head-l">
+            <span class="w-plat">周报平台</span>
+            <h3>个人 AI 工作台 · 运营数据中枢</h3>
+            <p>把周报、数据分析、广告投放、素材管理与文章分发全部做成可自助的平台，团队无需依赖我手工出数据。覆盖活动排期、经营总览、广告自动化、AI 复盘与内容分发全链路。</p>
+          </div>
+          <div class="w-head-r">
+            <span class="w-count">7 个模块</span>
+            <a class="w-demo" href="demo.html?p=wk" rel="nofollow noopener">在线演示</a>
+          </div>
+        </div>
+        <div class="w-stack" style="--spread:118px">
+        <figure class="w-shot" style="--i:0" data-img="assets/coll/wk-1-workbench.jpg">
+          <img src="assets/coll/wk-1-workbench.jpg" alt="个人 AI 工作台">
+          <figcaption>个人 AI 工作台</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:1" data-img="assets/coll/wk-2-calendar.jpg">
+          <img src="assets/coll/wk-2-calendar.jpg" alt="活动排期日历">
+          <figcaption>活动排期日历</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:2" data-img="assets/coll/wk-3-dashboard.jpg">
+          <img src="assets/coll/wk-3-dashboard.jpg" alt="每日经营总览与数据可视化">
+          <figcaption>每日经营总览与数据可视化</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:3" data-img="assets/coll/wk-4-adauto.jpg">
+          <img src="assets/coll/wk-4-adauto.jpg" alt="广告自动化：复制并换图">
+          <figcaption>广告自动化：复制并换图</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:4" data-img="assets/coll/wk-5-news.jpg">
+          <img src="assets/coll/wk-5-news.jpg" alt="AI 资讯快报与复盘总结">
+          <figcaption>AI 资讯快报与复盘总结</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:5" data-img="assets/coll/wk-6-upload.jpg">
+          <img src="assets/coll/wk-6-upload.jpg" alt="公众号文章自动上传">
+          <figcaption>公众号文章自动上传</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:6" data-img="assets/coll/wk-7-monthly.jpg">
+          <img src="assets/coll/wk-7-monthly.jpg" alt="月度广告分析平台">
+          <figcaption>月度广告分析平台</figcaption>
+        </figure>
+        <span class="w-hint">悬停展开全部 · 点击查看大图</span>
         </div>
       </article>
-      <article class="w-card rv">
-        <div class="w-img" data-img="assets/shots/071Z-9f2e6872.jpg"><img src="assets/shots/071Z-9f2e6872.jpg" alt="活动排期日历" loading="lazy"></div>
-        <div class="w-body">
-          <span class="w-plat">周报平台</span>
-          <h3>活动排期日历</h3>
-          <p>按月视图统一排布活动节奏，自动计算距里程碑天数、今日待办与活动归档状态，避免遗漏与撞档。</p>
+      <article class="w-group rv">
+        <div class="w-head">
+          <div class="w-head-l">
+            <span class="w-plat">素材库</span>
+            <h3>短线王素材工具 · 素材生产与投放闭环</h3>
+            <p>围绕素材全生命周期搭建的一体化工具：从创意生成、素材库沉淀、战法排期，到每日弹窗数据自动导入、A/B 检测与优质素材归档，形成「生产—测试—复用」的闭环。</p>
+          </div>
+          <div class="w-head-r">
+            <span class="w-count">6 个模块</span>
+            <a class="w-demo" href="demo.html?p=mat" rel="nofollow noopener">在线演示</a>
+          </div>
+        </div>
+        <div class="w-stack" style="--spread:118px">
+        <figure class="w-shot" style="--i:0" data-img="assets/coll/mat-1-library.jpg">
+          <img src="assets/coll/mat-1-library.jpg" alt="素材库">
+          <figcaption>素材库</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:1" data-img="assets/coll/mat-2-schedule.jpg">
+          <img src="assets/coll/mat-2-schedule.jpg" alt="素材排期表">
+          <figcaption>素材排期表</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:2" data-img="assets/coll/mat-3-quality.jpg">
+          <img src="assets/coll/mat-3-quality.jpg" alt="优质素材沉淀体系">
+          <figcaption>优质素材沉淀体系</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:3" data-img="assets/coll/mat-4-import.jpg">
+          <img src="assets/coll/mat-4-import.jpg" alt="每日弹窗数据自动导入">
+          <figcaption>每日弹窗数据自动导入</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:4" data-img="assets/coll/mat-5-ab.jpg">
+          <img src="assets/coll/mat-5-ab.jpg" alt="备用素材库 · A/B 对比">
+          <figcaption>备用素材库 · A/B 对比</figcaption>
+        </figure>
+        <figure class="w-shot" style="--i:5" data-img="assets/coll/mat-6-chatchat.jpg">
+          <img src="assets/coll/mat-6-chatchat.jpg" alt="私聊文案 AI 工作台">
+          <figcaption>私聊文案 AI 工作台</figcaption>
+        </figure>
+        <span class="w-hint">悬停展开全部 · 点击查看大图</span>
         </div>
       </article>
-      <article class="w-card rv">
-        <div class="w-img" data-img="assets/shots/073Z-d2f6a5c9.jpg"><img src="assets/shots/073Z-d2f6a5c9.jpg" alt="每日经营总览与数据可视化" loading="lazy"></div>
-        <div class="w-body">
-          <span class="w-plat">周报平台</span>
-          <h3>每日经营总览与数据可视化</h3>
-          <p>把广告数、弹出数、点击、提交订单、成交、点击率、付款完成率等核心口径统一到一个看板，支持按日 / 周 / 月出图。</p>
+      <article class="w-group rv">
+        <div class="w-head">
+          <div class="w-head-l">
+            <span class="w-plat">独立工具</span>
+            <h3>投资分析小工具</h3>
+            <p>独立于运营工作流的个人交易辅助工具，用指标体系把 K 线形态转成可复用的识别与复盘结论。</p>
+          </div>
+          <div class="w-head-r">
+            <span class="w-count">1 个模块</span>
+            <a class="w-demo" href="demo.html?p=inv" rel="nofollow noopener">在线演示</a>
+          </div>
         </div>
-      </article>
-      <article class="w-card rv">
-        <div class="w-img" data-img="assets/shots/075Z-46cd36d9.jpg"><img src="assets/shots/075Z-46cd36d9.jpg" alt="广告自动化任务配置" loading="lazy"></div>
-        <div class="w-body">
-          <span class="w-plat">周报平台</span>
-          <h3>广告自动化：复制并换图</h3>
-          <p>配置广告分组与素材替换规则，批量完成复制换图任务，保留完整运行记录与未匹配广告 ID 清单，便于回溯核对。</p>
-        </div>
-      </article>
-      <article class="w-card rv">
-        <div class="w-img" data-img="assets/shots/081Z-eb96e27d.jpg"><img src="assets/shots/081Z-eb96e27d.jpg" alt="资讯快报与复盘总结" loading="lazy"></div>
-        <div class="w-body">
-          <span class="w-plat">周报平台</span>
-          <h3>AI 资讯快报与复盘总结</h3>
-          <p>自动汇总盘前、盘中、盘后、热点与竞品资讯，生成市场现状 / 主线与轮动 / 关键变量 / 下周策略四段式复盘，并给出影响判断与运营建议。</p>
-        </div>
-      </article>
-      <article class="w-card rv">
-        <div class="w-img" data-img="assets/shots/087Z-e8f2790f.jpg"><img src="assets/shots/087Z-e8f2790f.jpg" alt="文章自动上传与成稿配置" loading="lazy"></div>
-        <div class="w-body">
-          <span class="w-plat">周报平台</span>
-          <h3>公众号文章自动上传</h3>
-          <p>从原始 Word 或网页链接导入成稿，生成公众号完整稿与微博 / 头条 / 财富号删减稿，执行前可预览完整排版与 6 个账号分发目标。</p>
-        </div>
-      </article>
-      <article class="w-card rv">
-        <div class="w-img" data-img="assets/shots/089Z-e6a5e781.jpg"><img src="assets/shots/089Z-e6a5e781.jpg" alt="私聊文案工作台" loading="lazy"></div>
-        <div class="w-body">
-          <span class="w-plat">素材库</span>
-          <h3>私聊文案 AI 工作台</h3>
-          <p>面向不同文案的私聊场景生成针对性回复，支持风格切换与条数控制，输出可直接使用的成稿内容。</p>
-        </div>
-      </article>
-      <article class="w-card rv">
-        <div class="w-img" data-img="assets/shots/091Z-601285d4.jpg"><img src="assets/shots/091Z-601285d4.jpg" alt="月度广告分析平台" loading="lazy"></div>
-        <div class="w-body">
-          <span class="w-plat">周报平台</span>
-          <h3>月度广告分析平台</h3>
-          <p>按月拆解投放漏斗（曝光 → 点击 → 购买点击 → 提交订单 → 成交），对比 APP / PC 渠道效率，定位流失最大的环节。</p>
-        </div>
-      </article>
-      <article class="w-card rv">
-        <div class="w-img" data-img="assets/shots/098Z-727b0a2e.jpg"><img src="assets/shots/098Z-727b0a2e.jpg" alt="投资分析小工具" loading="lazy"></div>
-        <div class="w-body">
-          <span class="w-plat">独立工具</span>
-          <h3>投资分析小工具</h3>
-          <p>集成 K 线与 MACD 指标体系，输出评分与信号标注，支持均线多头排列、背驰顶背离等实战形态的识别与复盘。</p>
+        <div class="w-stack solo">
+        <figure class="w-shot" style="--i:0" data-img="assets/coll/inv-1.jpg">
+          <img src="assets/coll/inv-1.jpg" alt="K 线 / MACD 指标体系">
+          <figcaption>K 线 / MACD 指标体系</figcaption>
+        </figure>
         </div>
       </article>
     </div>
@@ -628,23 +692,30 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--ink-3);font-s
   document.getElementById('lbX').addEventListener('click', function(e){ e.stopPropagation(); close(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&lb.classList.contains('on')) close(); });
 
-  // 作品卡片：按所属平台注入「在线演示」按钮，指向站内演示页
-  var PLAT2DEMO = { '周报平台': 'wk', '素材库': 'mat', '独立工具': 'inv' };
-  document.querySelectorAll('.w-card').forEach(function(card){
-    var plat = card.querySelector('.w-plat');
-    var body = card.querySelector('.w-body');
-    if (!plat || !body) return;
-    var key = PLAT2DEMO[plat.textContent.trim()];
-    if (!key) return;
-    var btn = document.createElement('a');
-    btn.className = 'w-demo';
-    btn.href = 'demo.html?p=' + key;
-    btn.target = '_blank';
-    btn.rel = 'noopener noreferrer';
-    btn.setAttribute('data-demo', key);
-    btn.textContent = '在线演示';
-    body.appendChild(btn);
-  });
+  // 作品合集：每组已在 HTML 中静态声明「在线演示」链接，指向站内演示页 demo.html?p=xxx。
+  // 截图本身不做在线演示（它们只是静态界面图），只有三个可访问的平台提供演示。
+  //
+  // 交叠叠放：按每组的张数与容器宽度算出两种步长——
+  //   --step   静止时的堆叠位移（一叠照片的错落感）
+  //   --spread 悬停时的展开步长，保证最后一张不越出卡片右边界
+  function layoutStacks(){
+    document.querySelectorAll('.w-stack:not(.solo)').forEach(function(stack){
+      var shots = stack.querySelectorAll('.w-shot');
+      var n = shots.length;
+      if (!n) return;
+      var cw = shots[0].offsetWidth;               // 单张宽度
+      var inner = stack.clientWidth - 56;         // 内容区宽度
+      var avail = inner - cw;                     // 可用于展开的水平空间
+      var spread = n > 1 ? Math.min(avail / (n - 1), cw * 0.62) : 0;
+      stack.style.setProperty('--spread', Math.max(46, Math.round(spread)) + 'px');
+      // 静止堆叠：让整叠大致铺满内容区宽度，但不超过展开步长
+      var step = n > 1 ? Math.min((inner - cw) / (n - 1), 62) : 0;
+      stack.style.setProperty('--step', Math.max(22, Math.round(step)) + 'px');
+    });
+  }
+  layoutStacks();
+  window.addEventListener('resize', layoutStacks);
+  window.addEventListener('load', layoutStacks);
 
   // 快速访问：链接不暴露真实站点地址。
   // 点击进入站内演示页（demo.html），真实站点由该页以 iframe 方式嵌入，
