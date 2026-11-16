@@ -146,6 +146,10 @@ section:nth-of-type(even){background:var(--bg-2)}
 .w-body h3{font-size:16px;font-weight:700;letter-spacing:-.015em}
 .w-body p{font-size:13.8px;color:var(--ink-2);margin-top:8px;flex:1}
 .w-plat{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;padding:3px 9px;border-radius:6px;background:rgba(59,79,224,.08);color:#2c3cba;margin-bottom:10px;align-self:flex-start}
+.w-demo{margin-top:14px;display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#fff;background:var(--ink);padding:8px 15px;border-radius:9px;border:none;cursor:pointer;align-self:flex-start;transition:.18s;font-family:inherit}
+.w-demo:hover{background:var(--brand);transform:translateX(2px)}
+.w-demo::after{content:"→";font-size:13px;transition:.18s}
+.w-demo:hover::after{transform:translateX(2px)}
 
 /* ---------- 快速访问（链接打码） ---------- */
 .ql-wrap{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow)}
@@ -426,7 +430,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--ink-3);font-s
     <div class="sec-head rv">
       <div class="sec-num">04 / 作品与工具</div>
       <h2>亲手做出来的东西</h2>
-      <p>下面这些不是 PPT 里的示意图，而是我实际搭建并投入使用的平台与工具。链接中的部分字符做了打码处理，点击后仍会正常跳转。</p>
+      <p>下面这些不是 PPT 里的示意图，而是我实际搭建并投入使用的平台与工具。可点击卡片上的「在线演示」直接体验，原站地址不会暴露在地址栏中。</p>
     </div>
     <div class="works">
       <article class="w-card rv">
@@ -506,7 +510,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--ink-3);font-s
     <div class="ql-wrap rv">
       <div class="ql-head">
         <h3>快速访问</h3>
-        <p>链接中的部分字符已做打码处理，点击后仍会正常跳转。</p>
+        <p>以下作品通过站内演示页打开，原站地址不会出现在浏览器地址栏中，页面已加水印保护。</p>
       </div>
       <div class="ql-list">
         <a class="ql" data-key="wk" href="#" rel="nofollow noopener">
@@ -587,26 +591,40 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--ink-3);font-s
   document.getElementById('lbX').addEventListener('click', function(e){ e.stopPropagation(); close(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&lb.classList.contains('on')) close(); });
 
-  // 链接打码：真实地址以十六进制分段存放，源码中不可直接检索；
-  // 页面显示为打码后的文本，点击时运行时解码并新窗口打开。
-  var HEX = {
-    wk:  ['68747470733a','2f2f6a6f6269','6e67686f2e67','69746875622e','696f2f647877','2d7765656b6c','792d7265706f','72742d706167','65732f'],
-    mat: ['68747470733a','2f2f6a6f6269','6e67686f2e67','69746875622e','696f2f647877','2d6d61746572','69616c732f'],
-    inv: ['68747470733a','2f2f65633233','623535386531','396234666534','616466616666','633338656530','663563362e67','7a312e616765','6e746f732d61','70702e6e6574']
-  };
-  function decode(k){
-    var h = HEX[k].join('');
-    var bytes = new Uint8Array(h.length / 2);
-    for (var i = 0; i < bytes.length; i++) bytes[i] = parseInt(h.substr(i * 2, 2), 16);
-    return new TextDecoder('utf-8').decode(bytes);
-  }
+  // 作品卡片：按所属平台注入「在线演示」按钮，指向站内演示页
+  var PLAT2DEMO = { '周报平台': 'wk', '素材库': 'mat', '独立工具': 'inv' };
+  document.querySelectorAll('.w-card').forEach(function(card){
+    var plat = card.querySelector('.w-plat');
+    var body = card.querySelector('.w-body');
+    if (!plat || !body) return;
+    var key = PLAT2DEMO[plat.textContent.trim()];
+    if (!key) return;
+    var btn = document.createElement('button');
+    btn.className = 'w-demo';
+    btn.type = 'button';
+    btn.setAttribute('data-demo', key);
+    btn.textContent = '在线演示';
+    body.appendChild(btn);
+  });
+
+  document.querySelectorAll('[data-demo]').forEach(function(b){
+    b.addEventListener('click', function(){
+      window.open('demo.html?p=' + b.getAttribute('data-demo'), '_blank', 'noopener');
+    });
+  });
+
+  // 快速访问：链接不暴露真实站点地址。
+  // 点击进入站内演示页（demo.html），真实站点由该页以 iframe 方式嵌入，
+  // 因此浏览器地址栏始终停留在 jobingho.github.io，源码中也检索不到真实地址。
+  var DEMO = { wk: 'wk', mat: 'mat', inv: 'inv' };
   document.querySelectorAll('.ql').forEach(function(a){
-    a.setAttribute('target','_blank');
-    a.setAttribute('rel','noopener noreferrer nofollow');
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer nofollow');
     a.addEventListener('click', function(e){
       e.preventDefault();
-      var u = decode(a.getAttribute('data-key'));
-      window.open(u, '_blank', 'noopener');
+      var k = a.getAttribute('data-key');
+      if (!DEMO[k]) return;
+      window.open('demo.html?p=' + DEMO[k], '_blank', 'noopener');
     });
   });
 })();

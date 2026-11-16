@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>作品演示 · 周冰红</title>
+<style>
+:root{--brand:#3b4fe0;--ink:#12131a;--ink-2:#4a4d5c;--ink-3:#8b8fa3;--line:#e6e8ef;--bg:#f6f7fb}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased}
+.bar{height:56px;display:flex;align-items:center;gap:16px;padding:0 18px;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);position:relative;z-index:20}
+.back{font-size:13px;color:var(--ink-2);text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;white-space:nowrap;transition:.18s}
+.back:hover{border-color:var(--brand);color:var(--brand)}
+.mid{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;line-height:1.35}
+.mid b{font-size:14.5px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mid span{font-size:11.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.right{display:flex;align-items:center;gap:10px;flex:none}
+.mail{font-size:12.5px;color:#fff;background:var(--ink);padding:7px 14px;border-radius:9px;text-decoration:none;white-space:nowrap;transition:.18s}
+.mail:hover{background:var(--brand)}
+.stage{position:fixed;top:56px;left:0;right:0;bottom:0;overflow:hidden;background:#fff}
+.stage iframe{width:100%;height:100%;border:0;display:block;background:#fff;position:relative;z-index:1}
+.wm{position:fixed;top:56px;left:0;right:0;bottom:0;pointer-events:none;z-index:3;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;overflow:hidden}
+.wm span{color:rgba(18,19,26,.055);font-size:15px;transform:rotate(-24deg);padding:0 30px;margin:30px 0;font-family:Consolas,"SFMono-Regular",monospace;white-space:nowrap}
+.badge{position:fixed;right:14px;bottom:14px;z-index:6;background:rgba(18,19,26,.78);color:#fff;font-size:11px;padding:6px 12px;border-radius:7px;pointer-events:none;letter-spacing:.02em;line-height:1.5}
+.tip{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(16px);background:rgba(18,19,26,.92);color:#fff;font-size:12.5px;padding:9px 18px;border-radius:9px;opacity:0;transition:.26s;z-index:30;pointer-events:none;white-space:nowrap}
+.tip.on{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:760px){.mid span{display:none}.mail{padding:7px 11px;font-size:12px}.bar{gap:10px;padding:0 12px}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="back" href="./">← 返回主页</a>
+  <div class="mid">
+    <b id="ttl">作品演示</b>
+    <span id="sub"></span>
+  </div>
+  <div class="right">
+    <a class="mail" href="mailto:2748044259@qq.com">索取完整信息</a>
+  </div>
+</header>
+
+<div class="stage">
+  <iframe id="fr" title="作品演示" referrerpolicy="no-referrer"></iframe>
+</div>
+<div class="wm" id="wm"></div>
+<div class="badge">周冰红 · 个人原创作品<br>演示环境 · 请勿商用或转载</div>
+<div class="tip" id="tip"></div>
+
+<script>
+(function(){
+  /* 真实地址以十六进制分段存放，源码与地址栏均不可检索 */
+  var HEX = {
+    wk:  ['68747470733a','2f2f6a6f6269','6e67686f2e67','69746875622e','696f2f647877','2d7765656b6c','792d7265706f','72742d706167','65732f'],
+    mat: ['68747470733a','2f2f6a6f6269','6e67686f2e67','69746875622e','696f2f647877','2d6d61746572','69616c732f'],
+    inv: ['68747470733a','2f2f65633233','623535386531','396234666534','616466616666','633338656530','663563362e67','7a312e616765','6e746f732d61','70702e6e6574']
+  };
+  var META = {
+    wk:  {k:'wk', t:'周报平台 · 个人 AI 运营工作台', s:'工作台 · 活动排期 · 数据看板 · 广告自动化 · 资讯快报 · 文章自动上传'},
+    mat: {k:'mat',t:'素材库 · 素材工作台',            s:'素材工作台 · 私聊文案 · A/B 测试 · 优质素材'},
+    inv: {k:'inv',t:'投资分析小工具',                s:'K 线 / MACD 指标 · 评分信号 · 形态识别'}
+  };
+  function decode(k){
+    var h = HEX[k].join('');
+    var bytes = new Uint8Array(h.length / 2);
+    for (var i = 0; i < bytes.length; i++) bytes[i] = parseInt(h.substr(i * 2, 2), 16);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+
+  var p = (new URLSearchParams(location.search).get('p') || 'wk').toLowerCase();
+  var m = META[p] || META.wk;
+  document.getElementById('ttl').textContent = m.t;
+  document.getElementById('sub').textContent = m.s;
+  document.title = m.t + ' · 周冰红作品演示';
+
+  /* 父层水印（对所有站点生效，含跨域） */
+  var wm = document.getElementById('wm');
+  var frag = document.createDocumentFragment();
+  for (var i = 0; i < 18; i++){
+    var s = document.createElement('span');
+    s.textContent = '周冰红 · 2748044259@qq.com · 作品演示';
+    frag.appendChild(s);
+  }
+  wm.appendChild(frag);
+
+  var tipEl = document.getElementById('tip');
+  function tip(msg){
+    tipEl.textContent = msg;
+    tipEl.classList.add('on');
+    clearTimeout(tipEl._t);
+    tipEl._t = setTimeout(function(){ tipEl.classList.remove('on'); }, 1800);
+  }
+
+  var fr = document.getElementById('fr');
+
+  /* 演示页自身的防护：禁止右键菜单、禁止在新标签打开 iframe、禁止查看源代码 */
+  document.addEventListener('contextmenu', function(e){
+    if (e.target === fr) e.preventDefault();
+  });
+  document.addEventListener('keydown', function(e){
+    if ((e.ctrlKey || e.metaKey) && ['u','s','p'].indexOf(String(e.key).toLowerCase()) !== -1){
+      e.preventDefault(); tip('页面已开启保护模式');
+    }
+  });
+  window.addEventListener('beforeunload', function(e){
+    // 仅在 iframe 内触发的导航不受控，这里不做拦截，避免影响正常使用
+  });
+
+  /* 同源时向 iframe 内部注入 DOM 水印 + 复制保护（跨域时静默跳过，父层水印仍生效） */
+  function protect(){
+    var d;
+    try { d = fr.contentDocument; } catch(e){ return; }
+    if (!d || !d.body) return;
+
+    if (!d.__wp){
+      d.__wp = true;
+      d.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+      d.addEventListener('dragstart', function(e){ e.preventDefault(); });
+      d.addEventListener('copy', function(e){
+        var t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA') && t.selectionStart !== t.selectionEnd) return;
+        e.preventDefault(); tip('该作品内容受保护，完整数据请与我联系获取');
+      });
+      d.addEventListener('cut', function(e){
+        var t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+        e.preventDefault();
+      });
+      d.addEventListener('keydown', function(e){
+        if ((e.ctrlKey || e.metaKey) && ['u','s','p'].indexOf(String(e.key).toLowerCase()) !== -1){
+          e.preventDefault(); tip('页面已开启保护模式');
+        }
+      });
+    }
+
+    if (!d.getElementById('__wmz')){
+      var w = d.createElement('div');
+      w.id = '__wmz';
+      w.setAttribute('style','position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:2147483646;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;overflow:hidden');
+      for (var j = 0; j < 14; j++){
+        var sp = d.createElement('span');
+        sp.textContent = '周冰红 · 2748044259@qq.com · 作品演示';
+        sp.setAttribute('style','color:rgba(30,31,40,.055);font-size:14px;transform:rotate(-22deg);padding:0 26px;margin:26px 0;font-family:Consolas,monospace;white-space:nowrap');
+        w.appendChild(sp);
+      }
+      var badge = d.createElement('div');
+      badge.textContent = '周冰红 · 个人原创作品 · 请勿商用或转载';
+      badge.setAttribute('style','position:fixed;right:10px;bottom:10px;z-index:2147483647;background:rgba(18,19,26,.72);color:#fff;font-size:11px;padding:5px 10px;border-radius:6px;pointer-events:none');
+      d.body.appendChild(w);
+      d.body.appendChild(badge);
+    }
+  }
+
+  fr.addEventListener('load', protect);
+  setInterval(protect, 1500);
+
+  fr.src = decode(m.k);
+})();
+</script>
+</body>
+</html>
