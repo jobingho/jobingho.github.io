@@ -567,15 +567,42 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--ink-3);font-s
 <script>
 (function(){
   // 滚动淡入
+  // 兜底原则：淡入只是增强效果，任何情况下内容都不能不可见。
+  // IntersectionObserver 负责常规动画；另用确定性的位置检测兜底，
+  // 即使观察器因 smooth 滚动被抑制、页面处于后台标签等原因不触发，
+  // 滚动经过的元素也一定会被显示。
   var els = document.querySelectorAll('.rv');
+  var rvList = [].slice.call(els);
+
+  function revealPassed(){
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    rvList.forEach(function(el){
+      if (el.classList.contains('in')) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < vh - 40) el.classList.add('in');
+    });
+  }
+
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ revealPassed(); ticking = false; });
+  }
+
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(es){
       es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
     },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
-    els.forEach(function(el,i){ el.style.transitionDelay = (i%4)*70 + 'ms'; io.observe(el); });
-  } else {
-    els.forEach(function(el){ el.classList.add('in'); });
+    rvList.forEach(function(el,i){ el.style.transitionDelay = (i%4)*70 + 'ms'; io.observe(el); });
   }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('load', function(){ revealPassed(); setTimeout(revealPassed, 300); });
+  revealPassed();
+  setTimeout(revealPassed, 400);
+  setTimeout(revealPassed, 1200);
 
   // 灯箱
   var lb=document.getElementById('lb'), lbImg=document.getElementById('lbImg');
