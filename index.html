@@ -208,10 +208,17 @@ section:nth-of-type(even){background:var(--bg-2)}
 .w-head p{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:620px;line-height:1.65}
 .w-head-r{display:flex;flex-direction:column;align-items:flex-end;gap:11px;flex:none}
 .w-count{font-size:12px;color:var(--ink-3);letter-spacing:.03em;white-space:nowrap}
-.w-demo{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#fff;background:var(--ink);padding:9px 16px;border-radius:9px;border:none;cursor:pointer;align-self:flex-start;transition:.18s;font-family:inherit;text-decoration:none;white-space:nowrap}
-.w-demo:hover{background:var(--brand);transform:translateX(2px)}
-.w-demo::after{content:"→";font-size:13px;transition:.18s}
-.w-demo:hover::after{transform:translateX(2px)}
+/* 点赞按钮：每个模块自带互动计数，点过一次即标记（localStorage 记忆） */
+.w-like{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink-2);background:#fff;border:1px solid var(--line);padding:8px 14px;border-radius:9px;cursor:pointer;transition:.18s;font-family:inherit;white-space:nowrap;align-self:flex-start}
+.w-like:hover{border-color:var(--brand);color:var(--brand);background:rgba(59,79,224,.05)}
+.w-like svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;transition:.2s}
+.w-like .w-like-num{font-variant-numeric:tabular-nums;color:var(--ink-3);font-weight:700;min-width:8px}
+.w-like.on{color:#d0342c;border-color:rgba(208,52,44,.34);background:rgba(208,52,44,.06)}
+.w-like.on svg{fill:#d0342c;stroke:#d0342c;transform:scale(1.08)}
+.w-like.on .w-like-num{color:#d0342c}
+.w-like.pop{animation:likePop .32s cubic-bezier(.2,1.4,.4,1)}
+@keyframes likePop{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.w-like.pop{animation:none}.w-like svg{transition:none}}
 
 /* 截图网格：2 列规整排布 —— 首张封面跨满一行，末尾偶数时用收尾大图补齐，
    保证每一行都填满，不留空位。 */
@@ -246,17 +253,22 @@ section:nth-of-type(even){background:var(--bg-2)}
   .w-hint{display:none}
 }
 
-/* ---------- 快速访问（链接打码） ---------- */
+/* ---------- 在线演示平台（链接打码） ---------- */
 .ql-wrap{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow)}
 .ql-head h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
 .ql-head p{font-size:13.5px;color:var(--ink-3);margin-top:5px}
 .ql-list{display:grid;gap:11px;margin-top:18px}
-.ql{display:grid;grid-template-columns:132px 1fr auto;gap:18px;align-items:center;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:15px 18px;transition:.2s}
+.ql{display:grid;grid-template-columns:132px 1fr auto auto;gap:18px;align-items:center;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:15px 18px;transition:.2s}
 .ql:hover{border-color:var(--brand);background:#fff;transform:translateX(3px);box-shadow:0 6px 18px -10px rgba(59,79,224,.4)}
 .ql-t{font-weight:600;font-size:14.5px}
 .ql-d{font-size:13px;color:var(--ink-3);line-height:1.5}
 .ql-u{font-family:"SFMono-Regular",Consolas,monospace;font-size:12px;color:var(--brand);background:rgba(59,79,224,.07);padding:5px 11px;border-radius:8px;white-space:nowrap}
 .ql-u em{font-style:normal;background:var(--ink);color:var(--ink);border-radius:3px;padding:0 3px;letter-spacing:1px}
+.ql-go{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#fff;background:var(--ink);padding:8px 15px;border-radius:9px;white-space:nowrap;transition:.18s}
+.ql:hover .ql-go{background:var(--brand)}
+.ql-go::after{content:"→";font-size:13px;transition:.18s}
+.ql:hover .ql-go::after{transform:translateX(3px)}
+@media(max-width:980px){.ql{grid-template-columns:132px 1fr;gap:8px 16px}.ql-u,.ql-go{justify-self:start}}
 @media(max-width:760px){.ql{grid-template-columns:1fr;gap:8px}.ql-u{white-space:normal;word-break:break-all}}
 
 /* ---------- contact ---------- */
@@ -641,7 +653,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     <div class="sec-head rv">
       <div class="sec-num">04 / 作品与工具</div>
       <h2>亲手做出来的东西</h2>
-      <p>下面这些不是 PPT 里的示意图，而是我实际搭建并投入使用的平台与工具。每个平台的所有界面截图已归为一组，以网格排布呈现；点击任意截图可查看大图，点「在线演示」可进入站内演示页直接体验，原站地址不会暴露在地址栏中。</p>
+      <p>下面这些不是 PPT 里的示意图，而是我实际搭建并投入使用的平台与工具。每个平台的所有界面截图已归为一组，以网格排布呈现；点击任意截图可查看大图，想亲手操作可前往页面下方的「在线演示平台」。</p>
     </div>
     <div class="works">
       <article class="w-group rv">
@@ -653,7 +665,11 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           </div>
           <div class="w-head-r">
             <span class="w-count">7 个模块</span>
-            <a class="w-demo" href="demo.html?p=wk" rel="nofollow noopener">在线演示</a>
+            <button class="w-like" type="button" data-like="wk" data-base="32" aria-label="为周报平台点赞">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
+              <span class="w-like-txt">点赞</span>
+              <span class="w-like-num">32</span>
+            </button>
           </div>
         </div>
         <div class="w-stack">
@@ -697,7 +713,11 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           </div>
           <div class="w-head-r">
             <span class="w-count">6 个模块</span>
-            <a class="w-demo" href="demo.html?p=mat" rel="nofollow noopener">在线演示</a>
+            <button class="w-like" type="button" data-like="mat" data-base="24" aria-label="为素材库点赞">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
+              <span class="w-like-txt">点赞</span>
+              <span class="w-like-num">24</span>
+            </button>
           </div>
         </div>
         <div class="w-stack">
@@ -737,7 +757,11 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           </div>
           <div class="w-head-r">
             <span class="w-count">1 个模块</span>
-            <a class="w-demo" href="demo.html?p=inv" rel="nofollow noopener">在线演示</a>
+            <button class="w-like" type="button" data-like="inv" data-base="15" aria-label="为投资分析小工具点赞">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
+              <span class="w-like-txt">点赞</span>
+              <span class="w-like-num">15</span>
+            </button>
           </div>
         </div>
         <div class="w-stack solo">
@@ -752,24 +776,27 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 
     <div class="ql-wrap rv">
       <div class="ql-head">
-        <h3>快速访问</h3>
-        <p>以下作品通过站内演示页打开，原站地址不会出现在浏览器地址栏中，页面已加水印保护。</p>
+        <h3>在线演示平台</h3>
+        <p>以下三个平台均已部署上线，点开即可直接操作体验，无需下载或注册。演示统一走站内中转页，原站地址不会出现在浏览器地址栏中，页面内也已加上水印保护。</p>
       </div>
       <div class="ql-list">
         <a class="ql" data-key="wk" href="demo.html?p=wk" rel="nofollow noopener">
           <span class="ql-t">周报平台</span>
           <span class="ql-d">工作台 · 活动排期 · 数据看板 · 广告自动化 · 资讯快报 · 文章自动上传</span>
           <span class="ql-u">jobingho.github.io/dxw-<em>weekly</em>-report-pages</span>
+          <span class="ql-go">进入演示</span>
         </a>
         <a class="ql" data-key="mat" href="demo.html?p=mat" rel="nofollow noopener">
           <span class="ql-t">素材库</span>
           <span class="ql-d">素材工作台 · 私聊文案 · A/B 测试 · 优质素材</span>
           <span class="ql-u">jobingho.github.io/dxw-<em>materials</em></span>
+          <span class="ql-go">进入演示</span>
         </a>
         <a class="ql" data-key="inv" href="demo.html?p=inv" rel="nofollow noopener">
           <span class="ql-t">投资分析小工具</span>
           <span class="ql-d">K 线 / MACD 指标 · 评分信号 · 形态识别</span>
           <span class="ql-u">ec23b558<em>e19b4fe4adfaffc38ee0f5c6</em>.gz1.agentos-app.net</span>
+          <span class="ql-go">进入演示</span>
         </a>
       </div>
     </div>
@@ -910,13 +937,62 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
   document.getElementById('lbX').addEventListener('click', function(e){ e.stopPropagation(); close(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&lb.classList.contains('on')) close(); });
 
-  // 作品合集：每组已在 HTML 中静态声明「在线演示」链接，指向站内演示页 demo.html?p=xxx。
-  // 截图本身不做在线演示（它们只是静态界面图），只有三个可访问的平台提供演示。
-  //
+  // 作品合集：每个平台模块配一个「点赞」按钮。
   // 排版：CSS Grid 自适应列数（桌面 3 列 / 平板 2 列 / 手机 1 列），
   // 首张封面跨两列作视觉锚点，其余等宽平铺，无需 JS 计算步长。
 
-  // 快速访问：链接不暴露真实站点地址。
+  // 点赞：点击 +1，再次点击取消（-1）。状态与增量写入 localStorage，
+  // 刷新后仍保持；初始基数取自 data-base。
+  var LIKE_KEY = 'job_portfolio_likes_v1';
+  var likeState = {};
+  try {
+    var raw = localStorage.getItem(LIKE_KEY);
+    if (raw) likeState = JSON.parse(raw) || {};
+  } catch(e){ likeState = {}; }
+
+  function saveLikes(){
+    try { localStorage.setItem(LIKE_KEY, JSON.stringify(likeState)); } catch(e){}
+  }
+
+  document.querySelectorAll('.w-like').forEach(function(btn){
+    var key = btn.getAttribute('data-like');
+    if (!key) return;
+    var base = parseInt(btn.getAttribute('data-base'), 10) || 0;
+    var numEl = btn.querySelector('.w-like-num');
+    var txtEl = btn.querySelector('.w-like-txt');
+
+    function render(){
+      var st = likeState[key] || {};
+      var count = base + (st.delta || 0);
+      var liked = !!st.liked;
+      numEl.textContent = count;
+      btn.classList.toggle('on', liked);
+      btn.setAttribute('aria-pressed', liked ? 'true' : 'false');
+      btn.setAttribute('aria-label', (liked ? '取消点赞' : '点赞') + '，当前 ' + count + ' 赞');
+      if (txtEl) txtEl.textContent = liked ? '已赞' : '点赞';
+    }
+
+    btn.addEventListener('click', function(){
+      var st = likeState[key] || (likeState[key] = {});
+      if (st.liked){
+        st.liked = false;
+        st.delta = (st.delta || 0) - 1;
+        if (st.delta < 0) st.delta = 0;
+      } else {
+        st.liked = true;
+        st.delta = (st.delta || 0) + 1;
+      }
+      saveLikes();
+      render();
+      btn.classList.remove('pop');
+      void btn.offsetWidth;          // 强制重排，让动画能重复播放
+      btn.classList.add('pop');
+    });
+
+    render();
+  });
+
+  // 在线演示平台：链接不暴露真实站点地址。
   // 点击进入站内演示页（demo.html），真实站点由该页以 iframe 方式嵌入，
   // 因此浏览器地址栏始终停留在 jobingho.github.io，源码中也检索不到真实地址。
   document.querySelectorAll('.ql').forEach(function(a){
