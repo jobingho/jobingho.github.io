@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>周冰红 · 产品运营 / AI 应用运营 · 个人简历</title>
+<style>
+  @page{size:A4;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --ink:#14151c; --ink2:#3c4051; --ink3:#6d7280; --line:#dfe1e9;
+    --brand:#2f42cf; --brand2:#5a49d8; --red:#c62f26;
+  }
+  body{
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",Arial,sans-serif;
+    color:var(--ink); font-size:10.2pt; line-height:1.6; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    background:#fff;
+  }
+  .page{width:210mm;min-height:297mm;padding:14mm 15mm 12mm;position:relative}
+  .topbar{height:4px;background:linear-gradient(90deg,var(--brand),var(--brand2) 60%,#00b894);border-radius:2px;margin-bottom:9mm}
+
+  /* ---- header ---- */
+  .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10mm;margin-bottom:7mm}
+  .hd h1{font-size:23pt;font-weight:800;letter-spacing:-.5px;line-height:1.15}
+  .hd .role{font-size:11pt;color:var(--brand);font-weight:700;margin-top:2mm;letter-spacing:.2px}
+  .hd .tag{font-size:9.2pt;color:var(--ink3);margin-top:2.5mm}
+  .hd-r{text-align:right;font-size:9pt;color:var(--ink2);line-height:1.85;flex:none}
+  .hd-r b{color:var(--ink);font-weight:600}
+  .hd-r a{color:var(--brand);text-decoration:none}
+
+  /* ---- sections ---- */
+  section{margin-bottom:5.5mm;break-inside:avoid}
+  .st{display:flex;align-items:center;gap:3mm;margin-bottom:2.6mm;break-after:avoid}
+  .st h2{font-size:11.5pt;font-weight:800;letter-spacing:.3px;white-space:nowrap}
+  .st .ln{flex:1;height:1px;background:var(--line)}
+  .st .bar{width:3px;height:13px;background:var(--brand);border-radius:2px;flex:none}
+
+  /* ---- job ---- */
+  .job{margin-bottom:4.5mm;break-inside:avoid}
+  .job-h{display:flex;justify-content:space-between;align-items:baseline;gap:4mm}
+  .job-h .co{font-size:11pt;font-weight:700}
+  .job-h .po{font-size:9.5pt;color:var(--brand);font-weight:600;margin-left:2.5mm}
+  .job-h .dt{font-size:9pt;color:var(--ink3);white-space:nowrap}
+  .role-line{font-size:9pt;color:var(--ink2);margin:1mm 0 1.6mm;padding:1.2mm 2.5mm;background:#f4f5fb;border-radius:2mm;border-left:2px solid var(--brand)}
+  .role-line b{color:var(--ink);font-weight:700}
+  ul{list-style:none}
+  .job li{display:flex;gap:2.2mm;font-size:9.6pt;color:var(--ink2);margin-bottom:1.1mm;line-height:1.58}
+  .job li::before{content:"";flex:none;width:4px;height:4px;border-radius:50%;background:var(--brand);margin-top:5.4px}
+  .job li b{color:var(--ink);font-weight:700}
+  .job li .k{color:var(--red);font-weight:700}
+
+  /* ---- projects ---- */
+  .pj{border:1px solid var(--line);border-radius:2.4mm;padding:2.8mm 3mm;margin-bottom:3mm;break-inside:avoid}
+  .pj-h{display:flex;justify-content:space-between;align-items:baseline;gap:3mm}
+  .pj-h .t{font-size:10.2pt;font-weight:700}
+  .pj-h .m{font-size:8.8pt;color:var(--ink3);white-space:nowrap}
+  .pj .rl{font-size:8.8pt;color:var(--ink2);margin:.9mm 0 1.4mm;padding:.8mm 2.2mm;background:#f4f5fb;border-radius:1.6mm;border-left:2px solid var(--brand)}
+  .pj .rl b{color:var(--ink);font-weight:700}
+  .pj li{display:flex;gap:2mm;font-size:9.2pt;color:var(--ink2);margin-bottom:.9mm;line-height:1.55}
+  .pj li::before{content:"";flex:none;width:3.5px;height:3.5px;border-radius:50%;background:var(--ink3);margin-top:4.8px}
+  .pj li b{color:var(--ink);font-weight:700}
+  .pj li .k{color:var(--red);font-weight:700}
+  .pj li em{font-style:normal;color:var(--ink3);font-size:8.8pt}
+
+  /* ---- skills / certs ---- */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+  .kv{display:flex;gap:2mm;font-size:9.2pt;color:var(--ink2);margin-bottom:1.1mm}
+  .kv b{flex:none;color:var(--ink);font-weight:700;min-width:16mm}
+  .chips{display:flex;flex-wrap:wrap;gap:1.4mm}
+  .chip{font-size:8.8pt;background:#f2f3f9;border:.6px solid #d9dcec;padding:.6mm 2mm;border-radius:1.4mm;color:var(--ink2)}
+  .chip.k{background:rgba(47,66,207,.08);border-color:rgba(47,66,207,.28);color:#26359e;font-weight:600}
+  .cert-row{display:flex;flex-wrap:wrap;gap:1.6mm}
+  .cert{font-size:8.8pt;border:.6px solid #d9dcec;border-radius:1.4mm;padding:.8mm 2.2mm;background:#fff}
+  .cert b{font-weight:700}
+  .cert span{color:var(--ink3)}
+
+  .note{font-size:8.6pt;color:var(--ink3);padding:1.4mm 2.4mm;background:#fbf8f3;border-radius:1.6mm;border-left:2px solid #e0a33c;margin-top:1.2mm;line-height:1.5}
+  .note b{color:var(--ink2);font-weight:700}
+
+  .foot{margin-top:6mm;padding-top:2.5mm;border-top:1px solid var(--line);font-size:8.4pt;color:var(--ink3);display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar"></div>
+
+  <div class="hd">
+    <div>
+      <h1>周冰红</h1>
+      <div class="role">产品运营 / AI 应用运营（金融产品方向）</div>
+      <div class="tag">1-3 年经验 · 求职意向：广州 · 仅接受全职线下到岗 · 一个月内到岗</div>
+    </div>
+    <div class="hd-r">
+      <div><b>广州</b></div>
+      <div><a href="mailto:2748044259@qq.com">2748044259@qq.com</a></div>
+      <div>GitHub：<b>jobingho</b></div>
+      <div>作品集：<b>jobingho.github.io</b></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="st"><span class="bar"></span><h2>个人优势</h2><span class="ln"></span></div>
+    <ul style="font-size:9.6pt;color:var(--ink2);line-height:1.6">
+      <li style="display:flex;gap:2.2mm;margin-bottom:1.2mm"><span style="flex:none;width:4px;height:4px;border-radius:50%;background:var(--brand);margin-top:5.4px"></span><span><b>业务结果可量化：</b>独立负责的 2 款金融产品总单量分别同比提升 <span class="k">20%</span> 与 <span class="k">10%</span>，且持续刷新该项目的日 / 月最高单量纪录。</span></li>
+      <li style="display:flex;gap:2.2mm;margin-bottom:1.2mm"><span style="flex:none;width:4px;height:4px;border-radius:50%;background:var(--brand);margin-top:5.4px"></span><span><b>能从 0 到 1 落地工具：</b>自研 <b>8 个</b> AI 运营模块（周报 / 日报 / 月报、文案创作、广告自动铺设、素材库、AI 出图、文章自动上传），组内全员复用，<b>单份报表人均节省 2-3 天工时</b>。</span></li>
+      <li style="display:flex;gap:2.2mm"><span style="flex:none;width:4px;height:4px;border-radius:50%;background:var(--brand);margin-top:5.4px"></span><span><b>金融专业资质齐备：</b>证券从业、基金从业、投资顾问执业资格，可承接证券 / 基金类产品的合规内容、投教与用户运营。</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="st"><span class="bar"></span><h2>工作经历</h2><span class="ln"></span></div>
+
+    <div class="job">
+      <div class="job-h">
+        <span><span class="co">广州经传多赢投资咨询有限公司</span><span class="po">产品运营</span></span>
+        <span class="dt">2025.05 – 至今（在职）</span>
+      </div>
+      <div class="role-line"><b>我的角色：</b>独立负责 2 款金融产品的场景化运营与增长；AI 工具链的 0→1 搭建者与组内推广人。</div>
+      <ul>
+        <li><span><b>产品运营与业绩：</b>从用户真实使用路径出发调整功能、投放与活动节奏，推动 2 款产品总单量分别提升 <span class="k">20%</span> 与 <span class="k">10%</span>，持续刷新该项目的日 / 月最高单量纪录。</span></li>
+        <li><span><b>AI 工作台搭建（0→1）：</b>独立设计、搭建、推广 <b>8 个</b> AI 模块，组内全员日常复用，<b>单份周报 / 月报人均节省 2-3 天工时</b>。</span></li>
+        <li><span><b>月度活动统筹：</b>每月一轮，输出 APP 弹窗 / PC 弹窗 / 活动页 / 海报 <b>4 类</b>物料，用 Axure 做原型推动设计与技术落地。</span></li>
+        <li><span><b>内容矩阵运营：</b>负责 2 公众号 + 2 微博 + 1 头条号 + 1 财富号的排版发布与后台答疑；主导小白教学栏目内容结构（已产出完整图文成品，因业务排期暂停，未正式上线）。</span></li>
+        <li><span><b>AI 客服 SOP：</b>按用户群体分类编写标准话术文档，形成结构化 SOP 并交付产品使用。</span></li>
+        <li><span><b>直播运营：</b>负责日常直播的线上宣传与内容跟进，实时处理不良言论与用户提问。</span></li>
+        <li><span><b>跨部门协作：</b>对接产品 / 技术 / 设计推进需求闭环；撰写企业微信侧产品与功能对外文案。</span></li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-h">
+        <span><span class="co">广州澳捷尔智能科技有限公司</span><span class="po">文案实习生</span></span>
+        <span class="dt">2024.10 – 2025.01</span>
+      </div>
+      <ul>
+        <li><span>基于用户行为数据优化产品描述文案，<span class="k">平均点击率提升 20%</span>；优化排版与视觉表达，<span class="k">页面停留时间延长 20%</span>。</span></li>
+        <li><span>沉淀内部文案数据库，<span class="k">团队内容创作效率提升 30%</span>。</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="st"><span class="bar"></span><h2>项目案例</h2><span class="ln"></span></div>
+
+    <div class="pj">
+      <div class="pj-h"><span class="t">AI 运营工作台搭建与落地</span><span class="m">8 个模块 · 全组复用</span></div>
+      <div class="rl"><b>我的角色：</b>独立从零到一设计、搭建、推广落地</div>
+      <ul>
+        <li><span><b>背景：</b>数据统计、文案撰写、广告铺设、素材管理、文章发布等环节高度依赖人工搬运，重复劳动多、口径不统一。</span></li>
+        <li><span><b>动作：</b>逐环节拆解自动化路径，自主搭建周报 / 日报 / 月报统计、文案 AI 创作、广告自动铺设、素材库 AI 管理、AI 出图、文章自动上传等模块。</span></li>
+        <li><span><b>结果：</b>8 个模块被组内全员日常复用，从"个人提效工具"升级为"团队基础设施"，<b>单份周报 / 月报人均节省 2-3 天工时</b>。</span></li>
+      </ul>
+    </div>
+
+    <div class="pj">
+      <div class="pj-h"><span class="t">多平台内容运营矩阵</span><span class="m">6 个账号 · 4 类平台</span></div>
+      <div class="rl"><b>我的角色：</b>独立负责日常运营；小白教学栏目由我主导内容结构</div>
+      <ul>
+        <li><span><b>背景：</b>多平台账号并行，需建立可复用的排版与发布节奏，同时承接各渠道涌入的用户咨询。</span></li>
+        <li><span><b>动作：</b>负责 2 公众号 + 2 微博 + 1 头条号 + 1 财富号的排版发布与后台答疑；搭建面向新手的教学栏目，完成内容结构设计与图文成品产出。</span></li>
+        <li><span><b>结果：</b>形成稳定的日常内容供给节奏，用户咨询有据可依；沉淀出可复用的排版模板与栏目框架。</span></li>
+      </ul>
+      <div class="note"><b>说明：</b>小白教学栏目<b>因业务排期原因项目暂停</b>，已完成全部图文成品，但<b>未正式上线</b>。</div>
+    </div>
+
+    <div class="pj">
+      <div class="pj-h"><span class="t">月度活动全流程策划与落地</span><span class="m">每月一轮 · 4 类物料</span></div>
+      <div class="rl"><b>我的角色：</b>主导策划排期与全套物料产出，对接设计与技术落地</div>
+      <ul>
+        <li><span><b>背景：</b>活动需产品、技术、设计多方协作，需求传达链路长、素材口径容易走样。</span></li>
+        <li><span><b>动作：</b>主导月度活动策划排期，输出 APP 弹窗、PC 弹窗、活动页、海报 4 类线上物料；用 Axure 做原型与设计师对接细节。</span></li>
+        <li><span><b>结果：</b>活动按月稳定落地，形成可复用的物料生产与协作流程。</span></li>
+      </ul>
+    </div>
+
+    <div class="pj">
+      <div class="pj-h"><span class="t">智能客服 SOP 话术体系</span><span class="m">结构化 SOP · 已交付</span></div>
+      <div class="rl"><b>我的角色：</b>独立梳理场景并编写全量话术，交付产品使用</div>
+      <ul>
+        <li><span><b>背景：</b>智能客服需覆盖多类用户提问，缺少统一话术会导致答非所问、口径不一。</span></li>
+        <li><span><b>动作：</b>按产品需求梳理客服场景，按用户群体分类编写标准话术文档，形成结构化 SOP 并交付使用。</span></li>
+        <li><span><b>结果：</b>AI 客服具备可落地的应答依据，覆盖多群体差异化沟通场景。</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="st"><span class="bar"></span><h2>专业证书</h2><span class="ln"></span></div>
+    <div class="cert-row">
+      <div class="cert"><b>证券从业资格证</b> <span>· 从业资格</span></div>
+      <div class="cert"><b>基金从业资格证</b> <span>· 从业资格</span></div>
+      <div class="cert"><b>投资顾问</b> <span>· 执业资格</span></div>
+      <div class="cert"><b>英语四 / 六级</b> <span>· 语言能力</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="st"><span class="bar"></span><h2>技能与工具</h2><span class="ln"></span></div>
+    <div class="two">
+      <div>
+        <div class="kv"><b>工具</b><span>Axure、Excel / 数据透视、图床与素材管理、公众号排版</span></div>
+        <div class="kv"><b>AI 应用</b><span>大模型工作流拆解、通义万相 AI 出图、AI 客服 SOP、单页 HTML 工具开发、GitHub Pages 部署、JSON / API 接入</span></div>
+      </div>
+      <div>
+        <div class="kv"><b>方法</b><span>活动策划与统筹、AI 工作流拆解、SOP 体系搭建、内容矩阵运营、投放数据分析、A/B 测试与素材迭代、用户视角分析</span></div>
+        <div class="kv"><b>协作</b><span>跨部门对接、需求拆解与推进、产品 / 技术 / 设计协作、业务方沟通、落地执行力</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span>© 2026 周冰红 · 产品运营 / AI 应用运营</span>
+    <span>更多作品与在线演示：jobingho.github.io</span>
+  </div>
+</div>
+</body>
+</html>
