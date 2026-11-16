@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>周冰红 · 产品运营 / AI 应用运营 · 简历</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<style>
+/* ===================================================================
+   版式复刻自用户旧简历模板（简历（策划）.docx）
+   主色  #35424A 深灰蓝   强调 #F5AF1B 金黄   边框 #D9D9D9 浅灰
+   字体  微软雅黑   A4 210×297mm   页边距 上下 25.4mm / 左右 31.75mm
+   =================================================================== */
+@page{size:A4;margin:12mm 12mm 10mm}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#323B4C;        /* 标题深灰蓝 */
+  --txt:#595959;        /* 正文中灰 */
+  --line:#D9D9D9;       /* 边框浅灰 */
+  --gold:#F5AF1B;       /* 金黄装饰 */
+  --teal:#3CA8A8;       /* 「技能证书」标题条用的青色 */
+}
+body{
+  font-family:"微软雅黑","Microsoft YaHei","PingFang SC",sans-serif;
+  color:var(--txt);font-size:10pt;line-height:1.6;
+  background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.page{width:210mm;min-height:297mm;margin:0 auto;padding:0;position:relative}
+
+/* ---------- 页头 ---------- */
+.hd{position:relative;padding-bottom:4mm;margin-bottom:3mm}
+.hd-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10mm}
+.hd-name{font-size:22pt;font-weight:700;color:var(--ink);line-height:1.05;letter-spacing:.5px}
+.hd-intent{
+  font-size:12pt;font-weight:700;color:#595959;margin-top:1.8mm;
+  display:inline-block;vertical-align:baseline;
+}
+.hd-intent b{color:var(--ink)}
+.hd-contact{margin-top:2.2mm;font-size:10.5pt;font-weight:700;color:#595959}
+.hd-contact span{display:inline-block;margin-right:11mm}
+.hd-contact b{font-weight:700}
+.hd-photo{width:22mm;height:29mm;object-fit:cover;object-position:center top;
+  border:1px solid var(--line);flex:none}
+/* 页头右侧：照片 + 作品二维码 */
+.hd-right{display:flex;flex-direction:column;align-items:flex-end;gap:1.4mm;flex:none;width:24mm;padding-bottom:1mm}
+.hd-qr{width:14mm;height:13.5mm;object-fit:contain}
+.hd-qr-lab{font-size:7.5pt;font-weight:700;color:#595959;letter-spacing:.06em;margin:0;line-height:1.35;white-space:nowrap}
+
+/* ---------- 板块 ---------- */
+/* 结构：标题条绝对定位在边框框左上角（与原模板一致），
+   边框框用 padding-top 预留出标题条的高度，避免压住首行正文 */
+.sec{position:relative;margin-bottom:2mm;padding-top:0}
+.sec-title{
+  position:absolute;left:0;top:-.5mm;
+  background:var(--ink);color:#fff;font-size:12.5pt;font-weight:700;
+  padding:1mm 4.5mm 1mm 5.6mm;letter-spacing:1px;z-index:2;
+}
+.sec-title.teal{background:var(--teal)}
+.sec-gold{
+  position:absolute;left:2mm;top:2.6mm;width:2.2mm;height:2.2mm;
+  background:var(--gold);z-index:3;
+}
+.sec-body{
+  border:1px solid var(--line);padding:8.2mm 3.6mm 1.6mm;
+  position:relative;z-index:1;
+}
+
+/* ---------- 教育背景 ---------- */
+.edu-line{display:flex;align-items:baseline;font-size:10.2pt;font-weight:700;color:var(--ink);margin-bottom:1mm}
+.edu-line .t{flex:none;width:38mm}
+.edu-line .s{flex:none;width:52mm}
+.edu-line .m{flex:1;font-weight:700}
+.edu-course{font-size:9pt;line-height:1.62;color:#595959;text-indent:0}
+.edu-course b{color:var(--ink);font-weight:700}
+
+/* ---------- 工作经历 ---------- */
+.job{margin-bottom:1.8mm}
+.job:last-child{margin-bottom:0}
+.job-line{display:flex;align-items:baseline;font-size:10.2pt;font-weight:700;color:var(--ink);margin-bottom:1mm}
+.job-line .t{flex:none;width:38mm}
+.job-line .s{flex:none}
+.job-line .p{margin-left:auto;font-weight:700}
+.job-desc{font-size:9pt;line-height:1.55;margin-bottom:.6mm}
+.job-desc b{color:var(--ink);font-weight:700}
+.job-desc ol{margin:0;padding-left:4.6mm;list-style:decimal}
+.job-desc li{margin-bottom:.4mm}
+.job-desc li::marker{color:var(--ink);font-weight:700}
+.job-desc .hl{color:#B23A2E;font-weight:700}
+
+/* ---------- 技能证书 ---------- */
+.skill-list{font-size:9pt;line-height:1.6}
+.skill-list div{display:flex;gap:2mm}
+.skill-list b{flex:none;color:var(--ink);font-weight:700;min-width:22mm}
+.skill-list span{flex:1}
+.cert-chips{display:flex;flex-wrap:wrap;gap:2mm;margin-top:1.2mm}
+.chip{font-size:8.8pt;border:1px solid var(--line);border-radius:2mm;padding:.6mm 2.4mm;color:#595959}
+.chip b{color:var(--ink);font-weight:700}
+
+/* ---------- 自我评价 ---------- */
+.self-eval{font-size:9pt;line-height:1.6}
+.self-eval div{display:flex;gap:2mm;margin-bottom:1mm}
+.self-eval div:last-child{margin-bottom:0}
+.self-eval b{flex:none;color:var(--ink);font-weight:700;min-width:20mm}
+.self-eval span{flex:1}
+.self-eval .hl{color:#B23A2E;font-weight:700}
+
+/* ---------- 页脚 ---------- */
+.foot{
+  border-top:1px solid var(--line);padding-top:1.6mm;margin-top:2mm;
+  font-size:8.2pt;color:#8C8C8C;display:flex;justify-content:space-between;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ============ 页头 ============ -->
+  <div class="hd">
+    <div class="hd-row">
+      <div style="flex:1">
+        <div class="hd-name">周冰红</div>
+        <div class="hd-intent">求职意向：<b>产品运营 / AI 应用运营</b>（金融产品方向）</div>
+        <div class="hd-contact">
+          <span>电话：<b>18924542085</b></span>
+          <span>电子邮箱：<b>2748044259@qq.com</b></span>
+        </div>
+        <div class="hd-contact" style="font-weight:400;font-size:10pt">
+          <span>所在城市：<b>广州</b></span>
+          <span>作品集：<b>jobingho.github.io</b></span>
+        </div>
+      </div>
+      <div class="hd-right">
+        <img class="hd-photo" src="assets/resume/photo.jpg" alt="周冰红证件照">
+        <div class="hd-qr-lab">我的作品</div>
+        <img class="hd-qr" src="assets/resume/qr.png" alt="作品集二维码">
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 教育背景 ============ -->
+  <div class="sec">
+    <div class="sec-title">教育背景</div>
+    <div class="sec-gold"></div>
+    <div class="sec-body">
+      <div class="edu-line">
+        <span class="t">2021.9 - 2025.6</span>
+        <span class="s">广东财经大学</span>
+        <span class="m">汉语言文学（商务文秘）专业（本科）</span>
+      </div>
+      <div class="edu-course"><b>主修课程：</b>现代汉语、古代汉语、语言学概论、应用语言学、中国当代文学、中国现代文学史、中国古代文学史、外国文学、文学概论、基础写作、应用写作</div>
+    </div>
+  </div>
+
+  <!-- ============ 工作经历 ============ -->
+  <div class="sec">
+    <div class="sec-title">工作经历</div>
+    <div class="sec-gold"></div>
+    <div class="sec-body">
+
+      <div class="job">
+        <div class="job-line">
+          <span class="t">2025.05 - 至今</span>
+          <span class="s">广州经传多赢投资咨询有限公司</span>
+          <span class="p">产品运营</span>
+        </div>
+        <div class="job-desc">
+          <b>工作描述：</b>
+          <ol>
+            <li><b>产品运营与业绩：</b>从用户真实使用路径出发调整功能、投放与活动节奏，推动 2 款金融产品总单量分别提升 <span class="hl">20%</span> 与 <span class="hl">10%</span>，持续刷新该项目日 / 月最高单量纪录。</li>
+            <li><b>AI 工作台搭建（0→1）：</b>独立设计、搭建并推广 <span class="hl">8 个</span> AI 运营模块（报表统计、文案创作、广告自动铺设、素材库管理、AI 出图、文章自动上传），组内全员复用，单份周报 / 月报人均节省 <span class="hl">2-3 天</span>工时。</li>
+            <li><b>活动统筹与内容矩阵：</b>每月一轮输出 APP 弹窗 / PC 弹窗 / 活动页 / 海报 <b>4 类</b>物料，用 Axure 做原型推动落地；负责 2 公众号 + 2 微博 + 1 头条号 + 1 财富号的排版发布与后台答疑，并主导小白教学栏目内容结构（已完成部分，因业务排期暂停，未正式上线）。</li>
+            <li><b>AI 客服与跨部门协作：</b>按用户群体分类编写标准话术，形成结构化 SOP 交付产品使用；对接产品 / 技术 / 设计推进需求闭环，撰写企微侧产品对外文案并负责日常直播宣传。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="job">
+        <div class="job-line">
+          <span class="t">2024.10 - 2025.01</span>
+          <span class="s">广州澳捷尔智能科技有限公司</span>
+          <span class="p">文案实习生</span>
+        </div>
+        <div class="job-desc">
+          <ol>
+            <li>基于用户行为数据优化产品描述文案，<span class="hl">平均点击率提升 20%</span>；优化排版与视觉表达，<span class="hl">页面停留时间延长 20%</span>。</li>
+            <li>沉淀内部文案数据库，<span class="hl">团队内容创作效率提升 30%</span>。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="job">
+        <div class="job-line">
+          <span class="t">2024.03 - 2024.08</span>
+          <span class="s">广州市瑞业房地产开发有限公司</span>
+          <span class="p">市场实习生</span>
+        </div>
+        <div class="job-desc">
+          <ol>
+            <li>策划并执行 2 场营销会议的场地布置，通过布局设计提升会议专业形象，吸引 <span class="hl">40+ 名</span>参与者关注；独立撰写 2 份房地产宣传视频脚本大纲，获领导认可。</li>
+            <li>拍摄 <span class="hl">50+ 张</span>照片，精选 10 张用于 PPT 宣传；后期做色彩校正与构图调整，宣传材料采用率达 <span class="hl">90%</span>。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="job">
+        <div class="job-line">
+          <span class="t">2023.03 - 2023.07</span>
+          <span class="s">广东省佛山市三水区智燃教育</span>
+          <span class="p">语文兼职老师</span>
+        </div>
+        <div class="job-desc">
+          <ol>
+            <li>为期 4 个月，为小学至初中三年级 2 名学生提供一对一语文辅导，学生平均成绩提升 <span class="hl">15%</span>。</li>
+            <li>独立完成 50 个教学课件与教案设计，设计并实施 120 次针对性课前小测；累计撰写 50+ 份学生反馈报告，定期与家长沟通，家长满意度达 <span class="hl">98%</span>。</li>
+          </ol>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ 技能证书 ============ -->
+  <div class="sec">
+    <div class="sec-title teal">技能证书</div>
+    <div class="sec-gold"></div>
+    <div class="sec-body">
+      <div class="skill-list">
+        <div><b>语言技能：</b><span>英语 CET4、英语 CET6、普通话乙等、粤语</span></div>
+        <div><b>办公技能：</b><span>熟练掌握办公软件（PPT、WORD、EXCEL）、Axure 原型设计、公众号排版</span></div>
+        <div><b>专业技能：</b><span>AI 工作流拆解与工具落地、活动策划统筹、SOP 体系搭建、内容矩阵运营、投放数据分析、A/B 测试</span></div>
+        <div><b>荣誉证书：</b><span>第二届广东省中小学自然观察写作大赛优秀奖、双百工程院级、三下乡校级项目</span></div>
+      </div>
+      <div class="cert-chips">
+        <div class="chip"><b>证券从业资格证</b></div>
+        <div class="chip"><b>基金从业资格证</b></div>
+        <div class="chip"><b>投资顾问执业资格</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 自我评价 ============ -->
+  <div class="sec">
+    <div class="sec-title">自我评价</div>
+    <div class="sec-gold"></div>
+    <div class="sec-body">
+      <div class="self-eval">
+        <div><b>结果导向：</b><span>独立负责的 2 款金融产品总单量分别提升 <span class="hl">20%</span> 与 <span class="hl">10%</span>，持续刷新该项目日 / 月最高单量纪录；擅长把重复零散的运营环节拆成可复用流程，独立搭建 8 个 AI 运营模块并推给团队用起来。</span></div>
+        <div><b>协作与执行：</b><span>对接产品 / 技术 / 设计推进需求闭环，具备独立策划与跨部门落地能力；大学期间担任班级生活委员，获家长一致认可。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 页脚 ============ -->
+  <div class="foot">
+    <span>© 2026 周冰红 · 产品运营 / AI 应用运营</span>
+    <span>更多作品与在线演示：jobingho.github.io</span>
+  </div>
+
+</div>
+
+<div style="position:fixed;right:16px;bottom:16px;z-index:9">
+  <a href="/" style="display:inline-flex;align-items:center;gap:6px;background:#35424A;color:#fff;
+     padding:9px 16px;border-radius:999px;font-size:13px;font-weight:600;text-decoration:none;
+     box-shadow:0 8px 20px -8px rgba(53,66,74,.6)">← 返回作品集</a>
+</div>
+</body>
+</html>
