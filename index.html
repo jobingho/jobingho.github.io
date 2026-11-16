@@ -583,11 +583,14 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--ink-3);font-s
     });
   }
 
+  // 滚动监听直接同步执行（不依赖 requestAnimationFrame：
+  // 后台标签页中 rAF 会被暂停，依赖它会导致兜底逻辑一起失效）。
   var ticking = false;
   function onScroll(){
     if (ticking) return;
     ticking = true;
-    requestAnimationFrame(function(){ revealPassed(); ticking = false; });
+    revealPassed();
+    setTimeout(function(){ ticking = false; }, 80);
   }
 
   if('IntersectionObserver' in window){
@@ -603,6 +606,13 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--ink-3);font-s
   revealPassed();
   setTimeout(revealPassed, 400);
   setTimeout(revealPassed, 1200);
+  // 最终巡检：每 600ms 检查一次未显示的元素，
+  // 只要它已经滚动进入过视口就立即显示，确保任何环境下内容都不会永久隐藏。
+  setInterval(function(){
+    var pending = rvList.filter(function(el){ return !el.classList.contains('in'); });
+    if (!pending.length) return;
+    revealPassed();
+  }, 600);
 
   // 灯箱
   var lb=document.getElementById('lb'), lbImg=document.getElementById('lbImg');
