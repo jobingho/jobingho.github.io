@@ -56,7 +56,10 @@ a{color:inherit;text-decoration:none}
 .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;gap:28px;height:62px}
 .logo{font-weight:700;letter-spacing:-.02em;font-size:17px;display:flex;align-items:center;gap:9px}
-.logo i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:block;font-style:normal}
+/* 站点 logo：蓝色渐变方块 + 白色「周」字 */
+.logo i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  display:block;font-style:normal;font-size:15px;font-weight:700;color:#fff;line-height:26px;
+  text-align:center;letter-spacing:0}
 .nav-links{display:flex;gap:22px;margin-left:auto;font-size:14px;color:var(--ink-2)}
 .nav-links a{position:relative;padding:4px 0;transition:color .18s}
 .nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--brand);transition:width .22s;border-radius:2px}
@@ -136,7 +139,19 @@ h1 .grad{background:linear-gradient(105deg,var(--brand) 8%,var(--brand-2) 58%,va
 .kpi-v .up{color:#d0342c}
 .kpi p{font-size:12.8px;color:var(--ink-2);margin-top:7px;line-height:1.6}
 .kpi p b{color:var(--ink);font-weight:600}
+/* 新高记录标签：日 / 月 / 历年三个粒度 */
+.kpi-rec{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.kpi-rec span{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;
+  color:#b03a2e;background:rgba(208,52,44,.07);border:1px solid rgba(208,52,44,.24);
+  border-radius:999px;padding:3px 10px;line-height:1.5}
+.kpi-rec span b{font-weight:800;color:#d0342c}
 .fact{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow)}
+/* 侧栏个人信息头（头像） */
+.fact-me{display:flex;align-items:center;gap:14px;padding-bottom:18px;margin-bottom:16px;border-bottom:1px dashed var(--line)}
+.fact-me img{width:62px;height:62px;border-radius:50%;object-fit:cover;flex:none;
+  box-shadow:0 0 0 3px #fff,0 0 0 4.5px rgba(59,79,224,.26)}
+.fact-me b{display:block;font-size:19px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
+.fact-me span{display:block;font-size:12.5px;color:var(--ink-3);margin-top:3px;line-height:1.45}
 .fact h4{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-3);font-weight:600;margin-bottom:16px}
 .fact-row{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
 .fact-row:last-child{border-bottom:0}
@@ -479,7 +494,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 
 <nav class="nav">
   <div class="wrap nav-in">
-    <div class="logo"><i></i>周冰红</div>
+    <div class="logo"><i aria-hidden="true">周</i>周冰红</div>
     <div class="nav-links" aria-label="主导航">
       <a href="#top">首页</a>
       <a href="#proj">项目案例</a>
@@ -528,9 +543,14 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
       </div>
     </div>
     <aside class="fact">
+      <div class="fact-me">
+        <img src="assets/avatar.jpg" alt="周冰红证件照">
+        <div>
+          <b>周冰红</b>
+          <span>产品运营 / AI 应用运营 · 广州</span>
+        </div>
+      </div>
       <h4>基本信息</h4>
-      <div class="fact-row"><span>姓名</span><b>周冰红</b></div>
-      <div class="fact-row"><span>目标岗位</span><b>产品运营 / AI 应用运营</b></div>
       <div class="fact-row"><span>所在城市</span><b>广州</b></div>
       <div class="fact-row"><span>期望城市</span><b>广州</b></div>
       <div class="fact-row"><span>工作经验</span><b>1-3 年</b></div>
@@ -545,7 +565,12 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     <div class="kpi">
       <div class="kpi-t"><i>📈</i>业务成果</div>
       <div class="kpi-v"><span class="up">+20%</span> / <span class="up">+10%</span></div>
-      <p>两款金融产品总单量同比提升，期间<b>多次刷新日 / 月成交新高</b>，非单次活动堆出的峰值。</p>
+      <div class="kpi-rec">
+        <span><b>日</b>新高</span>
+        <span><b>月</b>新高</span>
+        <span><b>历年</b>新高</span>
+      </div>
+      <p>两款金融产品总单量同比提升，期间<b>多次刷新日 / 月 / 历年成交新高</b>，非单次活动堆出的峰值。</p>
     </div>
     <div class="kpi">
       <div class="kpi-t"><i>⚙</i>AI 提效</div>
@@ -579,7 +604,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           <div class="exp-date">2025.05 – 至今 <span class="exp-now">在职</span></div>
         </div>
         <ul class="exp-list">
-          <li><span><b>产品运营与业绩：</b>独立负责 2 个金融产品的场景化运营与增长，从用户真实路径出发调整功能、投放与活动节奏——<span class="hl">总单量分别提升 20% 与 10%</span>，且持续刷新该项目的日 / 月最高单量纪录。</span></li>
+          <li><span><b>产品运营与业绩：</b>独立负责 2 个金融产品的场景化运营与增长，从用户真实路径出发调整功能、投放与活动节奏——<span class="hl">总单量分别提升 20% 与 10%</span>，且持续刷新该项目的<b>日 / 月 / 历年最高单量纪录</b>。</span></li>
           <li><span><b>AI 工作台（0→1，独立搭建）：</b>自研 8 个 AI 模块（周报 / 日报 / 月报、文案创作、广告自动铺设、素材库、AI 出图、文章自动上传），组内全员复用，<span class="hl">单份报表人均节省 2-3 天工时</span>。</span></li>
           <li><span><b>月度活动全流程统筹：</b>每月一轮，输出 APP 弹窗 / PC 弹窗 / 活动页 / 海报 4 类物料，用 Axure 做原型推动设计与技术落地。</span></li>
           <li><span><b>内容矩阵运营：</b>负责 2 公众号 + 2 微博 + 1 头条号 + 1 财富号的排版发布与后台答疑，主导小白教学栏目内容结构（已完成部分，因业务排期暂停，未正式上线）。</span></li>
@@ -703,7 +728,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
                 <b>同比增长 20%</b>
               </div>
               <div class="grow-num">+20%<small>总单量同比</small></div>
-              <div class="grow-desc">总单量较去年提升 <b>20%</b>；在此期间该项目<b>持续刷新自身的日最高单量与月最高单量纪录</b>——增长不是靠一次性活动堆出来的峰值，而是日度与月度稳定跑赢去年同期的结果。</div>
+              <div class="grow-desc">总单量较去年提升 <b>20%</b>；在此期间该项目<b>持续刷新自身的日 / 月 / 历年最高单量纪录</b>——增长不是靠一次性活动堆出来的峰值，而是日度、月度与年度稳定跑赢去年同期的结果。</div>
             </div>
             <div class="grow g">
               <div class="grow-h">
@@ -717,7 +742,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           <div class="p-metrics">
             <div><span>负责产品</span><b>2 个</b></div>
             <div><span>总单量最高增幅</span><b>+20%</b></div>
-            <div><span>刷新纪录</span><b>日 / 月双新高</b></div>
+            <div><span>刷新纪录</span><b>日 / 月 / 历年新高</b></div>
           </div>
         </div>
       </article>
