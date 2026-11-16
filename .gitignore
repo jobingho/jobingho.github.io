@@ -11,6 +11,9 @@ _live*.cjs
 _og*.cjs
 _r*.cjs
 _tplshot.cjs
+_o.html
+_online*.cjs
+_print_final.cjs
 
 # 调试产物
 _*.png
