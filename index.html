@@ -927,35 +927,70 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     a.setAttribute('rel', 'noopener noreferrer nofollow');
   });
 
-  // 复制邮箱：优先用剪贴板 API，失败时回退到 execCommand
+  // 复制邮箱：三种结果分别提示，任何环境下都有出路。
+  //   1) 剪贴板 API 成功      → 已复制 ✓
+  //   2) execCommand 回退成功  → 已复制 ✓
+  //   3) 都失败               → 自动选中文本，提示手动 Ctrl+C
+  // 剪贴板 API 在文档失焦时可能长时间不 settle，故加 1.2s 超时兜底。
   var copyBtn = document.getElementById('copyMail');
   if (copyBtn){
     var MAIL = '2748044259@qq.com';
     var oldTxt = copyBtn.textContent;
-    function flash(ok){
-      copyBtn.textContent = ok ? '已复制 ✓' : '复制失败，请手动选取';
-      copyBtn.classList.toggle('ok', ok);
-      setTimeout(function(){ copyBtn.textContent = oldTxt; copyBtn.classList.remove('ok'); }, 1800);
+    var timer = null;      // 文案复位计时器
+    var guard = null;      // 剪贴板 API 卡住时的超时兜底计时器
+    function restore(){
+      if (timer){ clearTimeout(timer); timer = null; }
+      if (guard){ clearTimeout(guard); guard = null; }
+      copyBtn.textContent = oldTxt;
+      copyBtn.classList.remove('ok');
+    }
+    function show(msg){
+      copyBtn.textContent = msg;
+      copyBtn.classList.add('ok');
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(restore, 2600);
+    }
+    function selectMail(){
+      try {
+        var rng = document.createRange();
+        var node = document.querySelector('.c-mail');
+        if (!node) return false;
+        rng.selectNodeContents(node);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(rng);
+        return true;
+      } catch(e){ return false; }
+    }
+    function manualCopy(){
+      show(selectMail() ? '已选中，按 Ctrl+C 复制' : '请手动复制邮箱');
+    }
+    function legacyCopy(){
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = MAIL;
+        ta.setAttribute('readonly','');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        ok ? show('已复制 ✓') : manualCopy();
+      } catch(e){ manualCopy(); }
     }
     copyBtn.addEventListener('click', function(){
-      var done = function(){ flash(true); };
-      var fail = function(){ flash(false); };
+      var settled = false;
+      function finish(fn){ if (settled) return; settled = true; if (guard){ clearTimeout(guard); guard = null; } fn(); }
+      // 超时兜底：剪贴板 API 在文档失焦时可能永不 settle，1.2s 后转手动方案
+      if (guard) clearTimeout(guard);
+      guard = setTimeout(function(){ finish(manualCopy); }, 1200);
       if (navigator.clipboard && window.isSecureContext){
-        navigator.clipboard.writeText(MAIL).then(done).catch(function(){ fallback(); });
-      } else { fallback(); }
-      function fallback(){
-        try {
-          var ta = document.createElement('textarea');
-          ta.value = MAIL;
-          ta.setAttribute('readonly','');
-          ta.style.position = 'fixed';
-          ta.style.left = '-9999px';
-          document.body.appendChild(ta);
-          ta.select();
-          var ok = document.execCommand('copy');
-          document.body.removeChild(ta);
-          ok ? done() : fail();
-        } catch(e){ fail(); }
+        navigator.clipboard.writeText(MAIL)
+          .then(function(){ finish(function(){ show('已复制 ✓'); }); })
+          .catch(function(){ finish(legacyCopy); });
+      } else {
+        legacyCopy();
       }
     });
   }
