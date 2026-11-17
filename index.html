@@ -275,6 +275,11 @@ section:nth-of-type(even){background:var(--bg-2)}
 .w-head p{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:620px;line-height:1.65}
 .w-head-r{display:flex;flex-direction:column;align-items:flex-end;gap:11px;flex:none}
 .w-count{font-size:12px;color:var(--ink-3);letter-spacing:.03em;white-space:nowrap}
+/* 推广范围徽标：区分全组推广与个人自用 */
+.w-meta{display:flex;align-items:center;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.w-scope{font-size:11.5px;font-weight:600;letter-spacing:.03em;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.w-scope.team{background:rgba(0,184,148,.12);color:#006b58}
+.w-scope.me{background:rgba(139,143,163,.14);color:#5b5f70}
 /* 点赞按钮：每个模块自带互动计数，点过一次即标记（localStorage 记忆） */
 .w-like{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink-2);background:#fff;border:1px solid var(--line);padding:8px 14px;border-radius:9px;cursor:pointer;transition:.18s;font-family:inherit;white-space:nowrap;align-self:flex-start}
 .w-like:hover{border-color:var(--brand);color:var(--brand);background:rgba(59,79,224,.05)}
@@ -575,7 +580,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     <div class="kpi">
       <div class="kpi-t"><i>⚙</i>AI 提效</div>
       <div class="kpi-v">8 个<em>自研 AI 运营模块</em></div>
-      <p>单份周报 / 月报<b>人均节省 2-3 天工时</b>，能力被组内全员日常复用。</p>
+      <p>单份周报 / 月报<b>人均节省 2-3 天工时</b>，周报与素材库工具已在组内全员日常复用。</p>
     </div>
     <div class="kpi">
       <div class="kpi-t"><i>📑</i>沉淀输出</div>
@@ -605,8 +610,8 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
         </div>
         <ul class="exp-list">
           <li><span><b>产品运营与业绩：</b>独立负责 2 个金融产品的场景化运营与增长，从用户真实路径出发调整功能、投放与活动节奏——<span class="hl">总单量分别提升 20% 与 10%</span>，且持续刷新该项目的<b>日 / 月 / 历年最高单量纪录</b>。</span></li>
-          <li><span><b>AI 工作台（0→1，独立搭建）：</b>自研 8 个 AI 模块（周报 / 日报 / 月报、文案创作、广告自动铺设、素材库、AI 出图、文章自动上传），组内全员复用，<span class="hl">单份报表人均节省 2-3 天工时</span>。</span></li>
-          <li><span><b>月度活动全流程统筹：</b>每月一轮，输出 APP 弹窗 / PC 弹窗 / 活动页 / 海报 4 类物料，用 Axure 做原型推动设计与技术落地。</span></li>
+          <li><span><b>AI 工作台（0→1，独立搭建）：</b>自研 8 个 AI 模块（周报 / 日报 / 月报、文案创作、广告自动铺设、素材库、AI 出图、文章自动上传），其中周报与素材库工具<span class="hl">在组内全员推广复用</span>，其余为我自己日常在用的工具，<span class="hl">单份报表人均节省 2-3 天工时</span>。</span></li>
+          <li><span><b>月度活动全流程统筹：</b>每月四轮，输出 APP 弹窗 / PC 弹窗 / 活动页 / 海报 4 类物料，用 Axure 做原型推动设计与技术落地。</span></li>
           <li><span><b>内容矩阵运营：</b>负责 2 公众号 + 2 微博 + 1 头条号 + 1 财富号的排版发布与后台答疑，主导小白教学栏目内容结构（已完成部分，因业务排期暂停，未正式上线）。</span></li>
           <li><span><b>AI 客服 SOP 话术体系：</b>按用户群体分类编写标准话术文档，交付 AI 客服在各场景稳定应答。</span></li>
           <li><span><b>直播运营：</b>负责公司日常直播的线上宣传与内容跟进，实时处理不良言论与用户提问。</span></li>
@@ -636,7 +641,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     <div class="sec-head rv">
       <div class="sec-num">02 / 项目案例</div>
       <h2 id="h-proj">把流程做成系统，而不是做完就丢</h2>
-      <p>以下项目均标注了<b>我的角色</b>与<b>量化结果</b>。共同方法：看清业务链路 → 决定哪段值得工具化 → 交付到团队真的愿意用。项目之外，我还直接负责两个金融产品的场景化运营，并背总单量指标。</p>
+      <p>共同方法：看清业务链路 → 决定哪段值得工具化 → 交付到团队真的愿意用。项目之外，我还直接负责两个金融产品的场景化运营，并背总单量指标。</p>
     </div>
     <div class="proj">
       <article class="p-card rv">
@@ -648,12 +653,12 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           <div class="p-steps">
             <div><b>背景</b><span>数据统计、文案撰写、广告铺设、素材管理、文章发布等环节高度依赖人工搬运，重复劳动多、口径不统一。</span></div>
             <div><b>动作</b><span>逐环节拆解自动化路径，自主搭建周报 / 日报 / 月报统计、文案 AI 创作、广告自动铺设、素材库 AI 管理、AI 出图、文章自动上传等模块。</span></div>
-            <div><b>结果</b><span>8 个模块被组内全员日常复用，从"个人提效工具"升级为"团队基础设施"，<b>单份周报 / 月报人均节省 2-3 天工时</b>。</span></div>
+            <div><b>结果</b><span>8 个模块覆盖日常运营全链路，其中<b>周报与素材库工具在组内全员推广</b>，其余模块为我自己高频在用的个人工具；<b>单份周报 / 月报人均节省 2-3 天工时</b>。</span></div>
           </div>
           <div class="p-metrics">
             <div><span>自建平台/模块</span><b>8 个</b></div>
             <div><span>人均节省工时</span><b>2-3 天</b></div>
-            <div><span>推广范围</span><b>全组</b></div>
+            <div><span>推广范围</span><b>2 个平台全组推广</b></div>
           </div>
         </div>
       </article>
@@ -690,7 +695,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
             <div><b>结果</b><span>活动按月稳定落地，形成可复用的物料生产与协作流程。</span></div>
           </div>
           <div class="p-metrics">
-            <div><span>节奏</span><b>每月一轮</b></div>
+            <div><span>节奏</span><b>每月四轮</b></div>
             <div><span>物料类型</span><b>4 类</b></div>
             <div><span>原型工具</span><b>Axure</b></div>
           </div>
@@ -791,7 +796,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
         <div class="cert">
           <span class="cert-k">语言能力</span>
           <b>英语四 / 六级</b>
-          <span>可无障碍阅读英文产品文档、海外工具与英文素材，支撑跨语言资料调研与内容处理。</span>
+          <span>能顺畅阅读英文产品文档与海外工具说明，能进行简单英语对话，听力可理解大意。</span>
         </div>
         <div class="cert">
           <span class="cert-k">从业资格</span>
@@ -824,19 +829,22 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     <div class="sec-head rv">
       <div class="sec-num">04 / 作品与工具</div>
       <h2 id="h-work">亲手做出来的东西</h2>
-      <p>下面这些不是 PPT 里的示意图，而是我实际搭建并投入使用的平台与工具。每个平台的所有界面截图已归为一组，以网格排布呈现；点击任意截图可查看大图，想亲手操作可前往页面下方的「在线演示平台」。</p>
+      <p>这些不是 PPT 里画的效果图，而是我一台台搭起来、每天都在用的平台。界面全貌都拍下来归成组摆在这儿，点开任意一张看细节；想自己上手玩一遍，页面下方「在线演示平台」直接进。</p>
     </div>
     <div class="works">
       <article class="w-group rv">
         <div class="w-head">
           <div class="w-head-l">
-            <span class="w-plat">周报平台</span>
+            <span class="w-plat">ai平台</span>
             <h3>个人 AI 工作台 · 运营数据中枢</h3>
             <p>把周报、数据分析、广告投放、素材管理与文章分发全部做成可自助的平台，团队无需依赖我手工出数据。覆盖活动排期、经营总览、广告自动化、AI 复盘与内容分发全链路。</p>
           </div>
           <div class="w-head-r">
-            <span class="w-count">7 个模块</span>
-            <button class="w-like" type="button" data-like="wk" aria-label="为周报平台点赞" aria-pressed="false">
+            <div class="w-meta">
+              <span class="w-count">7 个模块</span>
+              <span class="w-scope team">全组推广</span>
+            </div>
+            <button class="w-like" type="button" data-like="wk" aria-label="为 ai平台点赞" aria-pressed="false">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
               <span class="w-like-txt">点赞</span>
               <span class="w-like-num" hidden></span>
@@ -883,7 +891,10 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
             <p>围绕素材全生命周期搭建的一体化工具：从创意生成、素材库沉淀、战法排期，到每日弹窗数据自动导入、A/B 检测与优质素材归档，形成「生产—测试—复用」的闭环。</p>
           </div>
           <div class="w-head-r">
-            <span class="w-count">5 个模块</span>
+            <div class="w-meta">
+              <span class="w-count">5 个模块</span>
+              <span class="w-scope team">全组推广</span>
+            </div>
             <button class="w-like" type="button" data-like="mat" aria-label="为素材库点赞" aria-pressed="false">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
               <span class="w-like-txt">点赞</span>
@@ -923,7 +934,10 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
             <p>独立于素材工具的另一套平台：以历史的文档沉淀为学习语料，掌握写作风格后，按功能 / 行情 / 痛点 / 活动 / 战绩 / 资讯 / 问候 七类场景，一次生成多条可直接发出去的企微私聊文案，新客开通与老客续费分别维护独立口径。</p>
           </div>
           <div class="w-head-r">
-            <span class="w-count">1 个模块</span>
+            <div class="w-meta">
+              <span class="w-count">1 个模块</span>
+              <span class="w-scope me">个人自用</span>
+            </div>
             <button class="w-like" type="button" data-like="cpy" aria-label="为文案创意生成平台点赞" aria-pressed="false">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
               <span class="w-like-txt">点赞</span>
@@ -947,7 +961,10 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
             <p>独立于运营工作流的个人交易辅助工具，用指标体系把 K 线形态转成可复用的识别与复盘结论。</p>
           </div>
           <div class="w-head-r">
-            <span class="w-count">1 个模块</span>
+            <div class="w-meta">
+              <span class="w-count">1 个模块</span>
+              <span class="w-scope me">个人自用</span>
+            </div>
             <button class="w-like" type="button" data-like="inv" aria-label="为投资分析小工具点赞" aria-pressed="false">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
               <span class="w-like-txt">点赞</span>
@@ -968,11 +985,11 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     <div class="ql-wrap rv">
       <div class="ql-head">
         <h3>在线演示平台</h3>
-        <p>以下三个平台均已部署上线，点开即可直接操作体验，无需下载或注册。演示统一走站内中转页，原站地址不会出现在浏览器地址栏中，页面内也已加上水印保护。</p>
+        <p>三个平台都已部署上线，开箱即用 —— 不用下载、不用注册，点开就能上手操作。演示走站内中转页，原站地址不会暴露在浏览器地址栏里，页面内也加了水印保护。</p>
       </div>
       <div class="ql-list">
         <a class="ql" data-key="wk" href="demo.html?p=wk" rel="nofollow noopener">
-          <span class="ql-t">周报平台</span>
+          <span class="ql-t">ai平台</span>
           <span class="ql-d">工作台 · 活动排期 · 数据看板 · 广告自动化 · 资讯快报 · 文章自动上传</span>
           <span class="ql-u">jobingho.github.io/dxw-<em>weekly</em>-report-pages</span>
           <span class="ql-go">进入演示</span>
@@ -1061,7 +1078,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     </div>
     <div class="foot-bot">
       <span>© 2026 周冰红 · 产品运营 / AI 应用运营</span>
-      <span>本站为个人求职主页 · 广州 · 证书：英语四六级 / 证从 / 基从 / 投顾</span>
+      <span>本站为个人主页 · 广州 · 证书：英语四六级 / 证从 / 基从 / 投顾</span>
     </div>
   </div>
 </footer>
