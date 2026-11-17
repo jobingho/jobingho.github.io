@@ -366,6 +366,43 @@ section:nth-of-type(even){background:var(--bg-2)}
   .w-hint{display:none}
 }
 
+/* ---------- Axure 设计稿板块 ---------- */
+.ax-wrap{position:relative;padding:26px 28px 28px;background:linear-gradient(180deg,#fbfbfe,#f4f5fb);display:grid;gap:26px}
+.ax-sec{min-width:0}
+.ax-t{display:flex;align-items:baseline;gap:10px;margin-bottom:13px}
+.ax-t b{font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.ax-t span{font-size:12.5px;color:var(--ink-3)}
+/* 弹窗稿：4 列，图按原比例铺满列宽（不设固定高度，零留白） */
+.ax-grid{display:grid;gap:14px;align-items:start}
+.ax-grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.ax-shot{position:relative;margin:0;border-radius:13px;overflow:hidden;border:1px solid var(--line);background:#fff;
+  box-shadow:0 4px 14px -8px rgba(18,19,26,.3);cursor:zoom-in;
+  transition:transform .3s cubic-bezier(.2,.75,.25,1),box-shadow .3s,border-color .3s}
+/* 无说明文字的纯展示卡：底色贴合图纸，去掉边框感 */
+.ax-grid-4 .ax-shot{border-color:rgba(18,19,26,.08)}
+.ax-shot:hover{transform:translateY(-4px);box-shadow:0 18px 40px -16px rgba(18,19,26,.42);border-color:rgba(59,79,224,.35);z-index:5}
+.ax-shot img{display:block;width:100%;height:auto;background:#fff}
+.ax-shot figcaption{font-size:12px;color:var(--ink-2);padding:9px 12px;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;border-top:1px solid var(--line);background:#fff;font-weight:500}
+/* 页面设计稿：前两版并排对比，定稿版单独占满整行 */
+.ax-grid-page{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ax-shot-page img{width:100%;height:auto;background:#fff}
+.ax-shot-page.final{grid-column:1/-1}
+.ax-shot-page figcaption b{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;color:#2a3ab0;
+  background:rgba(59,79,224,.09);padding:2px 7px;border-radius:5px;margin-right:7px;vertical-align:1px}
+.ax-shot-page figcaption{white-space:normal;line-height:1.5}
+@media(max-width:1000px){
+  .ax-grid-4{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .ax-wrap{padding:20px 18px;gap:20px}
+  .ax-grid-4{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .ax-grid-page{grid-template-columns:1fr}
+  .ax-shot-page.final{grid-column:auto}
+  .ax-shot figcaption{font-size:11.5px;padding:8px 10px}
+  .ax-t{flex-direction:column;gap:2px}
+}
+
 /* ---------- 在线演示平台（链接打码） ---------- */
 .ql-wrap{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow)}
 .ql-head h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
@@ -516,6 +553,15 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
   .kpi,.pj,.w-shot,.ql,.c-item,.cert,.cert-row{box-shadow:none!important}
   .c-grid{grid-template-columns:1fr!important;gap:8mm!important}
   .c-list{grid-template-columns:repeat(2,1fr)!important}
+
+  /* Axure 设计稿：单列排布，页面稿保持完整不裁切 */
+  .ax-wrap{padding:4mm 0 0!important;gap:6mm!important;background:none!important}
+  .ax-grid-4{grid-template-columns:1fr 1fr!important;gap:4mm!important}
+  .ax-grid-page{grid-template-columns:1fr 1fr!important;gap:4mm!important}
+  .ax-shot img{height:auto!important;max-height:70mm!important;object-fit:contain!important}
+  .ax-shot-page img{max-height:120mm!important}
+  .ax-shot-page.final{grid-column:1/-1!important}
+  .ax-shot-page figcaption b{background:none!important;color:#2a3ab0!important}
 
   /* 作品截图：网格改单列排布，避免打印时图片被裁掉 */
   .w-stack{grid-template-columns:1fr 1fr!important}
@@ -881,7 +927,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     <div class="sec-head rv">
       <div class="sec-num">04 / 作品与工具</div>
       <h2 id="h-work">亲手做出来的东西</h2>
-      <p>这些不是 PPT 里画的效果图，而是我一台台搭起来、每天都在用的平台。界面全貌都拍下来归成组摆在这儿，点开任意一张看细节；想自己上手玩一遍，页面下方「在线演示平台」直接进。</p>
+      <p>不停留在方案的构想。从环境部署到功能调试，整套平台由我搭建落地，日常承担实际使用。界面实录全部归档于此，支持看图审细节、进演示环境实操。</p>
     </div>
     <div class="works">
       <article class="w-group rv">
@@ -906,31 +952,24 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
         <div class="w-stack">
         <figure class="w-shot wide" data-no="01" data-img="assets/coll/wk-1-workbench.jpg">
           <img loading="eager" src="assets/coll/wk-1-workbench.jpg" alt="个人 AI 工作台">
-          <figcaption>个人 AI 工作台</figcaption>
         </figure>
         <figure class="w-shot" data-no="02" data-img="assets/coll/wk-2-calendar.jpg">
           <img loading="lazy" src="assets/coll/wk-2-calendar.jpg" alt="活动排期日历">
-          <figcaption>活动排期日历</figcaption>
         </figure>
         <figure class="w-shot" data-no="03" data-img="assets/coll/wk-3-dashboard.jpg">
           <img loading="lazy" src="assets/coll/wk-3-dashboard.jpg" alt="每日经营总览与数据可视化">
-          <figcaption>每日经营总览与数据可视化</figcaption>
         </figure>
         <figure class="w-shot" data-no="04" data-img="assets/coll/wk-4-adauto.jpg">
           <img loading="lazy" src="assets/coll/wk-4-adauto.jpg" alt="广告自动化：复制并换图">
-          <figcaption>广告自动化：复制并换图</figcaption>
         </figure>
         <figure class="w-shot" data-no="05" data-img="assets/coll/wk-5-news.jpg">
           <img loading="lazy" src="assets/coll/wk-5-news.jpg" alt="AI 资讯快报与复盘总结">
-          <figcaption>AI 资讯快报与复盘总结</figcaption>
         </figure>
         <figure class="w-shot" data-no="06" data-img="assets/coll/wk-6-upload.jpg">
           <img loading="lazy" src="assets/coll/wk-6-upload.jpg" alt="公众号文章自动上传">
-          <figcaption>公众号文章自动上传</figcaption>
         </figure>
         <figure class="w-shot" data-no="07" data-img="assets/coll/wk-7-monthly.jpg">
           <img loading="lazy" src="assets/coll/wk-7-monthly.jpg" alt="月度广告分析平台">
-          <figcaption>月度广告分析平台</figcaption>
         </figure>
         <span class="w-hint">点击任意截图查看大图</span>
         </div>
@@ -957,23 +996,18 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
         <div class="w-stack">
         <figure class="w-shot wide" data-no="01" data-img="assets/coll/mat-1-library.jpg">
           <img loading="lazy" src="assets/coll/mat-1-library.jpg" alt="素材库">
-          <figcaption>素材库</figcaption>
         </figure>
         <figure class="w-shot" data-no="02" data-img="assets/coll/mat-2-schedule.jpg">
           <img loading="lazy" src="assets/coll/mat-2-schedule.jpg" alt="素材排期表">
-          <figcaption>素材排期表</figcaption>
         </figure>
         <figure class="w-shot" data-no="03" data-img="assets/coll/mat-3-quality.jpg">
           <img loading="lazy" src="assets/coll/mat-3-quality.jpg" alt="优质素材沉淀体系">
-          <figcaption>优质素材沉淀体系</figcaption>
         </figure>
         <figure class="w-shot" data-no="04" data-img="assets/coll/mat-4-import.jpg">
           <img loading="lazy" src="assets/coll/mat-4-import.jpg" alt="每日弹窗数据自动导入">
-          <figcaption>每日弹窗数据自动导入</figcaption>
         </figure>
         <figure class="w-shot" data-no="05" data-img="assets/coll/mat-5-ab.jpg">
           <img loading="lazy" src="assets/coll/mat-5-ab.jpg" alt="备用素材库 · A/B 对比">
-          <figcaption>备用素材库 · A/B 对比</figcaption>
         </figure>
         <span class="w-hint">点击任意截图查看大图</span>
         </div>
@@ -1000,9 +1034,101 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
         <div class="w-stack solo">
         <figure class="w-shot wide" data-no="01" data-img="assets/coll/cpy-1-chatchat.jpg">
           <img loading="lazy" src="assets/coll/cpy-1-chatchat.jpg" alt="私聊文案 AI 工作台：按文案类型与痛点批量生成企微私聊话术">
-          <figcaption>私聊文案 AI 工作台 · 按类型与痛点批量生成</figcaption>
         </figure>
         <span class="w-hint">点击查看大图</span>
+        </div>
+      </article>
+      <article class="w-group rv">
+        <div class="w-head">
+          <div class="w-head-l">
+            <span class="w-plat">Axure 设计</span>
+            <h3>产品设计稿 · 从弹窗到功能集合页</h3>
+            <p>用 Axure 画出的交互原型，弹窗版式、功能集合页三轮迭代，每一版都标注了信息层级、动线与文案取舍。设计稿不是终点 —— 最终都在产品里落地实现。</p>
+          </div>
+          <div class="w-head-r">
+            <div class="w-meta">
+              <span class="w-count">7 张设计稿</span>
+              <span class="w-scope me">个人自用</span>
+            </div>
+            <button class="w-like" type="button" data-like="ax" aria-label="为 Axure 设计稿点赞" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
+              <span class="w-like-txt">点赞</span>
+              <span class="w-like-num" hidden></span>
+            </button>
+          </div>
+        </div>
+        <div class="ax-wrap">
+          <div class="ax-sec">
+            <div class="ax-t"><b>弹窗设计</b><span>战法弹窗 · 双 11 促销弹窗</span></div>
+            <div class="ax-grid ax-grid-4">
+              <figure class="ax-shot" data-img="assets/axure/ax-p1-1.jpg">
+                <img loading="lazy" src="assets/axure/ax-p1-1.jpg" alt="Axure 弹窗：三板斧战法">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p1-2.jpg">
+                <img loading="lazy" src="assets/axure/ax-p1-2.jpg" alt="Axure 弹窗：套牢的票什么时候该走">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p1-3.jpg">
+                <img loading="lazy" src="assets/axure/ax-p1-3.jpg" alt="Axure 弹窗：主力净买额一眼锁定">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p1-4.jpg">
+                <img loading="lazy" src="assets/axure/ax-p1-4.jpg" alt="Axure 弹窗：节点临近提前潜伏优质标的">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p1-5.jpg">
+                <img loading="lazy" src="assets/axure/ax-p1-5.jpg" alt="Axure 弹窗：捕捞季节对时点出手">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p1-6.jpg">
+                <img loading="lazy" src="assets/axure/ax-p1-6.jpg" alt="Axure 弹窗：一键选股器选股拼手速">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p2-1.jpg">
+                <img loading="lazy" src="assets/axure/ax-p2-1.jpg" alt="Axure 弹窗：双龙战法抓第二波主升">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p2-2.jpg">
+                <img loading="lazy" src="assets/axure/ax-p2-2.jpg" alt="Axure 弹窗：选股器直达想买标的">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p2-3.jpg">
+                <img loading="lazy" src="assets/axure/ax-p2-3.jpg" alt="Axure 弹窗：趋势与资金共振">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p2-4.jpg">
+                <img loading="lazy" src="assets/axure/ax-p2-4.jpg" alt="Axure 弹窗：主力追踪紧跟资金节奏">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p2-5.jpg">
+                <img loading="lazy" src="assets/axure/ax-p2-5.jpg" alt="Axure 弹窗：出击信号提醒关键时点">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-p2-6.jpg">
+                <img loading="lazy" src="assets/axure/ax-p2-6.jpg" alt="Axure 弹窗：捕捞季节提示买卖点">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-d1.jpg">
+                <img loading="lazy" src="assets/axure/ax-d1.jpg" alt="双 11 促销弹窗：快没了不抢真的没了">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-d2.jpg">
+                <img loading="lazy" src="assets/axure/ax-d2.jpg" alt="双 11 促销弹窗：只给你最低价与价格锚点">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-d3.jpg">
+                <img loading="lazy" src="assets/axure/ax-d3.jpg" alt="双 11 促销弹窗：限时大促与两级福利">
+              </figure>
+              <figure class="ax-shot" data-img="assets/axure/ax-d4.jpg">
+                <img loading="lazy" src="assets/axure/ax-d4.jpg" alt="双 11 促销弹窗：双 11 大促劲销大放价">
+              </figure>
+            </div>
+          </div>
+          <div class="ax-sec">
+            <div class="ax-t"><b>推荐功能集合页</b><span>第一版 → 第二版 → 第三版定稿</span></div>
+            <div class="ax-grid ax-grid-page">
+              <figure class="ax-shot ax-shot-page" data-img="assets/axure/ax-page-v1.jpg">
+                <img loading="lazy" src="assets/axure/ax-page-v1.jpg" alt="推荐功能集合页第一版：智能问诊、三板斧战法、个人权益中心等模块平铺">
+                <figcaption><b>V1</b>模块平铺 · 信息密度均衡</figcaption>
+              </figure>
+              <figure class="ax-shot ax-shot-page" data-img="assets/axure/ax-page-v2.jpg">
+                <img loading="lazy" src="assets/axure/ax-page-v2.jpg" alt="推荐功能集合页第二版：加入选股时机、弹窗时机等交互说明标注">
+                <figcaption><b>V2</b>补充交互标注 · 明确触达时机</figcaption>
+              </figure>
+              <figure class="ax-shot ax-shot-page final" data-img="assets/axure/ax-page-v3.jpg">
+                <img loading="lazy" src="assets/axure/ax-page-v3.jpg" alt="推荐功能集合页第三版定稿：短线王弹窗与选股器完整原型与规则说明">
+                <figcaption><b>V3 定稿</b>完整原型 · 弹窗与选股器规则</figcaption>
+              </figure>
+            </div>
+          </div>
+          <span class="w-hint">点击任意设计稿查看大图</span>
         </div>
       </article>
       <article class="w-group rv">
@@ -1027,7 +1153,6 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
         <div class="w-stack solo">
         <figure class="w-shot wide" data-no="01" data-img="assets/coll/inv-1.jpg">
           <img loading="lazy" src="assets/coll/inv-1.jpg" alt="K 线 / MACD 指标体系">
-          <figcaption>K 线 / MACD 指标体系</figcaption>
         </figure>
         <span class="w-hint">点击查看大图</span>
         </div>
