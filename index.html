@@ -107,9 +107,9 @@ a{color:inherit;text-decoration:none}
   linear-gradient(90deg,rgba(18,19,26,.045) 1px,transparent 1px);
   background-size:56px 56px;mask-image:radial-gradient(circle at 50% 30%,#000,transparent 72%);-webkit-mask-image:radial-gradient(circle at 50% 30%,#000,transparent 72%);pointer-events:none}
 .hero-in{position:relative;z-index:1;display:grid;
-  grid-template-columns:minmax(0,1fr) clamp(168px,18.5vw,242px);
+  grid-template-columns:minmax(0,1fr) clamp(190px,23vw,296px);
   grid-template-areas:"copy figure" "facts figure";grid-template-rows:auto auto;
-  row-gap:24px;column-gap:40px;align-items:start;
+  row-gap:24px;column-gap:36px;align-items:start;
   padding-left:max(24px,calc((100vw - 1072px)/2));padding-right:0}
 .hero-copy{grid-area:copy;max-width:620px}
 .hero-facts{grid-area:facts;max-width:620px}
@@ -179,8 +179,8 @@ h1 .grad{background:linear-gradient(105deg,var(--brand) 8%,var(--brand-2) 58%,va
 .stage-bars i:nth-child(5){height:82%}
 /* 人物：站在页面上，右缘与屏幕右缘对齐 */
 .hero-figure{position:relative;grid-area:figure;align-self:end;justify-self:end;width:100%}
-.hero-figure::before{content:"";position:absolute;left:50%;top:14%;width:128%;height:70%;transform:translateX(-50%);
-  border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.18),rgba(0,184,148,.07) 52%,transparent 72%);z-index:-1}
+.hero-figure::before{content:"";position:absolute;left:52%;top:6%;width:140%;height:82%;transform:translateX(-50%);
+  border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.20),rgba(0,184,148,.08) 52%,transparent 72%);z-index:-1}
 .hero-figure img{width:100%;height:auto;display:block;position:relative;
   filter:drop-shadow(0 44px 48px rgba(31,35,66,.20))}
 /* 窄屏：收起玻璃面板；人物做成「基本信息」下方的底图，不再单独占一大截 */
@@ -189,11 +189,11 @@ h1 .grad{background:linear-gradient(105deg,var(--brand) 8%,var(--brand-2) 58%,va
     row-gap:0;column-gap:0;padding-left:24px;padding-right:24px}
   .hero-copy,.hero-facts{max-width:none}
   .hero-stage{display:none}
-  .hero-figure{justify-self:stretch;width:auto;height:272px;margin-top:6px;overflow:hidden;
-    -webkit-mask-image:linear-gradient(0deg,transparent 0,#000 16%);mask-image:linear-gradient(0deg,transparent 0,#000 16%)}
-  .hero-figure::before{top:6%;width:120%;height:86%}
-  .hero-figure img{position:absolute;right:5%;top:-30px;width:auto;height:720px;
-    filter:drop-shadow(0 22px 30px rgba(31,35,66,.16))}
+  .hero-figure{justify-self:stretch;width:auto;height:262px;margin-top:2px;overflow:hidden;
+    -webkit-mask-image:linear-gradient(0deg,transparent 0,#000 26%);mask-image:linear-gradient(0deg,transparent 0,#000 26%)}
+  .hero-figure::before{top:-4%;width:112%;height:100%}
+  .hero-figure img{position:absolute;right:2%;top:-30px;width:auto;height:560px;
+    filter:drop-shadow(0 20px 28px rgba(31,35,66,.16))}
 }
 
 /* ---------- 基本信息（左栏小卡，两列） ---------- */
@@ -638,7 +638,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
       </div>
     </div>
     <figure class="hero-figure">
-      <img src="assets/hero-char.webp" alt="周冰红的动漫形象" width="417" height="1434" fetchpriority="high">
+      <img src="assets/hero-char.webp" alt="周冰红的动漫形象" width="542" height="1173" fetchpriority="high">
     </figure>
   </div>
   <div class="wrap hero-kpis">
