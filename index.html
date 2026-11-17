@@ -183,17 +183,27 @@ h1 .grad{background:linear-gradient(105deg,var(--brand) 8%,var(--brand-2) 58%,va
   border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.20),rgba(0,184,148,.08) 52%,transparent 72%);z-index:-1}
 .hero-figure img{width:100%;height:auto;display:block;position:relative;
   filter:drop-shadow(0 44px 48px rgba(31,35,66,.20))}
-/* 窄屏：收起玻璃面板；人物做成「基本信息」下方的底图，不再单独占一大截 */
+/* 人物卡片附带的文字条：桌面端隐藏（姓名职位已在左栏） */
+.hf-cap{display:none}
+/* 窄屏：收起玻璃面板；人物做成一张独立的卡片（完整不裁切），右侧站立 + 左侧文字 */
 @media(max-width:900px){
   .hero-in{grid-template-areas:"copy" "facts" "figure";grid-template-columns:minmax(0,1fr);
     row-gap:0;column-gap:0;padding-left:24px;padding-right:24px}
   .hero-copy,.hero-facts{max-width:none}
   .hero-stage{display:none}
-  .hero-figure{justify-self:stretch;width:auto;height:262px;margin-top:2px;overflow:hidden;
-    -webkit-mask-image:linear-gradient(0deg,transparent 0,#000 26%);mask-image:linear-gradient(0deg,transparent 0,#000 26%)}
-  .hero-figure::before{top:-4%;width:112%;height:100%}
-  .hero-figure img{position:absolute;right:2%;top:-30px;width:auto;height:560px;
-    filter:drop-shadow(0 20px 28px rgba(31,35,66,.16))}
+  .hero-figure{justify-self:stretch;width:auto;height:300px;margin-top:12px;overflow:hidden;
+    border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);
+    background:linear-gradient(150deg,#f2f1ff 0%,#eaf7f4 100%)}
+  .hero-figure::before{display:none}
+  .hero-figure img{position:absolute;right:10px;bottom:0;width:auto;height:100%;
+    filter:drop-shadow(0 16px 24px rgba(31,35,66,.14))}
+  .hf-cap{display:flex;flex-direction:column;justify-content:center;gap:5px;
+    position:absolute;left:20px;top:0;bottom:0;width:50%;z-index:2}
+  .hf-cap b{font-size:23px;font-weight:800;letter-spacing:-.03em;color:var(--ink);line-height:1.15}
+  .hf-cap span{font-size:12.5px;color:var(--ink-2);line-height:1.55}
+  .hf-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .hf-tags span{font-size:11px;font-weight:600;color:var(--brand);background:rgba(255,255,255,.92);
+    border:1px solid rgba(59,79,224,.22);border-radius:999px;padding:3px 10px;line-height:1.6}
 }
 
 /* ---------- 基本信息（左栏小卡，两列） ---------- */
@@ -639,6 +649,14 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     </div>
     <figure class="hero-figure">
       <img src="assets/hero-char.webp" alt="周冰红的动漫形象" width="548" height="1178" fetchpriority="high">
+      <figcaption class="hf-cap">
+        <b>周冰红</b>
+        <span>产品运营 / AI 应用运营 · 广州</span>
+        <div class="hf-tags">
+          <span>单量 +20%</span>
+          <span>8 个自研 AI 模块</span>
+        </div>
+      </figcaption>
     </figure>
   </div>
   <div class="wrap hero-kpis">
