@@ -106,8 +106,8 @@ a{color:inherit;text-decoration:none}
   linear-gradient(rgba(18,19,26,.045) 1px,transparent 1px),
   linear-gradient(90deg,rgba(18,19,26,.045) 1px,transparent 1px);
   background-size:56px 56px;mask-image:radial-gradient(circle at 50% 30%,#000,transparent 72%);-webkit-mask-image:radial-gradient(circle at 50% 30%,#000,transparent 72%);pointer-events:none}
-.hero-in{position:relative;display:grid;grid-template-columns:1.35fr .65fr;gap:52px;align-items:center}
-@media(max-width:900px){.hero-in{grid-template-columns:1fr;gap:34px}.hero{padding:52px 0 44px}}
+.hero-in{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:46px;align-items:center}
+@media(max-width:900px){.hero-in{grid-template-columns:1fr;gap:30px}.hero{padding:52px 0 44px}}
 .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,184,148,.1);color:#006b58;border:1px solid rgba(0,184,148,.26);padding:6px 14px;border-radius:999px;font-size:13px;font-weight:500}
 .badge b{width:7px;height:7px;border-radius:50%;background:var(--brand-3);box-shadow:0 0 0 3px rgba(0,184,148,.2)}
 h1{font-size:clamp(34px,5.4vw,58px);line-height:1.14;letter-spacing:-.035em;font-weight:700;margin:20px 0 0}
@@ -145,18 +145,53 @@ h1 .grad{background:linear-gradient(105deg,var(--brand) 8%,var(--brand-2) 58%,va
   color:#b03a2e;background:rgba(208,52,44,.07);border:1px solid rgba(208,52,44,.24);
   border-radius:999px;padding:3px 10px;line-height:1.5}
 .kpi-rec span b{font-weight:800;color:#d0342c}
-.fact{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow)}
-/* 侧栏个人信息头（头像） */
-.fact-me{display:flex;align-items:center;gap:14px;padding-bottom:18px;margin-bottom:16px;border-bottom:1px dashed var(--line)}
-.fact-me img{width:62px;height:62px;border-radius:50%;object-fit:cover;flex:none;
-  box-shadow:0 0 0 3px #fff,0 0 0 4.5px rgba(59,79,224,.26)}
-.fact-me b{display:block;font-size:19px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
-.fact-me span{display:block;font-size:12.5px;color:var(--ink-3);margin-top:3px;line-height:1.45}
+/* ---------- 首页海报（动漫形象） ---------- */
+.poster{position:relative;margin:0;overflow:hidden;border-radius:var(--r-lg);border:1px solid var(--line);
+  box-shadow:var(--shadow);container-type:inline-size;background:#f7f8fd}
+.poster img{width:100%;height:auto;display:block}
+.poster-cap{position:absolute;left:6.5%;top:50%;transform:translateY(-50%);width:48%;
+  display:flex;flex-direction:column;align-items:flex-start}
+.pc-kicker{display:inline-block;font-size:clamp(9px,1.6cqw,12px);font-weight:700;letter-spacing:.15em;
+  color:var(--brand);background:rgba(255,255,255,.88);border:1px solid rgba(59,79,224,.26);
+  padding:.42em .95em;border-radius:999px;line-height:1.5}
+.pc-name{display:block;margin-top:.5em;font-size:clamp(23px,7cqw,44px);font-weight:800;
+  letter-spacing:-.035em;line-height:1.08;color:var(--ink)}
+.pc-role{display:block;margin-top:.38em;font-size:clamp(11px,2.6cqw,16px);color:var(--ink-2);font-weight:500;line-height:1.5}
+.pc-tags{display:flex;flex-wrap:wrap;gap:.45em;margin-top:.9em}
+.pc-tags span{font-size:clamp(9px,1.8cqw,13px);font-weight:600;color:var(--ink-2);line-height:1.5;
+  background:rgba(255,255,255,.88);border:1px solid rgba(18,19,26,.08);padding:.42em .85em;border-radius:999px;white-space:nowrap}
+/* 窄屏：文案改为图片下方的横条，避免压到人物 */
+@media(max-width:760px){
+  .poster-cap{position:static;transform:none;width:auto;padding:13px 18px 16px;background:#fff;border-top:1px solid var(--line)}
+  .pc-kicker{font-size:9px}
+  .pc-name{font-size:23px;margin-top:.35em}
+  .pc-role{font-size:12px}
+  .pc-tags{margin-top:.7em;gap:.4em}
+  .pc-tags span{font-size:11px}
+}
+
+/* ---------- 基本信息（横向信息带） ---------- */
+.fact{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:8px 26px 16px;box-shadow:var(--shadow)}
+.fact-band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:28px;margin-top:22px}
 .fact h4{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-3);font-weight:600;margin-bottom:16px}
+.fact-band h4{grid-column:1/-1;margin-bottom:2px}
 .fact-row{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
 .fact-row:last-child{border-bottom:0}
 .fact-row span{color:var(--ink-3)}
 .fact-row b{font-weight:500;text-align:right}
+/* 信息带里改成「标签在上 / 内容在下」的竖排，便于 4 列并排 */
+.fact-band .fact-row{display:block;padding:13px 0;font-size:14px}
+.fact-band .fact-row:nth-last-child(-n+4){border-bottom:0}
+.fact-band .fact-row span{display:block;font-size:12px;letter-spacing:.02em;margin-bottom:3px}
+.fact-band .fact-row b{display:block;font-weight:600;color:var(--ink);text-align:left;line-height:1.55}
+@media(max-width:900px){
+  .fact-band{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  .fact{padding:6px 18px 12px}
+  .fact-band{column-gap:18px}
+  .fact-band .fact-row.span2{grid-column:1/-1}
+}
 
 /* ---------- section ---------- */
 section{padding:78px 0}
@@ -468,6 +503,12 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
   .hero{padding:0 0 8mm!important;background:#fff!important}
   .hero::before{display:none!important}
   .hero-in{grid-template-columns:1fr!important;gap:6mm!important}
+  /* 海报：打印时把叠在图上的文案挪到图下方，避免压住图片 */
+  .poster{box-shadow:none!important;border:1px solid #dfe1e9!important;break-inside:avoid}
+  .poster-cap{position:static!important;transform:none!important;width:auto!important;padding:3mm 0 0!important;
+    background:none!important;border-top:0!important}
+  .pc-kicker{background:none!important;border-color:#c9ccd6!important}
+  .pc-tags span{background:none!important;border-color:#c9ccd6!important}
   section{padding:6mm 0!important;border-top:1px solid #dfe1e9!important}
   .kpi,.pj,.w-shot,.ql,.c-item,.cert,.cert-row{box-shadow:none!important}
   .c-grid{grid-template-columns:1fr!important;gap:8mm!important}
@@ -529,7 +570,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 <!-- HERO -->
 <header class="hero" id="top">
   <div class="wrap hero-in">
-    <div>
+    <div class="hero-copy">
       <div class="badge"><b></b>在职 · 考虑新机会</div>
       <h1>用 AI 把运营流程<br>做成<span class="grad">可复用的工具</span></h1>
       <p class="lead">1-3 年<b class="lead-b">金融产品运营</b>｜活动 / 内容运营 + AI 工作流搭建｜所负责产品单量分别提升 <b class="hl-num">20%</b>、<b class="hl-num">10%</b>｜<b class="lead-b">求职意向：广州</b></p>
@@ -547,14 +588,22 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
         <a class="btn btn-s" href="#contact">联系我</a>
       </div>
     </div>
-    <aside class="fact">
-      <div class="fact-me">
-        <img src="assets/avatar.jpg" alt="周冰红证件照">
-        <div>
-          <b>周冰红</b>
-          <span>产品运营 / AI 应用运营 · 广州</span>
+    <figure class="poster">
+      <img src="assets/poster-hero.jpg" alt="周冰红的动漫形象" width="1600" height="900" fetchpriority="high">
+      <figcaption class="poster-cap">
+        <span class="pc-kicker">Portfolio</span>
+        <b class="pc-name">周冰红</b>
+        <span class="pc-role">产品运营 / AI 应用运营 · 广州</span>
+        <div class="pc-tags">
+          <span>单量 +20%</span>
+          <span>8 个自研 AI 模块</span>
+          <span>求职意向 · 广州</span>
         </div>
-      </div>
+      </figcaption>
+    </figure>
+  </div>
+  <div class="wrap">
+    <aside class="fact fact-band">
       <h4>基本信息</h4>
       <div class="fact-row"><span>所在城市</span><b>广州</b></div>
       <div class="fact-row"><span>期望城市</span><b>广州</b></div>
@@ -563,7 +612,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
       <div class="fact-row"><span>求职状态</span><b>在职，考虑新机会</b></div>
       <div class="fact-row"><span>到岗方式</span><b>全职线下到岗</b></div>
       <div class="fact-row"><span>邮箱</span><b>2748044259@qq.com</b></div>
-      <div class="fact-row"><span>教育背景</span><b>广东财经大学 · 汉语言文学（商务文秘）本科</b></div>
+      <div class="fact-row span2"><span>教育背景</span><b>广东财经大学 · 汉语言文学（商务文秘）本科</b></div>
     </aside>
   </div>
   <div class="wrap hero-kpis">

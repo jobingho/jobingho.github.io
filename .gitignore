@@ -27,3 +27,6 @@ _build_resume.py
 _export_resume.ps1
 resume_tpl.html
 _tmp_resume/
+
+# 本次改版临时目录（抠图/海报生成脚本与中间产物）
+_work/
