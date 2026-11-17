@@ -403,6 +403,25 @@ section:nth-of-type(even){background:var(--bg-2)}
   .ax-t{flex-direction:column;gap:2px}
 }
 
+/* ---------- 场景化文档梳理（台账截图 + 字段说明） ---------- */
+.sc-wrap{position:relative;padding:26px 28px 28px;background:linear-gradient(180deg,#fbfbfe,#f4f5fb);display:grid;gap:24px}
+.sc-shot{position:relative;margin:0;border-radius:13px;overflow:hidden;border:1px solid rgba(18,19,26,.1);background:#fff;
+  box-shadow:0 4px 14px -8px rgba(18,19,26,.3);cursor:zoom-in;
+  transition:transform .3s cubic-bezier(.2,.75,.25,1),box-shadow .3s,border-color .3s}
+.sc-shot:hover{transform:translateY(-4px);box-shadow:0 18px 40px -16px rgba(18,19,26,.42);border-color:rgba(59,79,224,.35);z-index:5}
+.sc-shot img{display:block;width:100%;height:auto;background:#fff}
+/* 字段说明卡：把表格里的列拆成人话，四张并排 */
+.sc-fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.sc-f{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 16px;transition:.2s}
+.sc-f:hover{border-color:rgba(59,79,224,.32);transform:translateY(-3px)}
+.sc-f b{display:inline-block;font-size:12px;font-weight:700;color:#2a3ab0;background:rgba(59,79,224,.09);padding:3px 9px;border-radius:6px;margin-bottom:9px}
+.sc-f span{display:block;font-size:13px;color:var(--ink-2);line-height:1.6}
+@media(max-width:1000px){.sc-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+  .sc-wrap{padding:20px 18px;gap:18px}
+  .sc-fields{grid-template-columns:1fr;gap:10px}
+}
+
 /* ---------- 在线演示平台（链接打码） ---------- */
 .ql-wrap{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow)}
 .ql-head h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
@@ -562,6 +581,11 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
   .ax-shot-page img{max-height:120mm!important}
   .ax-shot-page.final{grid-column:1/-1!important}
   .ax-shot-page figcaption b{background:none!important;color:#2a3ab0!important}
+
+  /* 场景化文档梳理：表格图保持完整不裁切 */
+  .sc-wrap{padding:4mm 0 0!important;gap:6mm!important;background:none!important}
+  .sc-fields{grid-template-columns:1fr 1fr!important;gap:4mm!important}
+  .sc-shot img{height:auto!important;max-height:90mm!important;object-fit:contain!important}
 
   /* 作品截图：网格改单列排布，避免打印时图片被裁掉 */
   .w-stack{grid-template-columns:1fr 1fr!important}
@@ -1129,6 +1153,59 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
             </div>
           </div>
           <span class="w-hint">点击任意设计稿查看大图</span>
+        </div>
+      </article>
+      <article class="w-group rv">
+        <div class="w-head">
+          <div class="w-head-l">
+            <span class="w-plat">场景化文档</span>
+            <h3>新客场景化广告盘点 · 把界面问题写成能落地的改动单</h3>
+            <p>把散落在各个推广位的界面问题逐条收集：截屏存证、写清现状、判断要不要改、给出具体怎么改、标明时间节点。让"这里体验不好"变成一张运营与技术都能照着做的清单。</p>
+          </div>
+          <div class="w-head-r">
+            <div class="w-meta">
+              <span class="w-count">1 份盘点表</span>
+              <span class="w-scope team">团队协作</span>
+            </div>
+            <button class="w-like" type="button" data-like="scn" aria-label="为场景化文档点赞" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7S3.9 15.8 3.9 10.2C3.9 7 6.3 4.6 9.1 4.6c1.6 0 2.6.8 2.9 1.6.3-.8 1.3-1.6 2.9-1.6 2.8 0 5.2 2.4 5.2 5.6 0 5.6-8.1 10.5-8.1 10.5z"/></svg>
+              <span class="w-like-txt">点赞</span>
+              <span class="w-like-num" hidden></span>
+            </button>
+          </div>
+        </div>
+        <div class="sc-wrap">
+          <div class="ax-sec">
+            <div class="ax-t"><b>盘点表全貌</b><span>截图为部分内容节选</span></div>
+            <figure class="sc-shot" data-img="assets/coll/scene-1-table.jpg">
+              <img loading="lazy" src="assets/coll/scene-1-table.jpg" alt="新客场景化广告盘点表：按端、位置、现状、是否需要修改、修改建议、修改预计时间等维度逐条列出推广位">
+            </figure>
+          </div>
+          <div class="sc-fields">
+            <div class="sc-f">
+              <b>现状</b>
+              <span>每个推广位截图存档，写清当前界面呈现了什么、用户在哪一步会卡住。</span>
+            </div>
+            <div class="sc-f">
+              <b>是否需要修改</b>
+              <span>逐条给出判断，不是所有问题都值得动 —— 先分清该改与不该改。</span>
+            </div>
+            <div class="sc-f">
+              <b>修改建议</b>
+              <span>不停在"这里体验不好"，直接写明改哪块、为什么这么改、换成什么。</span>
+            </div>
+            <div class="sc-f">
+              <b>时间节点</b>
+              <span>标明修改与需求落地时间，运营与技术按同一张表对齐节奏。</span>
+            </div>
+          </div>
+          <div class="ax-sec">
+            <div class="ax-t"><b>问题与建议对照</b><span>现状 → 修改建议</span></div>
+            <figure class="sc-shot" data-img="assets/coll/scene-2-suggest.jpg">
+              <img loading="lazy" src="assets/coll/scene-2-suggest.jpg" alt="现状与修改建议逐条对照：界面问题、判断结论与具体改法">
+            </figure>
+          </div>
+          <span class="w-hint">点击查看大图</span>
         </div>
       </article>
       <article class="w-group rv">
