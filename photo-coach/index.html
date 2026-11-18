@@ -307,6 +307,29 @@ input[type=range]{width:100%;accent-color:var(--accent);height:22px}
 .ez-snap-skip{border:0;background:transparent;color:var(--muted);font-size:14px;cursor:pointer;font-family:inherit;padding:10px}
 .ez-toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:rgba(30,26,22,.92);color:#fff;padding:14px 26px;border-radius:99px;font-size:16px;font-weight:700;z-index:400;opacity:0;transition:opacity .25s;pointer-events:none}
 .ez-toast.on{opacity:1}
+/* 傻瓜精修页 */
+#ezEdit{overflow-y:auto;background:var(--bg)}
+.ez-edit-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:12px 16px 28px;overflow-y:auto}
+.ez-save-banner{width:100%;background:linear-gradient(135deg,#fff3ec,#ffe4d5);border:1.5px solid var(--accent);border-radius:16px;padding:14px 16px;margin-bottom:12px;text-align:center}
+.ez-save-banner .t{font-size:20px;font-weight:800;color:var(--accent-2);line-height:1.4}
+.ez-save-banner .s{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}
+.ez-edit-photo{width:100%;max-width:420px;border-radius:18px;overflow:hidden;background:#eee;box-shadow:var(--shadow);border:1.5px solid var(--line)}
+.ez-edit-photo img{display:block;width:100%;height:auto;-webkit-touch-callout:default;user-select:none}
+.ez-hold-tip{font-size:13px;color:var(--accent-2);font-weight:700;margin:10px 0 4px;text-align:center}
+.ez-beauty-btn{width:100%;max-width:420px;margin-top:12px;border:0;border-radius:18px;padding:20px;font-size:21px;font-weight:800;color:#fff;background:linear-gradient(135deg,#f08a4b,#e8622c);box-shadow:0 6px 18px rgba(232,98,44,.32);cursor:pointer;font-family:inherit}
+.ez-beauty-btn:active{transform:scale(.98)}
+.ez-beauty-btn.busy{opacity:.6;pointer-events:none}
+.ez-cmp{width:100%;max-width:420px;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.ez-cmp figure{margin:0}
+.ez-cmp .frame{border:1.5px solid var(--line);border-radius:14px;overflow:hidden;background:#eee;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center}
+.ez-cmp .frame img{width:100%;height:100%;object-fit:cover;display:block}
+.ez-cmp figcaption{text-align:center;font-size:13px;color:var(--muted);margin-top:6px;font-weight:700}
+.ez-cmp .frame.after{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.ez-cmp figcaption.after{color:var(--accent-2)}
+.ez-edit-nav{display:flex;gap:10px;width:100%;max-width:420px;margin-top:18px}
+.ez-edit-nav .ez-btn.prev{flex:1}
+.ez-edit-nav .ez-btn.next{flex:1}
+.ez-edit-note{font-size:12px;color:var(--faint);text-align:center;line-height:1.6;margin-top:14px;max-width:400px}
 /* 高级模式浮动返回键 */
 #ezBackToSimple{position:fixed;left:12px;top:12px;z-index:210;background:rgba(44,38,34,.82);color:#fff;border:0;border-radius:99px;padding:9px 15px;font-size:13px;cursor:pointer;font-family:inherit;display:none;backdrop-filter:blur(6px)}
 #ezBackToSimple.on{display:block}
@@ -379,6 +402,32 @@ input[type=range]{width:100%;accent-color:var(--accent);height:22px}
         <div class="ez-shutter" id="ezShutter"><i></i></div>
         <span class="ez-snap-skip" id="ezDone">完成 ›</span>
       </div>
+    </div>
+  </div>
+
+  <!-- 傻瓜精修页：拍完立刻进入 -->
+  <div class="ez-page" id="ezEdit">
+    <div class="ez-top">
+      <button class="ez-back" id="ezEditBack">‹</button>
+      <div class="tt"><b>修一下，更好看</b><span>一键变好看 · 长按存手机</span></div>
+    </div>
+    <div class="ez-edit-body">
+      <div class="ez-save-banner">
+        <div class="t">👇 长按下面的图 → 保存到手机</div>
+        <div class="s" id="ezEditBannerSub">长按图片，弹出的菜单里点「保存图片」就进相册了</div>
+      </div>
+      <div class="ez-edit-photo"><img id="ezEditMain" alt="你拍的照片"></div>
+      <div class="ez-hold-tip" id="ezHoldTip">上面这张就是原图，长按即可保存</div>
+      <button class="ez-beauty-btn" id="ezBeautyBtn">✨ 一键变好看</button>
+      <div class="ez-cmp hidden" id="ezCmp">
+        <figure><div class="frame"><img id="ezCmpOrig" alt="原图"></div><figcaption>原图</figcaption></figure>
+        <figure><div class="frame after"><img id="ezCmpFinal" alt="精修图"></div><figcaption class="after">精修 · 长按这张保存</figcaption></figure>
+      </div>
+      <div class="ez-edit-nav">
+        <button class="ez-btn prev" id="ezRetake">↻ 重拍一张</button>
+        <button class="ez-btn next" id="ezEditDone">完成 ›</button>
+      </div>
+      <div class="ez-edit-note">照片只存在这台手机上，不上传。长按保存的就是你看到的这张。</div>
     </div>
   </div>
 </div>
@@ -2007,18 +2056,86 @@ $('#ezShutter').onclick=()=>{
     if(!v.videoWidth){ezToast('画面还没准备好');return;}
     data=toDataURLFromCanvas(v,v.videoWidth,v.videoHeight);
   }
+  // 存进工具内部相册（仅作备份，不声称进了系统相册）
   const a=loadAlbums();a.unshift({id:Date.now(),data});
   while(a.length>24)a.pop();
   saveAlbums(a);
-  // 明确反馈：大字卡片变成"拍好了"成功态，可继续连拍
-  $('#ezPhase').textContent='✓ 拍好了';
-  $('#ezBig').textContent='照片已经存好了';
-  $('#ezSub').textContent='还想拍就再按一次圆圈；拍够了点右边的「完成」';
-  ezToast('✓ 照片已存到本机相册');
+  // 拍完立刻进入精修页：用户可长按存到手机相册
+  openEzEdit(data);
 };
 
 /* 全局 toast 元素（傻瓜层用） */
 const _ezToast=document.createElement('div');_ezToast.id='ezToast';_ezToast.className='ez-toast';document.body.appendChild(_ezToast);
+
+/* ============ 傻瓜精修页：拍完立刻进入 ============ */
+let ezEditOrig=null;   // 原图 dataURL（本次拍的）
+let ezEditFinal=null;  // 精修后 dataURL
+let ezEditCanvas=null; // 精修用离屏画布
+
+/* 独立的轻量一键优化（复用现成滤镜参数 + 磨皮），不改变原图 */
+function ezMakePretty(data,cb){
+  const img=new Image();
+  img.onload=()=>{
+    const max=1400,sc=Math.min(1,max/Math.max(img.width,img.height));
+    const c=document.createElement('canvas');
+    c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);
+    const ctx=c.getContext('2d');
+    ctx.filter='brightness(1.08) contrast(1.13) saturate(1.10) sepia(0.02)';
+    ctx.drawImage(img,0,0,c.width,c.height);
+    ctx.filter='none';
+    // 轻度磨皮（复用主修图的 smoothImage：低强度、保边）
+    try{ if(typeof smoothImage==='function') smoothImage(ctx,c.width,c.height,18); }catch(e){}
+    ezEditCanvas=c;
+    cb(c.toDataURL('image/jpeg',0.92));
+  };
+  img.onerror=()=>cb(data);
+  img.src=data;
+}
+
+function openEzEdit(data){
+  ezEditOrig=data;ezEditFinal=null;
+  $('#ezEditMain').src=data;
+  $('#ezCmpOrig').src=data;
+  $('#ezCmp').classList.add('hidden');
+  $('#ezBeautyBtn').classList.remove('busy');
+  $('#ezBeautyBtn').textContent='✨ 一键变好看';
+  $('#ezBeautyBtn').style.display='';
+  $('#ezHoldTip').textContent='上面这张就是原图，长按即可保存';
+  $('#ezEditBannerSub').textContent='长按图片，弹出的菜单里点「保存图片」就进相册了';
+  if(ezStream){ezStream.getTracks().forEach(t=>t.stop());ezStream=null;}
+  ezShow('ezEdit');
+  window.scrollTo({top:0});
+}
+
+$('#ezBeautyBtn').onclick=()=>{
+  if(!ezEditOrig)return;
+  const btn=$('#ezBeautyBtn');btn.classList.add('busy');btn.textContent='正在变好看…';
+  // 若已经精修过，再点则再次优化当前结果（幂等：从原图重算，避免叠加）
+  ezMakePretty(ezEditOrig,out=>{
+    ezEditFinal=out;
+    $('#ezEditMain').src=out;
+    $('#ezCmpFinal').src=out;
+    $('#ezCmp').classList.remove('hidden');
+    btn.classList.remove('busy');btn.textContent='✓ 已经变好看了';btn.disabled=true;
+    $('#ezHoldTip').textContent='现在显示的是精修图，长按这张保存';
+    $('#ezEditBannerSub').textContent='精修图已就位：长按上面这张 → 保存图片 → 就进相册了';
+    ezToast('✓ 变好看了，长按图片保存吧');
+  });
+};
+
+$('#ezRetake').onclick=()=>{
+  // 回到取景页的快门就绪态，不重新教一遍
+  ezShow('ezGuide');
+  $('#ezNav').style.display='none';
+  $('#ezShutterWrap').classList.add('on');
+  $('#ezPhase').textContent='✓ 取景就绪';
+  $('#ezBig').textContent='摆好姿势，按圆圈再拍一张';
+  $('#ezSub').textContent='拍完会自动进入精修';
+  $('#ezStageTag').textContent='就绪';
+  startEzCam();
+};
+$('#ezEditDone').onclick=()=>{stopEzCam();ezShow('ezHome');};
+$('#ezEditBack').onclick=()=>{stopEzCam();ezShow('ezHome');};
 </script>
 </body>
 </html>
