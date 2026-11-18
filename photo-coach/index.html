@@ -283,6 +283,21 @@ input[type=range]{width:100%;accent-color:var(--accent);height:22px}
 .ez-camfail .em{font-size:44px}
 .ez-camfail p{font-size:14px;line-height:1.7;margin:0;color:#d8cfc6}
 .ez-pickmini{border:1px solid #6b625a;background:#3a3531;color:#fff;border-radius:12px;padding:10px 18px;font-size:14px;cursor:pointer;font-family:inherit}
+/* 相机设置：变焦/曝光/对焦 */
+.ez-cambtn{position:absolute;right:12px;bottom:14px;width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(255,255,255,.55);background:rgba(0,0,0,.55);backdrop-filter:blur(6px);color:#fff;font-size:21px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;font-family:inherit;padding:0}
+.ez-cambtn:active{transform:scale(.92)}
+.ez-campanel{position:absolute;right:12px;bottom:70px;width:236px;background:rgba(28,25,22,.95);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:14px;z-index:6;display:none;box-shadow:0 8px 30px rgba(0,0,0,.45)}
+.ez-campanel.on{display:block}
+.ez-campanel .ct{font-size:12px;color:#cfc6bd;margin:0 0 8px;font-weight:700;letter-spacing:.5px}
+.ez-zoomrow{display:flex;gap:4px;margin-bottom:15px}
+.ez-zoomrow button{flex:1;border:0;border-radius:9px;padding:8px 0;background:rgba(255,255,255,.13);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.ez-zoomrow button.on{background:var(--accent);color:#fff}
+.ez-exprow{display:flex;align-items:center;gap:8px}
+.ez-exprow span{font-size:17px;color:#fff;flex:none}
+.ez-exprow input[type=range]{flex:1;accent-color:var(--accent);height:22px}
+.ez-exprow b{font-size:12px;color:#cfc6bd;width:42px;text-align:right;flex:none}
+.ez-focusbox{position:absolute;width:76px;height:76px;margin:-38px 0 0 -38px;border:2px solid #ffd54a;border-radius:8px;pointer-events:none;z-index:4;box-shadow:0 0 0 1px rgba(0,0,0,.35) inset;animation:ezFocusIn .45s ease-out}
+@keyframes ezFocusIn{0%{transform:scale(1.6);opacity:0}100%{transform:scale(1);opacity:1}}
 /* 大字指令卡 */
 .ez-card{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:18px 20px;margin-top:14px;box-shadow:var(--shadow)}
 .ez-phase{font-size:12px;color:var(--accent-2);font-weight:700;letter-spacing:1px;margin-bottom:6px}
@@ -386,6 +401,18 @@ input[type=range]{width:100%;accent-color:var(--accent);height:22px}
           <input type="file" id="ezFile" accept="image/*" class="hidden">
         </div>
         <div class="ez-gridbar" id="ezGridbar"></div>
+        <button class="ez-cambtn" id="ezCamBtn" aria-label="相机设置">⚙</button>
+        <div class="ez-campanel" id="ezCamPanel">
+          <p class="ct">放大缩小</p>
+          <div class="ez-zoomrow" id="ezZoomRow"></div>
+          <p class="ct">曝光（亮度）</p>
+          <div class="ez-exprow">
+            <span>🌙</span>
+            <input type="range" id="ezExpRange" min="0.5" max="1.6" step="0.05" value="1">
+            <span>☀️</span>
+            <b id="ezExpVal">正常</b>
+          </div>
+        </div>
       </div>
       <div class="ez-card">
         <div class="ez-phase" id="ezPhase">第 1 步</div>
@@ -2046,16 +2073,47 @@ $('#ezFile').onchange=e=>{
   });
   e.target.value='';
 };
-/* 傻瓜快门：只存相册，不跳转修图页 */
-$('#ezShutter').onclick=()=>{
-  let data;
+/* 傻瓜相机状态：变焦 / 曝光 / 对焦 */
+let ezZoom=1, ezExposure=1;   // 曝光倍率 1=正常
+
+/* 取一张源画面（摄像头或相册），返回 {canvas, w, h} */
+function ezSourceFrame(){
   const cv=$('#ezStill');
-  if(ezStillData&&cv.width){data=cv.toDataURL('image/jpeg',0.9);}
-  else{
-    const v=$('#ezVideo');
-    if(!v.videoWidth){ezToast('画面还没准备好');return;}
-    data=toDataURLFromCanvas(v,v.videoWidth,v.videoHeight);
+  if(ezStillData&&cv.width) return {canvas:cv,w:cv.width,h:cv.height};
+  const v=$('#ezVideo');
+  if(!v.videoWidth) return null;
+  // 把 video 当前帧画到临时画布
+  const c=document.createElement('canvas');
+  c.width=v.videoWidth;c.height=v.videoHeight;
+  c.getContext('2d').drawImage(v,0,0);
+  return {canvas:c,w:c.width,h:c.height};
+}
+/* 按当前变焦+曝光，从源画面产出最终照片 dataURL（所见即所得） */
+function ezCapture(){
+  const src=ezSourceFrame();
+  if(!src) return null;
+  const {canvas:sc,w,h}=src;
+  // 变焦：从中心裁出 1/zoom 的区域（zoom=1 时整张）
+  const cropW=Math.max(1,Math.round(w/ezZoom)), cropH=Math.max(1,Math.round(h/ezZoom));
+  const sx=Math.round((w-cropW)/2), sy=Math.round((h-cropH)/2);
+  const out=document.createElement('canvas');out.width=cropW;out.height=cropH;
+  const ctx=out.getContext('2d');
+  // 曝光：先画画面，再叠一层亮度（正值提亮、负值压暗）
+  ctx.drawImage(sc,sx,sy,cropW,cropH,0,0,cropW,cropH);
+  if(ezExposure!==1){
+    ctx.save();
+    ctx.globalCompositeOperation = ezExposure>1 ? 'lighter' : 'source-over';
+    if(ezExposure>1){ctx.fillStyle='rgba(255,255,255,'+Math.min(0.5,(ezExposure-1)*0.5)+')';}
+    else{ctx.fillStyle='rgba(0,0,0,'+Math.min(0.6,(1-ezExposure)*0.75)+')';}
+    ctx.fillRect(0,0,cropW,cropH);
+    ctx.restore();
   }
+  return out.toDataURL('image/jpeg',0.92);
+}
+/* 傻瓜快门：应用相机参数后进入精修页 */
+$('#ezShutter').onclick=()=>{
+  const data=ezCapture();
+  if(!data){ezToast('画面还没准备好');return;}
   // 存进工具内部相册（仅作备份，不声称进了系统相册）
   const a=loadAlbums();a.unshift({id:Date.now(),data});
   while(a.length>24)a.pop();
@@ -2136,6 +2194,62 @@ $('#ezRetake').onclick=()=>{
 };
 $('#ezEditDone').onclick=()=>{stopEzCam();ezShow('ezHome');};
 $('#ezEditBack').onclick=()=>{stopEzCam();ezShow('ezHome');};
+
+/* ============ 相机设置面板：变焦 / 曝光 / 点按对焦 ============ */
+const EZ_ZOOMS=[0.5,1,1.5,2,3];
+function renderEzZoom(){
+  $('#ezZoomRow').innerHTML=EZ_ZOOMS.map(z=>`<button class="${z===ezZoom?'on':''}" data-z="${z}">${z}x</button>`).join('');
+  $$('#ezZoomRow button').forEach(b=>b.onclick=()=>{
+    ezZoom=+b.dataset.z;renderEzZoom();applyCamPreview();
+  });
+}
+/* 预览实时同步：video 和相册画布都按变焦缩放、按曝光调亮暗 */
+function applyCamPreview(){
+  const tf='scale('+ezZoom+')';
+  const flt='brightness('+ezExposure+')';
+  ['#ezVideo','#ezStill'].forEach(s=>{
+    const el=$(s);if(!el)return;
+    el.style.transform=tf;el.style.transformOrigin='center center';
+    el.style.webkitTransform=tf;el.style.webkitTransformOrigin='center center';
+    el.style.filter=flt;el.style.webkitFilter=flt;
+  });
+}
+/* 相机按钮：展开/收起面板 */
+$('#ezCamBtn').onclick=e=>{
+  e.stopPropagation();
+  const p=$('#ezCamPanel');p.classList.toggle('on');
+};
+/* 点面板外收起 */
+document.addEventListener('click',e=>{
+  const p=$('#ezCamPanel');
+  if(p.classList.contains('on')&&!p.contains(e.target)&&e.target.id!=='ezCamBtn') p.classList.remove('on');
+});
+/* 曝光滑条 */
+$('#ezExpRange').oninput=e=>{
+  e.stopPropagation();
+  ezExposure=+e.target.value;
+  const pct=Math.round(Math.abs(ezExposure-1)*100);
+  $('#ezExpVal').textContent=pct<3?'正常':(ezExposure>1?'+'+pct+'%':'-'+pct+'%');
+  applyCamPreview();
+};
+/* 点按对焦：画面任意位置出现黄框动画（视觉模拟，微信里不改变真实焦距） */
+(function(){
+  const vp=document.querySelector('#ezGuide .ez-viewport');
+  if(!vp)return;
+  vp.addEventListener('click',e=>{
+    if(e.target.closest('.ez-cambtn,.ez-campanel,.ez-gridbar,.ez-camfail'))return;
+    const r=vp.getBoundingClientRect();
+    const x=e.clientX-r.left, y=e.clientY-r.top;
+    vp.querySelectorAll('.ez-focusbox').forEach(b=>b.remove());
+    const box=document.createElement('div');box.className='ez-focusbox';
+    box.style.left=x+'px';box.style.top=y+'px';vp.appendChild(box);
+    ezToast('已对准这里对焦');
+    setTimeout(()=>{box.style.transition='opacity .4s';box.style.opacity='0';setTimeout(()=>box.remove(),420);},1100);
+  });
+})();
+/* 进入引导页/重拍后，同步相机参数到预览 */
+renderEzZoom();
+applyCamPreview();
 </script>
 </body>
 </html>
