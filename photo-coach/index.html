@@ -256,20 +256,28 @@ input[type=range]{width:100%;accent-color:var(--accent);height:22px}
 .ez-top .tt b{font-size:18px;font-weight:700;display:block}
 .ez-top .tt span{font-size:12px;color:var(--muted)}
 .ez-step-pill{font-size:13px;font-weight:700;color:var(--accent-2);background:var(--accent-soft);border-radius:99px;padding:6px 12px;flex:none}
-/* 场景选择 */
-#ezScene{padding:0 16px;overflow-y:auto}
-.ez-scene-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.ez-scene{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:20px 14px;cursor:pointer;text-align:center;transition:transform .12s}
-.ez-scene:active{transform:scale(.96)}
-.ez-scene .em{font-size:34px;display:block;margin-bottom:8px}
-.ez-scene b{font-size:17px;font-weight:700}
-.ez-scene span{font-size:12px;color:var(--muted);display:block;margin-top:3px}
+/* 风格方案选择 */
+#ezStyle{padding:0 16px;overflow-y:auto}
+.ez-style-list{display:flex;flex-direction:column;gap:12px;padding-bottom:16px}
+.ez-style-card{display:flex;align-items:center;gap:14px;border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:16px;cursor:pointer;transition:transform .12s}
+.ez-style-card:active{transform:scale(.98)}
+.ez-style-card .em{font-size:34px;flex:none;width:48px;text-align:center}
+.ez-style-card .tx{flex:1;min-width:0}
+.ez-style-card .tx b{font-size:18px;font-weight:800;display:block}
+.ez-style-card .tx span{font-size:13px;color:var(--muted);display:block;margin-top:3px;line-height:1.4}
+.ez-style-card .tx .meta{font-size:11px;color:var(--accent-2);margin-top:5px;display:inline-block;background:var(--accent-soft);padding:2px 8px;border-radius:99px}
+.ez-style-card .go{color:var(--faint);font-size:24px;flex:none}
+.ez-change-style{border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent-2);font-size:13px;font-weight:700;padding:8px 12px;border-radius:12px;cursor:pointer;font-family:inherit;flex:none}
 /* 引导页 */
 .ez-guide-body{flex:1;display:flex;flex-direction:column;min-height:0;padding:0 16px 16px}
 .ez-viewport{position:relative;width:100%;flex:1;min-height:180px;border-radius:20px;overflow:hidden;background:#1c1a18}
 .ez-viewport video,.ez-still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ez-vtint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),transparent 30%,transparent 60%,rgba(0,0,0,.4))}
-.ez-stage-tag{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.5);color:#fff;font-size:13px;font-weight:700;padding:6px 12px;border-radius:99px;backdrop-filter:blur(4px)}
+.ez-grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.ez-gridbar{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:5px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);padding:5px;border-radius:99px;z-index:3}
+.ez-gridbar .gb{color:rgba(255,255,255,.75);font-size:12px;padding:6px 11px;border-radius:99px;cursor:pointer;white-space:nowrap;font-family:inherit;border:0;background:transparent}
+.ez-gridbar .gb.on{background:#fff;color:var(--accent-2);font-weight:700}
+.ez-stage-tag{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.5);color:#fff;font-size:13px;font-weight:700;padding:6px 12px;border-radius:99px;backdrop-filter:blur(4px);z-index:3}
 .ez-camfail{position:absolute;inset:0;background:#26221f;color:#f0e8e0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:12px}
 .ez-camfail.on{display:flex}
 .ez-camfail .em{font-size:44px}
@@ -325,37 +333,39 @@ input[type=range]{width:100%;accent-color:var(--accent);height:22px}
     <button class="ez-adv" id="ezAdvBtn">⚙ 高级功能（辅助线 · 修图 · 姿势库）</button>
   </div>
 
-  <!-- 场景选择（拍人专用） -->
-  <div class="ez-page" id="ezScene">
+  <!-- 风格方案选择（首页三按钮后进入） -->
+  <div class="ez-page" id="ezStyle">
     <div class="ez-top">
       <button class="ez-back" data-gohome="1">‹</button>
-      <div class="tt"><b>今天在哪拍？</b><span>选一个场景，我按场景一步步教你</span></div>
+      <div class="tt"><b id="ezStyleModeName">拍人</b><span id="ezStyleModeSub">选一种你想要的风格，按它一步步拍</span></div>
     </div>
-    <div class="ez-scene-grid" id="ezSceneGrid"></div>
+    <div class="ez-style-list" id="ezStyleList"></div>
   </div>
 
   <!-- 大字引导页 -->
   <div class="ez-page" id="ezGuide">
     <div class="ez-top">
       <button class="ez-back" id="ezGuideBack">‹</button>
-      <div class="tt"><b id="ezGuideTitle">拍人</b><span id="ezGuideScene">海边</span></div>
-      <div class="ez-step-pill" id="ezStepPill">1 / 4</div>
+      <div class="tt"><b id="ezGuideTitle">显高显瘦</b><span id="ezGuideScene">拍人 · 风格方案</span></div>
+      <button class="ez-change-style" id="ezChangeStyle">换风格</button>
     </div>
     <div class="ez-guide-body">
       <div class="ez-viewport">
         <video id="ezVideo" playsinline autoplay muted></video>
         <canvas class="ez-still" id="ezStill" style="display:none"></canvas>
         <div class="ez-vtint"></div>
-        <div class="ez-stage-tag" id="ezStageTag">摆姿势</div>
+        <svg class="ez-grid" id="ezGrid" viewBox="0 0 100 133" preserveAspectRatio="none"></svg>
+        <div class="ez-stage-tag" id="ezStageTag">第 1 步</div>
         <div class="ez-camfail" id="ezCamFail">
           <div class="em">📷</div>
           <p id="ezCamFailText">这里能打开摄像头，就会实时教你摆姿势、找角度。<br>现在打不开，可点下面按钮从相册选一张先练手。</p>
           <button class="ez-pickmini" id="ezPickBtn">从相册选一张</button>
           <input type="file" id="ezFile" accept="image/*" class="hidden">
         </div>
+        <div class="ez-gridbar" id="ezGridbar"></div>
       </div>
       <div class="ez-card">
-        <div class="ez-phase" id="ezPhase">第一步 · 摆姿势</div>
+        <div class="ez-phase" id="ezPhase">第 1 步</div>
         <div class="ez-big" id="ezBig">让模特侧身站好</div>
         <div class="ez-sub" id="ezSub">肩膀对着镜头，脸留着看镜头</div>
       </div>
@@ -1528,82 +1538,125 @@ $('#prevShutter').onclick=()=>{
 /* ============================================================
    ============  傻瓜式引导层（最外层，独立于旧功能）  ============
    ============================================================ */
-/* 每个场景：pose=教模特摆姿势的步骤；shoot=教你拍照的步骤。
-   每步 {p:阶段大字, b:主指令(大字), s:补充说明(小字)} */
-const EZ_SCENES={
-  seaside:{name:'海边 / 江边',em:'🌊',sub:'氛围感、合影、逆光都好看',
-    pose:[
-      {p:'摆姿势 · 第1步',b:'让模特侧身对着镜头',s:'身体转 45 度，别整个人正对镜头站着'},
-      {p:'摆姿势 · 第2步',b:'重心放到后面那条腿',s:'前脚脚尖轻轻点地，肩膀一高一低，别立正'},
-      {p:'摆姿势 · 第3步',b:'手别贴着身体',s:'一只手叉腰或撩头发，另一只手自然垂着'},
-      {p:'摆姿势 · 第4步',b:'慢慢回头看镜头',s:'下巴轻轻收一点，微笑，别僵硬'}
-    ]},
-  street:{name:'街道 / 马路',em:'🏙️',sub:'街拍、走路抓拍、氛围感',
-    pose:[
-      {p:'摆姿势 · 第1步',b:'让模特慢慢往前走',s:'步伐放松，别盯着镜头看'},
-      {p:'摆姿势 · 第2步',b:'喊一声，让模特回头',s:'走到前面停下，回头看镜头，这一刻最自然'},
-      {p:'摆姿势 · 第3步',b:'一只手插兜或撩头发',s:'手浅浅插兜别塞太深，另一只手放松'},
-      {p:'摆姿势 · 第4步',b:'站定，肩膀放松',s:'别耸肩，重心放后腿，看向镜头'}
-    ]},
-  cafe:{name:'咖啡店 / 室内',em:'☕',sub:'坐姿、温柔日常、探店',
-    pose:[
-      {p:'摆姿势 · 第1步',b:'让模特坐直，只坐椅子前半段',s:'别整个人靠进椅背，背挺直'},
-      {p:'摆姿势 · 第2步',b:'双手捧住杯子',s:'手肘搭在桌上，杯子放在脸旁边但别挡眼睛'},
-      {p:'摆姿势 · 第3步',b:'头微微低下，看着杯子',s:'轻轻微笑，别用力咧嘴'},
-      {p:'摆姿势 · 第4步',b:'慢慢抬眼看向镜头',s:'保持微笑，停住别动'}
-    ]},
-  wall:{name:'白墙 / 纯色背景',em:'🧱',sub:'极简干净、证件感、高级风',
-    pose:[
-      {p:'摆姿势 · 第1步',b:'让模特肩膀轻靠墙面',s:'别整个身子贴死墙，屁股离开墙'},
-      {p:'摆姿势 · 第2步',b:'一条腿弯起来，脚尖点地',s:'一前一后错开，重心放后腿'},
-      {p:'摆姿势 · 第3步',b:'一只手轻轻抱另一侧胳膊',s:'别抱太紧，手臂别挡住脖子'},
-      {p:'摆姿势 · 第4步',b:'头轻轻歪向墙那边',s:'看向镜头，下巴微收'}
-    ]},
-  park:{name:'公园 / 草地',em:'🌳',sub:'元气、活泼、野餐感',
-    pose:[
-      {p:'摆姿势 · 第1步',b:'让模特半蹲，别全蹲下',s:'一条腿在前屈膝，另一条腿向后撑'},
-      {p:'摆姿势 · 第2步',b:'一只手轻搭在膝盖上',s:'背挺直别驼背，肩膀打开'},
-      {p:'摆姿势 · 第3步',b:'另一只手轻撩头发',s:'动作慢一点，自然就好'},
-      {p:'摆姿势 · 第4步',b:'抬头看镜头，笑一个',s:'头顶留点空，别贴到画面最上面'}
-    ]}
-};
-/* 教你怎么拍（人像，所有场景通用） */
-const EZ_SHOOT_PORTRAIT=[
-  {p:'开始拍 · 第1步',b:'手机举到眼睛这么高',s:'和模特眼睛齐平，别从上往下拍，会显腿短'},
-  {p:'开始拍 · 第2步',b:'往后退一小步',s:'让模特全身都进画面，头顶和脚下都留点空间'},
-  {p:'开始拍 · 第3步',b:'把人放在画面的一条竖线上',s:'打开手机九宫格，让人物对着左边或右边的竖线'},
-  {p:'开始拍 · 第4步',b:'点一下屏幕，对准模特的脸',s:'等一下，等画面清楚了对焦实了再按'},
-  {p:'开始拍 · 第5步',b:'让模特看镜头，按快门',s:'连拍两三张，回头挑笑得最自然的那张'}
-];
-/* 风景：直接教拍 */
-const EZ_LANDSCAPE={
-  name:'拍风景',em:'🏞️',
-  steps:[
-    {p:'第1步',b:'手机横过来拿',s:'风景横着拍更宽，双手握稳别晃'},
-    {p:'第2步',b:'把地平线放平',s:'打开九宫格，让地平线对齐一条横线，别拍歪'},
-    {p:'第3步',b:'最好看的东西放在交点上',s:'比如塔、船、太阳，对着九宫格的四个交点之一'},
-    {p:'第4步',b:'蹲低一点，找个前景',s:'用花草、栏杆当前景，画面立刻有层次'},
-    {p:'第5步',b:'点屏幕对焦，按快门',s:'对准主体点一下，等光稳定的时候拍'}
-  ]
-};
-/* 物品：直接教拍 */
-const EZ_OBJECT={
-  name:'拍物品',em:'📦',
-  steps:[
-    {p:'第1步',b:'把东西放到干净的背景上',s:'桌面收拾干净，只留要拍的东西'},
-    {p:'第2步',b:'手机从斜上方 45 度拍',s:'别正俯视，也别完全平拍，斜一点最自然'},
-    {p:'第3步',b:'让光从侧面照过来',s:'靠近窗户拍最好看，别开闪光灯'},
-    {p:'第4步',b:'手机再靠近一点',s:'让东西占满画面，别离太远'},
-    {p:'第5步',b:'点屏幕对焦，按快门',s:'对准主体点一下，连拍几张选最清楚的'}
-  ]
+/* ============ 风格方案数据 ============
+   每个模式有多种"风格效果"方案，每方案 4-6 步精简大字指令。
+   每步 {p:阶段, b:主指令(大字), s:补充说明(小字)}，把构图/光线方法论讲进 s 里 */
+const EZ_STYLES={
+  portrait:{
+    name:'拍人',sub:'选一种想要的效果，我教模特摆姿势、也教你怎么拍',
+    list:[
+      {id:'slim',em:'📏',name:'显高显瘦',desc:'腿长、脸小、最百搭，日常万能',meta:'适合：全身照 / 街拍',
+       steps:[
+         {p:'摆姿势 · 1/3',b:'让模特侧身 45 度站',s:'别正面站，侧一点人立刻窄一圈'},
+         {p:'摆姿势 · 2/3',b:'重心放后腿，前脚伸出去',s:'前脚脚尖点地、腿伸直，腿立刻显长'},
+         {p:'摆姿势 · 3/3',b:'一只手叉腰，抬高那只手',s:'手叉腰能拉长腰线，别把手贴着身体'},
+         {p:'怎么拍 · 1/2',b:'手机蹲低到腰部往上拍',s:'低角度是显腿长的关键，千万别从上往下拍'},
+         {p:'怎么拍 · 2/2',b:'头顶留一点空，脚下贴底边',s:'人填满画面、头顶不贴顶，个子显高'}
+       ]},
+      {id:'mood',em:'🌅',name:'氛围感回眸',desc:'海边、街道经典款，自然不僵硬',meta:'适合：外景 / 逆光',
+       steps:[
+         {p:'摆姿势 · 1/3',b:'让模特背对你往前走',s:'慢慢走，别看镜头，步伐放松'},
+         {p:'摆姿势 · 2/3',b:'喊一声，让它回头看镜头',s:'回头的瞬间最自然，连着抓拍几张'},
+         {p:'摆姿势 · 3/3',b:'一只手撩头发或扶帽子',s:'手上有动作就不僵，动作放慢一点'},
+         {p:'怎么拍 · 1/2',b:'让人放在画面右边竖线上',s:'对着九宫格右竖线，留白在视线方向'},
+         {p:'怎么拍 · 2/2',b:'蹲低、对焦脸、连拍',s:'低机位显氛围，对焦实了再连拍'}
+       ]},
+      {id:'sunny',em:'😄',name:'元气活泼',desc:'草地、公园，笑容阳光有活力',meta:'适合：户外 / 草地',
+       steps:[
+         {p:'摆姿势 · 1/3',b:'让模特半蹲，别蹲到底',s:'一腿在前屈膝、一腿后撑，别全蹲显得矮'},
+         {p:'摆姿势 · 2/3',b:'一只手搭膝盖，身体前倾',s:'背挺直别驼，人往前探一点更活泼'},
+         {p:'摆姿势 · 3/3',b:'抬头大笑，看镜头',s:'笑容放大，露出牙齿更有元气'},
+         {p:'怎么拍 · 1/2',b:'蹲到和模特一样高',s:'平视拍，别俯视，人才精神'},
+         {p:'怎么拍 · 2/2',b:'头顶留白，四周留草地',s:'别贴顶，留点环境更有呼吸感'}
+       ]},
+      {id:'clean',em:'⬜',name:'极简高级',desc:'白墙、纯色背景，干净有质感',meta:'适合：白墙 / 走廊',
+       steps:[
+         {p:'摆姿势 · 1/3',b:'让模特肩膀轻靠墙面',s:'别整个身子贴死，屁股要离开墙'},
+         {p:'摆姿势 · 2/3',b:'一条腿弯起来，脚尖点地',s:'一前一后错开，比立正耐看十倍'},
+         {p:'摆姿势 · 3/3',b:'头轻轻歪向墙那侧',s:'下巴微收，眼神看镜头，表情冷一点'},
+         {p:'怎么拍 · 1/2',b:'把人放在画面正中间',s:'极简风用中心构图，四周留白要均匀'},
+         {p:'怎么拍 · 2/2',b:'手机拿平，别歪',s:'背景的横线要平，画面才干净'}
+       ]},
+      {id:'gentle',em:'☕',name:'温柔日常',desc:'咖啡店、窗边，安静治愈感',meta:'适合：室内 / 坐姿',
+       steps:[
+         {p:'摆姿势 · 1/3',b:'让模特坐直，只坐椅子前半段',s:'别靠进椅背，背挺直才精神'},
+         {p:'摆姿势 · 2/3',b:'双手捧杯子，手肘搭桌',s:'杯子放脸旁但别挡眼睛'},
+         {p:'摆姿势 · 3/3',b:'低头看杯子，再慢慢抬眼',s:'低头时轻轻笑，抬眼看镜头那刻抓拍'},
+         {p:'怎么拍 · 1/2',b:'靠近窗户，让光打在脸上',s:'侧光最温柔，避开顶光和闪光灯'},
+         {p:'怎么拍 · 2/2',b:'对准眼睛，背景虚掉',s:'点一下屏幕对焦眼睛，背景糊了人更突出'}
+       ]}
+    ]
+  },
+  landscape:{
+    name:'拍风景',sub:'选一种风景效果，我教你怎么取景、怎么构图',
+    list:[
+      {id:'grand',em:'🏔️',name:'大气宽广',desc:'天空、大海、草原，拍出辽阔感',meta:'构图法：三分法',
+       steps:[
+         {p:'构图 · 1/3',b:'手机横过来拿',s:'风景横拍才宽，双手握稳别晃'},
+         {p:'构图 · 2/3',b:'地平线放在下三分之一',s:'天空占三分之二，画面才显辽阔'},
+         {p:'构图 · 3/3',b:'地平线一定要放平',s:'对齐九宫格的横线，歪了就毁了'},
+         {p:'怎么拍 · 1/1',b:'对焦远处，按快门',s:'点一下远处对焦，等光稳定再拍'}
+       ]},
+      {id:'depth',em:'🌿',name:'层次纵深',desc:'花草、栏杆当前景，画面有立体感',meta:'构图法：前景+引导线',
+       steps:[
+         {p:'构图 · 1/3',b:'蹲低，贴近一片花草',s:'把花草放在画面最前面当前景'},
+         {p:'构图 · 2/3',b:'找一条引导线',s:'小路、栏杆、河流指向远处，眼睛会被带进去'},
+         {p:'构图 · 3/3',b:'主体放在线的尽头',s:'让引导线把视线引到主体上'},
+         {p:'怎么拍 · 1/1',b:'前景、主体都清楚再拍',s:'蹲低+对焦中间，前后都有层次'}
+       ]},
+      {id:'mirror',em:'🌊',name:'对称倒影',desc:'水面、湖边，天空之镜效果',meta:'构图法：对称',
+       steps:[
+         {p:'构图 · 1/3',b:'找一片平静的水面',s:'有水倒影才成立，风大就等一等'},
+         {p:'构图 · 2/3',b:'手机放低，贴近水面',s:'越低倒影越大，效果越震撼'},
+         {p:'构图 · 3/3',b:'地平线放画面正中间',s:'上下对称，倒影和实景各占一半'},
+         {p:'怎么拍 · 1/1',b:'等水面平静再按快门',s:'有涟漪就等几秒，倒影清晰才好看'}
+       ]},
+      {id:'minimal',em:'◽',name:'极简留白',desc:'少量元素，干净有意境',meta:'构图法：留白',
+       steps:[
+         {p:'构图 · 1/3',b:'画面里只留一个主体',s:'孤树、小船、一个人，元素越少越高级'},
+         {p:'构图 · 2/3',b:'主体放在角落交点',s:'对着九宫格一个交点，其它全是留白'},
+         {p:'构图 · 3/3',b:'背景选干净的纯色',s:'纯天空、纯沙地，别让杂物进来'},
+         {p:'怎么拍 · 1/1',b:'对焦主体，按快门',s:'留白越多越有呼吸感，别贪心塞满'}
+       ]}
+    ]
+  },
+  object:{
+    name:'拍物品',sub:'选一种质感效果，我教你怎么摆、怎么打光',
+    list:[
+      {id:'fresh',em:'🍃',name:'清新明亮',desc:'探店、美食、小物，干净通透',meta:'光线：自然侧光',
+       steps:[
+         {p:'摆放 · 1/2',b:'把东西放干净背景上',s:'桌面收拾干净，只留要拍的东西'},
+         {p:'摆放 · 2/2',b:'靠近窗户，光从侧面来',s:'侧光最通透，千万别开闪光灯'},
+         {p:'怎么拍 · 1/3',b:'手机从斜上方 45 度拍',s:'别正俯视也别平拍，斜一点最自然'},
+         {p:'怎么拍 · 2/3',b:'再靠近一点，填满画面',s:'东西占满画面，别留一大片空桌'},
+         {p:'怎么拍 · 3/3',b:'点屏幕对焦，按快门',s:'对准主体点一下，连拍几张选清楚的'}
+       ]},
+      {id:'texture',em:'✨',name:'高级质感',desc:'化妆品、首饰、摆件，突出细节',meta:'光线：侧逆光',
+       steps:[
+         {p:'摆放 · 1/2',b:'用深色或纯色背景',s:'背景越简单，东西越显高级'},
+         {p:'摆放 · 2/2',b:'让光从侧后方照过来',s:'侧逆光勾出轮廓和质感，避免正面平光'},
+         {p:'怎么拍 · 1/3',b:'手机贴近，只拍局部细节',s:'凑近拍纹理、logo，细节就是质感'},
+         {p:'怎么拍 · 2/3',b:'把主体放画面正中',s:'中心构图，四周留白均匀'},
+         {p:'怎么拍 · 3/3',b:'对焦最清晰的那个点',s:'点一下最关键处，确保它最锐利'}
+       ]},
+      {id:'life',em:'🛋️',name:'生活氛围',desc:'带点使用场景，日常有故事感',meta:'构图：三分法',
+       steps:[
+         {p:'摆放 · 1/2',b:'把东西放进真实场景',s:'书旁边放咖啡、花瓶旁放毯子，有生活气'},
+         {p:'摆放 · 2/2',b:'找窗边的自然光',s:'上午或傍晚的光最柔，氛围最好'},
+         {p:'怎么拍 · 1/3',b:'稍微从侧面拍，带入环境',s:'别只怼着拍，带一点周围更自然'},
+         {p:'怎么拍 · 2/3',b:'主体放在三分交点',s:'对着九宫格交点，画面更耐看'},
+         {p:'怎么拍 · 3/3',b:'对焦主体，按快门',s:'点一下主体，背景稍微糊掉更有氛围'}
+       ]}
+    ]
+  }
 };
 
 let ezMode=null;          // portrait | landscape | object
-let ezScene=null;         // 场景 key
-let ezPhase='pose';       // pose | shoot（人像）；landscape/object 只有 shoot
-let ezSteps=[];           // 当前阶段的步骤数组
+let ezStyleId=null;       // 当前选中的风格 id
+let ezSteps=[];           // 当前风格的步骤数组
 let ezIdx=0;              // 当前步索引
 let ezStream=null, ezFacing='environment', ezStillData=null;
+let ezGuide=null;         // 当前辅助线：thirds | golden | center | none
 
 /* 初始化：确保旧版首页默认隐藏，傻瓜层在最前 */
 $('#homeView').classList.add('hidden');
@@ -1611,11 +1664,13 @@ $('#homeView').classList.add('hidden');
 const ezShow=id=>{$$('.ez-page').forEach(p=>p.classList.remove('on'));$('#'+id).classList.add('on');};
 const ezToast=msg=>{const t=$('#ezToast');t.textContent=msg;t.classList.add('on');clearTimeout(ezToast._t);ezToast._t=setTimeout(()=>t.classList.remove('on'),1800);};
 
-/* 首页三按钮 */
+/* 首页三按钮 → 风格方案选择页 */
 $$('#ezHome .ez-bigbtn').forEach(b=>b.onclick=()=>{
   ezMode=b.dataset.mode;
-  if(ezMode==='portrait'){renderEzScenes();ezShow('ezScene');}
-  else{ezPhase='shoot';ezScene=null;ezSteps=(ezMode==='landscape'?EZ_LANDSCAPE:EZ_OBJECT).steps;ezIdx=0;enterEzGuide();}
+  $('#ezStyleModeName').textContent=EZ_STYLES[ezMode].name;
+  $('#ezStyleModeSub').textContent=EZ_STYLES[ezMode].sub;
+  renderEzStyles();
+  ezShow('ezStyle');
 });
 /* 高级入口：隐藏傻瓜层，显示旧版 */
 $('#ezAdvBtn').onclick=()=>{
@@ -1632,24 +1687,68 @@ $('#ezBackToSimple').onclick=()=>{
   $('#ezBackToSimple').classList.remove('on');
   ezShow('ezHome');
 };
-/* 场景列表 */
-function renderEzScenes(){
-  $('#ezSceneGrid').innerHTML=Object.keys(EZ_SCENES).map(k=>{
-    const s=EZ_SCENES[k];
-    return `<div class="ez-scene" data-k="${k}"><span class="em">${s.em}</span><b>${s.name}</b><span>${s.sub}</span></div>`;
-  }).join('');
-  $$('#ezSceneGrid .ez-scene').forEach(el=>el.onclick=()=>{
-    ezScene=el.dataset.k;ezPhase='pose';ezSteps=EZ_SCENES[ezScene].pose;ezIdx=0;enterEzGuide();
+$$('#ezStyle [data-gohome]').forEach(b=>b.onclick=()=>ezShow('ezHome'));
+
+/* 风格方案列表 */
+function renderEzStyles(){
+  const list=EZ_STYLES[ezMode].list;
+  $('#ezStyleList').innerHTML=list.map(s=>
+    `<div class="ez-style-card" data-id="${s.id}">
+       <div class="em">${s.em}</div>
+       <div class="tx"><b>${s.name}</b><span>${s.desc}</span><span class="meta">${s.meta}</span></div>
+       <div class="go">›</div>
+     </div>`).join('');
+  $$('#ezStyleList .ez-style-card').forEach(el=>el.onclick=()=>{
+    ezStyleId=el.dataset.id;
+    const st=list.find(x=>x.id===ezStyleId);
+    ezSteps=st.steps;ezIdx=0;
+    enterEzGuide();
   });
 }
-$$('#ezScene [data-gohome]').forEach(b=>b.onclick=()=>ezShow('ezHome'));
+
+/* 顶部"换风格"：回到风格选择页 */
+$('#ezChangeStyle').onclick=()=>{
+  renderEzStyles();
+  ezShow('ezStyle');
+};
+
+/* 辅助线 SVG（叠加层，真实画在取景画面上） */
+function ezGuideSVG(kind){
+  if(kind==='none')return '';
+  let s='<g fill="none" stroke="rgba(255,255,255,.9)">';
+  if(kind==='thirds'){
+    s+='<rect x="0.5" y="0.5" width="99" height="132" stroke-width=".5"/>';
+    s+='<path d="M33.7 0v133M66.3 0v133M0 44.7h100M0 88.3h100" stroke-width=".45" stroke="rgba(255,255,255,.75)"/>';
+    s+='<g fill="#ffd23f" stroke="none"><circle cx="33.7" cy="44.7" r="1.2"/><circle cx="66.3" cy="44.7" r="1.2"/><circle cx="33.7" cy="88.3" r="1.2"/><circle cx="66.3" cy="88.3" r="1.2"/></g>';
+  }else if(kind==='golden'){
+    s+='<rect x="0.5" y="0.5" width="99" height="132" stroke-width=".5"/>';
+    s+='<path d="M100 31H70a30 30 0 0 0-30 30v43a19 19 0 0 1-19 19H2M2 53a19 19 0 0 1 19-19M40 31a30 30 0 0 1 30-30M70 104a19 19 0 0 0 19 19" stroke-width=".5" stroke="rgba(255,255,255,.8)"/>';
+  }else if(kind==='center'){
+    s+='<rect x="0.5" y="0.5" width="99" height="132" stroke-width=".5"/>';
+    s+='<rect x="27" y="36" width="46" height="61" stroke-width=".6" stroke="#ffd23f"/>';
+    s+='<path d="M50 0v12M50 121v12M0 66.5h12M88 66.5h12" stroke-width=".6"/>';
+  }
+  s+='</g>';return s;
+}
+const EZ_GUIDES=[['thirds','九宫格'],['golden','螺旋'],['center','中心框'],['none','无']];
+function renderEzGridbar(){
+  $('#ezGridbar').innerHTML=EZ_GUIDES.map(([k,n])=>`<button class="gb ${k===ezGuide?'on':''}" data-g="${k}">${n}</button>`).join('');
+  $$('#ezGridbar .gb').forEach(b=>b.onclick=()=>{
+    ezGuide=b.dataset.g;
+    $('#ezGrid').innerHTML=ezGuideSVG(ezGuide);
+    renderEzGridbar();
+  });
+}
 
 /* 进入引导页 */
 function enterEzGuide(){
   ezShow('ezGuide');
-  const isPortrait=ezMode==='portrait';
-  $('#ezGuideTitle').textContent=isPortrait?'拍人':(ezMode==='landscape'?'拍风景':'拍物品');
-  $('#ezGuideScene').textContent=isPortrait?EZ_SCENES[ezScene].name:'跟着做就行';
+  const st=EZ_STYLES[ezMode].list.find(x=>x.id===ezStyleId);
+  $('#ezGuideTitle').textContent=st.name;
+  $('#ezGuideScene').textContent=EZ_STYLES[ezMode].name+' · '+st.meta.replace('适合：','').replace('构图法：','').replace('光线：','');
+  ezGuide='thirds';                 // 每次进入默认九宫格
+  $('#ezGrid').innerHTML=ezGuideSVG(ezGuide);
+  renderEzGridbar();
   renderEzStep();
   startEzCam();
 }
@@ -1659,12 +1758,11 @@ function renderEzStep(){
   $('#ezPhase').textContent=st.p;
   $('#ezBig').textContent=st.b;
   $('#ezSub').textContent=st.s||'';
-  $('#ezStepPill').textContent=(ezIdx+1)+' / '+ezSteps.length;
-  $('#ezStageTag').textContent=ezMode==='portrait'?(ezPhase==='pose'?'摆姿势':'教拍摄'):'教拍摄';
+  $('#ezStageTag').textContent=(ezIdx+1)+' / '+ezSteps.length;
   $('#ezDots').innerHTML=ezSteps.map((_,i)=>`<i class="${i<ezIdx?'done':(i===ezIdx?'on':'')}"></i>`).join('');
   $('#ezPrev').disabled=ezIdx===0;
   const isLast=ezIdx===ezSteps.length-1;
-  $('#ezNext').textContent=isLast?(ezPhase==='pose'?'姿势摆好了，教我怎么拍 ›':'我学会了，去拍照 ›'):'下一步 ›';
+  $('#ezNext').textContent=isLast?'我摆好了，去拍照 ›':'下一步 ›';
   $('#ezNav').style.display='flex';
   $('#ezShutterWrap').classList.remove('on');
   window.scrollTo({top:0});
@@ -1672,28 +1770,19 @@ function renderEzStep(){
 $('#ezPrev').onclick=()=>{if(ezIdx>0){ezIdx--;renderEzStep();}};
 $('#ezNext').onclick=()=>{
   if(ezIdx<ezSteps.length-1){ezIdx++;renderEzStep();return;}
-  // 当前阶段最后一步
-  if(ezMode==='portrait'&&ezPhase==='pose'){
-    ezPhase='shoot';ezSteps=EZ_SHOOT_PORTRAIT;ezIdx=0;renderEzStep();
-    ezToast('接下来教你怎么拍');
-  }else{
-    // 教学完成 → 显示快门
-    $('#ezNav').style.display='none';
-    $('#ezShutterWrap').classList.add('on');
-    $('#ezStepPill').textContent='就绪 ✓';
-    $('#ezPhase').textContent='准备好了';
-    $('#ezBig').textContent='现在，按这个大圆圈拍照';
-    $('#ezSub').textContent='摆好姿势、对好焦，按下去就自动存好';
-    $('#ezDots').innerHTML=ezSteps.map(()=>`<i class="done"></i>`).join('');
-  }
+  // 最后一步 → 显示快门
+  $('#ezNav').style.display='none';
+  $('#ezShutterWrap').classList.add('on');
+  $('#ezPhase').textContent='准备好了';
+  $('#ezBig').textContent='现在，按这个大圆圈拍照';
+  $('#ezSub').textContent='姿势摆好、对好焦，按下去就自动存好；不满意可重教';
+  $('#ezDots').innerHTML=ezSteps.map(()=>`<i class="done"></i>`).join('');
 };
-$('#ezSkip').onclick=()=>{ // 还教一遍
-  if(ezMode==='portrait'){ezPhase='pose';ezSteps=EZ_SCENES[ezScene].pose;}
-  else{ezSteps=(ezMode==='landscape'?EZ_LANDSCAPE:EZ_OBJECT).steps;}
+$('#ezSkip').onclick=()=>{ // 还教一遍：回到该风格第1步
   ezIdx=0;renderEzStep();
 };
 $('#ezDone').onclick=()=>{stopEzCam();ezShow('ezHome');};
-$('#ezGuideBack').onclick=()=>{stopEzCam();ezMode==='portrait'?ezShow('ezScene'):ezShow('ezHome');};
+$('#ezGuideBack').onclick=()=>{stopEzCam();renderEzStyles();ezShow('ezStyle');};
 
 /* 傻瓜层摄像头 */
 async function startEzCam(){
