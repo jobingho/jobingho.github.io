@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#e8622c">
+<title>随手拍教练 · 拍照构图与姿势指导</title>
+<style>
+:root{
+  --bg:#f4f1ec; --card:#fffdfa; --ink:#2b2622; --muted:#8a8078; --faint:#b9b0a7;
+  --accent:#e8622c; --accent-soft:#fde9df; --accent-2:#c9471b;
+  --line:#ebe4dc; --ok:#2f9e6e; --ok-soft:#e4f5ec; --warn:#c98a17; --warn-soft:#fbf1d9;
+  --shadow:0 2px 14px rgba(60,40,20,.07); --r:16px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--ink); font-size:15px; line-height:1.6;
+  max-width:520px; margin:0 auto; min-height:100vh; padding-bottom:env(safe-area-inset-bottom);
+}
+header{position:sticky;top:0;z-index:50;background:rgba(244,241,236,.94);backdrop-filter:blur(10px);
+  padding:14px 16px 0;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;padding-bottom:12px}
+.logo{width:34px;height:34px;border-radius:11px;background:var(--accent);display:flex;align-items:center;
+  justify-content:center;flex:none}
+.logo svg{width:20px;height:20px}
+.brand h1{font-size:17px;margin:0;font-weight:600;letter-spacing:.5px}
+.brand .sub{font-size:11px;color:var(--muted);margin-top:1px}
+.tabs{display:flex;gap:4px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 12px;
+  color:var(--muted);font-size:12px;cursor:pointer;border-bottom:3px solid transparent;transition:.18s;background:none;border-top:0;border-left:0;border-right:0}
+.tab svg{width:22px;height:22px}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+main{padding:16px}
+.section{display:none;animation:fade .25s ease}
+.section.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;
+  box-shadow:var(--shadow);margin-bottom:14px}
+.card.tight{padding:12px}
+.h2{font-size:15px;font-weight:600;margin:0 0 4px}
+.hint{font-size:12px;color:var(--muted);margin:0 0 12px}
+.seg{display:flex;background:var(--bg);border-radius:11px;padding:3px;gap:3px;margin-bottom:14px}
+.seg button{flex:1;border:0;background:none;padding:9px 3px;border-radius:8px;font-size:12.5px;color:var(--muted);
+  cursor:pointer;font-family:inherit;transition:.15s;white-space:nowrap}
+.seg button.on{background:var(--card);color:var(--accent);font-weight:600;box-shadow:0 1px 5px rgba(0,0,0,.06)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);
+  font-size:13px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-2);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.pose{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 8px 10px;
+  text-align:center;cursor:pointer;transition:.15s;box-shadow:var(--shadow)}
+.pose:active{transform:scale(.97)}
+.pose svg{width:100%;height:150px;display:block}
+.pose .nm{font-size:13px;font-weight:600;margin-top:6px}
+.pose .tp{font-size:11px;color:var(--muted);line-height:1.4;margin-top:3px;min-height:30px}
+.tipbox{background:var(--accent-soft);border-radius:12px;padding:14px;margin-top:12px;font-size:13px;
+  color:#7a3417;display:none;line-height:1.7}
+.tipbox.show{display:block}
+.tipbox b{color:var(--accent-2)}
+.compcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;
+  box-shadow:var(--shadow)}
+.compcard .top{display:flex;gap:12px;align-items:center}
+.compcard svg{width:110px;height:74px;flex:none;border-radius:8px;border:1px solid var(--line);background:#fff}
+.compcard h3{margin:0;font-size:14px;font-weight:600}
+.compcard p{margin:4px 0 0;font-size:12px;color:var(--muted)}
+.compcard .key{margin-top:10px;font-size:12px;background:var(--bg);border-radius:8px;padding:8px 10px;color:var(--ink)}
+.compcard .key b{color:var(--accent-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:12px;
+  padding:12px 18px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:.15s}
+.btn svg{width:18px;height:18px}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--accent);color:#fff;flex:1;box-shadow:0 3px 10px rgba(232,98,44,.28)}
+.btn.ghost{background:var(--bg);color:var(--ink)}
+.btn.ok{background:var(--ok);color:#fff}
+.btn.block{width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px}
+.viewport{position:relative;width:100%;aspect-ratio:3/4;background:#1c1a18;border-radius:14px;overflow:hidden;
+  max-height:66vh}
+.viewport video,.viewport canvas.base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.overlay{position:absolute;inset:0;pointer-events:none}
+.overlay svg{width:100%;height:100%;display:block}
+.guide-tip{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(20,18,16,.72);color:#fff;
+  font-size:12px;padding:9px 12px;border-radius:10px;line-height:1.5;pointer-events:none}
+.ctrl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.ctrl{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center;
+  cursor:pointer;font-size:11px;color:var(--muted)}
+.ctrl svg{width:22px;height:22px;display:block;margin:0 auto 4px}
+.ctrl.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-2);font-weight:600}
+.cam-bar{display:flex;gap:12px;align-items:center;margin-top:14px}
+.shutter{width:70px;height:70px;border-radius:50%;background:#fff;border:5px solid var(--accent);flex:none;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.15)}
+.shutter:active{transform:scale(.94)}
+.shutter i{width:52px;height:52px;border-radius:50%;background:var(--accent);display:block}
+.notice{font-size:12px;color:#7a3417;background:var(--warn-soft);border:1px solid #f0dca6;border-radius:12px;
+  padding:12px;margin-bottom:12px;line-height:1.6}
+.album{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.album .ph{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;border:1px solid var(--line);cursor:pointer;background:#eee}
+.album .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.album .ph .del{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.55);
+  color:#fff;font-size:14px;line-height:22px;text-align:center}
+.empty{text-align:center;color:var(--faint);font-size:13px;padding:22px 0}
+.zm-wrap{position:relative;width:100%;border-radius:14px;overflow:hidden;background:#1c1a18;touch-action:none}
+.zm-wrap canvas,.zm-wrap img{display:block;width:100%;height:auto}
+.crop-box{position:absolute;border:2px dashed #fff;box-shadow:0 0 0 9999px rgba(0,0,0,.5);pointer-events:auto}
+.crop-box .hd{position:absolute;width:20px;height:20px;background:#fff;border-radius:4px;right:-10px;bottom:-10px;cursor:nwse-resize}
+.crop-box .mv{position:absolute;inset:0;cursor:move}
+.slider{margin:12px 0}
+.slider label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px}
+.slider label b{color:var(--ink);font-weight:600}
+input[type=range]{width:100%;accent-color:var(--accent);height:22px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cmp figure{margin:0}
+.cmp .frame{position:relative;aspect-ratio:3/4;background:#1c1a18;border-radius:12px;overflow:hidden}
+.cmp .frame img{width:100%;height:100%;object-fit:contain;display:block}
+.cmp figcaption{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
+.cmp .frame.orig:after,.cmp .frame.final:after{content:attr(data-l);position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);
+  color:#fff;font-size:10px;padding:3px 8px;border-radius:6px}
+.diag{background:var(--bg);border-radius:12px;padding:12px;font-size:12.5px;line-height:1.7}
+.diag li{margin:3px 0}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:6px;margin-right:6px}
+.tag.g{background:var(--ok-soft);color:var(--ok)}
+.tag.w{background:var(--warn-soft);color:var(--warn)}
+.mask{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.mask.show{display:flex}
+.mask .big{background:var(--card);border-radius:18px;padding:18px;max-width:420px;width:100%;max-height:88vh;overflow:auto}
+.mask .big svg{width:100%;height:300px;display:block}
+.mask .close{float:right;border:0;background:var(--bg);width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;color:var(--muted)}
+.spin{width:18px;height:18px;border:2px solid rgba(255,255,255,.5);border-top-color:#fff;border-radius:50%;
+  animation:sp .7s linear infinite;display:inline-block;vertical-align:middle}
+@keyframes sp{to{transform:rotate(360deg)}}
+.foot{text-align:center;font-size:11px;color:var(--faint);padding:10px 0 22px}
+.hidden{display:none!important}
+.chk-item{display:flex;align-items:flex-start;gap:11px;padding:11px 12px;border-radius:11px;background:var(--bg);
+  margin-bottom:8px;cursor:pointer;transition:.15s}
+.chk-item.done{background:var(--ok-soft)}
+.chk-box{width:21px;height:21px;flex:none;border:2px solid var(--faint);border-radius:6px;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;transition:.15s}
+.chk-item.done .chk-box{background:var(--ok);border-color:var(--ok)}
+.chk-box svg{width:14px;height:14px;opacity:0}
+.chk-item.done .chk-box svg{opacity:1}
+.chk-tx b{display:block;font-size:13px;font-weight:600}
+.chk-item.done .chk-tx b{color:var(--ok);text-decoration:line-through;opacity:.7}
+.chk-tx span{font-size:11.5px;color:var(--muted);line-height:1.5}
+.chk-progress{display:flex;align-items:center;gap:10px;margin:2px 0 14px}
+.chk-progress .bar{flex:1;height:8px;background:var(--bg);border-radius:99px;overflow:hidden}
+.chk-progress .bar i{display:block;height:100%;background:var(--ok);width:0;border-radius:99px;transition:.3s}
+.chk-progress .num{font-size:12px;color:var(--muted);flex:none}
+.cmp-pose{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.cmp-pose .hd{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.cmp-pose .hd .no{width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent-2);
+  font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.cmp-pose .hd b{font-size:13.5px;font-weight:600}
+.cmp-pose .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmp-pose .side{text-align:center;border-radius:11px;padding:8px 6px}
+.cmp-pose .side.bad{background:#fdeeee}
+.cmp-pose .side.good{background:var(--ok-soft)}
+.cmp-pose .side svg{width:100%;height:120px;display:block}
+.cmp-pose .side .lb{font-size:11px;font-weight:600;margin-top:4px}
+.cmp-pose .side.bad .lb{color:#c0392b}
+.cmp-pose .side.good .lb{color:var(--ok)}
+.cmp-pose .why{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6;background:var(--bg);border-radius:9px;padding:9px 11px}
+.cmp-pose .why b{color:var(--ink)}
+.scene-note{font-size:11px;color:var(--accent-2);background:var(--accent-soft);border-radius:6px;padding:1px 7px;margin-left:6px}
+/* ===== 首页模式选择 ===== */
+#homeView{position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;padding:52px 20px 30px;
+  display:flex;flex-direction:column;max-width:520px;margin:0 auto}
+.home-logo{width:52px;height:52px;border-radius:16px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.home-logo svg{width:30px;height:30px}
+.home-title{font-size:26px;font-weight:700;letter-spacing:.5px;margin:0}
+.home-sub{font-size:14px;color:var(--muted);margin:6px 0 26px}
+.mode-card{display:flex;align-items:center;gap:14px;background:var(--card);border:1.5px solid var(--line);border-radius:18px;
+  padding:18px 16px;margin-bottom:13px;cursor:pointer;box-shadow:var(--shadow);transition:.16s}
+.mode-card:active{transform:scale(.98)}
+.mode-card .ic{width:52px;height:52px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center}
+.mode-card[data-mode=portrait] .ic{background:var(--accent-soft);color:var(--accent-2)}
+.mode-card[data-mode=landscape] .ic{background:#e4f0e9;color:#2f8a5b}
+.mode-card[data-mode=object] .ic{background:#e8edf7;color:#3a63b0}
+.mode-card .ic svg{width:28px;height:28px}
+.mode-card .tx{flex:1;min-width:0}
+.mode-card .tx b{font-size:16px;font-weight:600;display:block}
+.mode-card .tx span{font-size:12px;color:var(--muted);display:block;margin-top:3px}
+.mode-card .arw{color:var(--faint);flex:none}
+.mode-card .arw svg{width:20px;height:20px}
+.home-foot{margin-top:auto;padding-top:20px;text-align:center;font-size:11.5px;color:var(--faint);line-height:1.7}
+/* ===== 预览页 ===== */
+.prev-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.prev-mode-tag{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--accent-2);background:var(--accent-soft);border-radius:99px;padding:6px 12px}
+.prev-mode-tag svg{width:16px;height:16px}
+.mini-btn{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:7px 11px;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit}
+.prev-viewport{position:relative;width:100%;aspect-ratio:3/4;background:#1c1a18;border-radius:16px;overflow:hidden;max-height:60vh}
+.prev-viewport video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.prev-overlay{position:absolute;inset:0;pointer-events:none}
+.prev-overlay svg{width:100%;height:100%;display:block}
+.prev-hud{position:absolute;left:10px;right:10px;top:10px;background:rgba(20,18,16,.72);color:#fff;border-radius:11px;padding:10px 12px;font-size:13px;line-height:1.5;display:flex;align-items:flex-start;gap:8px}
+.prev-hud .step-no{background:var(--accent);border-radius:6px;padding:1px 7px;font-size:11px;flex:none;font-weight:600}
+.prev-notice{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(20,18,16,.72);color:#fff;border-radius:10px;padding:8px 11px;font-size:11.5px;line-height:1.5}
+.prev-tools{display:flex;gap:8px;margin-top:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.prev-tools::-webkit-scrollbar{display:none}
+.prev-tools .pt{flex:none;padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:12px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.prev-tools .pt.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-2);font-weight:600}
+.script-card{margin-top:12px}
+.script-name{font-size:14px;font-weight:600}
+.script-desc{font-size:11.5px;color:var(--muted);margin:2px 0 10px}
+.step-track{display:flex;gap:5px;margin-bottom:10px}
+.step-track i{flex:1;height:5px;border-radius:99px;background:var(--line)}
+.step-track i.on{background:var(--accent)}
+.step-track i.done{background:var(--ok)}
+.step-tip{background:var(--bg);border-radius:11px;padding:12px;font-size:13px;line-height:1.6;min-height:44px}
+.step-tip b{color:var(--accent-2)}
+.step-nav{display:flex;gap:8px;margin-top:10px}
+.step-nav .btn{padding:10px}
+.script-picker{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:10px}
+.script-picker::-webkit-scrollbar{display:none}
+.script-picker .sp{flex:none;padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:12px;cursor:pointer;white-space:nowrap}
+.script-picker .sp.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.pose-strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-top:8px;padding-bottom:4px}
+.pose-strip::-webkit-scrollbar{display:none}
+.pose-strip .ps{flex:none;width:64px;text-align:center;cursor:pointer}
+.pose-strip .ps svg{width:64px;height:78px;background:var(--bg);border-radius:9px;border:1.5px solid var(--line)}
+.pose-strip .ps.on svg{border-color:var(--ok);background:var(--ok-soft)}
+.pose-strip .ps span{font-size:10px;color:var(--muted);display:block;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+</style>
+</head>
+<body>
+
+<!-- ============ 首页：模式选择 ============ -->
+<div id="homeView">
+  <div class="home-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3l2-3h8l2 3h3v11H3z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+  <h1 class="home-title">随手拍教练</h1>
+  <p class="home-sub">选一个模式，举起手机就能拍好</p>
+
+  <div class="mode-card" data-mode="portrait">
+    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3.2"/><path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"/></svg></div>
+    <div class="tx"><b>人像拍照</b><span>姿势 + 构图双指导，照着骨架摆</span></div>
+    <div class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+  </div>
+  <div class="mode-card" data-mode="landscape">
+    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l5-6 4 5 3-4 6 5z"/><circle cx="17" cy="6" r="2"/></svg></div>
+    <div class="tx"><b>风景拍照</b><span>构图指导，地平线、三分线一眼对齐</span></div>
+    <div class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+  </div>
+  <div class="mode-card" data-mode="object">
+    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg></div>
+    <div class="tx"><b>静物 / 好物</b><span>构图 + 光影指导，探店随手出片</span></div>
+    <div class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+  </div>
+
+  <div class="home-foot">照片全程本地处理，不上传 · 拍完可继续修图<br>底部导航可随时回到「拍前学」「拍后修」</div>
+</div>
+
+<header class="hidden" id="mainHeader">
+  <div class="brand">
+    <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3l2-3h8l2 3h3v11H3z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+    <div><h1>随手拍教练</h1><div class="sub">不会构图、不会摆姿？跟着拍就行</div></div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-tab="preview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3l2-3h8l2 3h3v11H3z"/><circle cx="12" cy="13" r="3.5"/></svg>拍摄</button>
+    <button class="tab" data-tab="learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 5.5V21"/></svg>拍前学</button>
+    <button class="tab" data-tab="edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></svg>拍后修</button>
+  </div>
+</header>
+
+<main id="mainWrap" class="hidden">
+
+<!-- ============ 拍摄预览页（核心页） ============ -->
+<section class="section active" id="sec-preview">
+  <div class="prev-top">
+    <div class="prev-mode-tag" id="prevModeTag">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="7" r="3.2"/><path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"/></svg>
+      <span id="prevModeName">人像模式</span>
+    </div>
+    <button class="mini-btn" id="changeMode">换模式</button>
+  </div>
+
+  <div id="camNotice2" class="notice hidden"></div>
+
+  <div class="prev-viewport" id="prevViewport">
+    <video id="prevVideo" playsinline autoplay muted></video>
+    <div class="prev-overlay"><svg id="prevOverlay" viewBox="0 0 100 133" preserveAspectRatio="none"></svg></div>
+    <div class="prev-hud" id="prevHud"><span class="step-no" id="hudNo">提示</span><span id="hudText">先选辅助线和提示，再按快门</span></div>
+    <div class="prev-notice" id="prevNotice">照片只存在本机，不上传</div>
+  </div>
+
+  <div class="prev-tools" id="guideTools">
+    <div class="pt on" data-guide="thirds">三分线</div>
+    <div class="pt" data-guide="golden">黄金螺旋</div>
+    <div class="pt" data-guide="lead">引导框</div>
+    <div class="pt" data-guide="none">无辅助线</div>
+  </div>
+  <div class="prev-tools" id="tipTools"></div>
+
+  <div class="card script-card" id="portraitScript">
+    <div class="h2" style="font-size:13px;margin-bottom:2px">人像动作脚本</div>
+    <div class="script-picker" id="scriptPicker"></div>
+    <div class="script-name" id="scriptName"></div>
+    <div class="script-desc" id="scriptDesc"></div>
+    <div class="step-track" id="stepTrack"></div>
+    <div class="step-tip" id="stepTip"></div>
+    <div class="step-nav">
+      <button class="btn ghost" id="stepPrev" style="flex:1">上一步</button>
+      <button class="btn primary" id="stepNext" style="flex:2">下一步</button>
+    </div>
+    <div style="margin-top:10px">
+      <div class="h2" style="font-size:12.5px;margin-bottom:2px">对着骨架摆 · 点选姿势</div>
+      <div class="pose-strip" id="poseStrip"></div>
+    </div>
+  </div>
+
+  <div class="cam-bar">
+    <input type="file" id="prevFile" accept="image/*" class="hidden">
+    <button class="btn ghost" id="prevPick" style="flex:none;padding:12px">从相册选</button>
+    <div class="shutter" id="prevShutter"><i></i></div>
+    <button class="btn ghost" id="prevFlip" style="flex:none;padding:12px">翻转镜头</button>
+  </div>
+  <div class="foot">辅助线和提示为静态参照，不识别画面内容 · 姿势骨架为示范，绿色代表目标姿态</div>
+</section>
+
+<!-- ============ 拍前学 ============ -->
+<section class="section" id="sec-learn">
+  <div class="seg">
+    <button class="on" data-sub="check">拍前自查</button>
+    <button data-sub="poses">姿势图库</button>
+    <button data-sub="wrong">错误对照</button>
+    <button data-sub="comp">构图法则</button>
+  </div>
+
+  <div id="sub-check">
+    <div class="card tight"><p class="hint" style="margin:0">举起手机后 3 秒扫一遍，打完勾再按快门。选择你正在拍的类型：</p></div>
+    <div class="chips" id="checkChips"></div>
+    <div class="card">
+      <div class="chk-progress">
+        <div class="bar"><i id="chkBar"></i></div>
+        <div class="num" id="chkNum">0/6</div>
+      </div>
+      <div id="checkList"></div>
+      <button class="btn ghost block" id="chkReset" style="margin-top:6px">重置本类清单</button>
+    </div>
+  </div>
+
+  <div id="sub-poses" class="hidden">
+    <div class="seg" style="margin-bottom:10px">
+      <button class="on" data-poseway="scene">按场景找</button>
+      <button data-poseway="body">按姿势找</button>
+    </div>
+    <div class="card tight"><p class="hint" style="margin:0" id="poseHint">先选你要拍的场景，我把适合这个场景的姿势挑出来。</p></div>
+    <div class="chips" id="poseChips"></div>
+    <div class="grid" id="poseGrid"></div>
+  </div>
+
+  <div id="sub-wrong" class="hidden">
+    <div class="card tight"><p class="hint" style="margin:0">左边是常见的错误摆法，右边是改好的样子。对照看看自己有没有中招。</p></div>
+    <div id="wrongList"></div>
+  </div>
+
+  <div id="sub-comp" class="hidden">
+    <div class="card tight"><p class="hint" style="margin:0">风景和物品没有摆姿势的问题，关键是"把东西放哪里"。每张卡片一句话就懂。</p></div>
+    <div id="compList"></div>
+  </div>
+  <div class="foot">线稿为示意，重点是记住身体各部位的相对位置</div>
+</section>
+
+<!-- ============ 拍中拍 ============ -->
+<section class="section" id="sec-shoot">
+  <div id="camNotice" class="notice hidden"></div>
+  <div class="viewport" id="viewport">
+    <video id="video" playsinline autoplay muted></video>
+    <canvas class="base hidden" id="stillBase"></canvas>
+    <div class="overlay"><svg id="overlaySvg" viewBox="0 0 100 133" preserveAspectRatio="none"></svg></div>
+    <div class="guide-tip" id="guideTip">打开摄像头后，选好辅助线，对准轮廓摆姿势</div>
+  </div>
+
+  <div class="ctrl-grid">
+    <div class="ctrl" data-guide="none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 12h6"/></svg>无</div>
+    <div class="ctrl on" data-guide="thirds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>三分</div>
+    <div class="ctrl" data-guide="center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><rect x="8" y="8" width="8" height="8"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/></svg>中心</div>
+    <div class="ctrl" data-guide="golden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M6 3v9a6 6 0 0 0 6 6h9M21 3v6h-6a3 3 0 0 1-3-3V3"/></svg>螺旋</div>
+  </div>
+
+  <div class="card tight" style="margin-top:12px">
+    <div class="row" style="align-items:center">
+      <div style="flex:1">
+        <div class="h2" style="font-size:13px">半透明姿势轮廓</div>
+        <p class="hint" style="margin:0">叠在画面上，对着摆。可拖动、双指缩放、翻转</p>
+      </div>
+      <button class="btn ghost" id="poseToggle" style="flex:none;padding:9px 12px">开启</button>
+    </div>
+    <div class="chips" id="overlayPoseChips" style="margin-top:10px;margin-bottom:0"></div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn ghost" id="flipPose" style="flex:1;padding:9px">左右翻转</button>
+      <button class="btn ghost" id="resetPose" style="flex:1;padding:9px">复位</button>
+    </div>
+  </div>
+
+  <div class="card tight">
+    <div class="row" style="align-items:center">
+      <div style="flex:1">
+        <div class="h2" style="font-size:13px">主体自动识别</div>
+        <p class="hint" style="margin:0">本地算法框出主体并提示位置，不上传照片</p>
+      </div>
+      <button class="btn ghost" id="detectToggle" style="flex:none;padding:9px 12px">开启</button>
+    </div>
+  </div>
+
+  <div class="cam-bar">
+    <input type="file" id="shootFile" accept="image/*" class="hidden">
+    <button class="btn ghost" id="pickFromAlbum" style="flex:none;padding:12px">从相册选</button>
+    <div class="shutter" id="shutter"><i></i></div>
+    <button class="btn ghost" id="switchCam" style="flex:none;padding:12px">翻转镜头</button>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="h2" style="font-size:13px">我的照片 <span id="albumCount" style="color:var(--muted);font-weight:400"></span></div>
+    <div class="album" id="album"></div>
+  </div>
+  <div class="foot">照片只存在这台设备的浏览器里，不会上传到任何服务器</div>
+</section>
+
+<!-- ============ 拍后修 ============ -->
+<section class="section" id="sec-edit">
+  <div id="editEmpty" class="card">
+    <div class="empty">
+      <svg viewBox="0 0 24 24" width="46" height="46" fill="none" stroke="var(--faint)" stroke-width="1.4"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5-6 7"/></svg>
+      <div style="margin-top:8px">还没有照片</div>
+      <div style="font-size:12px;margin-top:2px">去"拍中拍"拍一张，或从相册选一张</div>
+    </div>
+    <button class="btn primary block" id="editPick" style="margin-top:6px">从相册选一张照片</button>
+    <input type="file" id="editFile" accept="image/*" class="hidden">
+  </div>
+
+  <div id="editWork" class="hidden">
+    <div class="seg">
+      <button class="on" data-edit="crop">裁剪</button>
+      <button data-edit="tone">调色</button>
+      <button data-edit="beauty">美颜</button>
+    </div>
+
+    <div id="ep-crop">
+      <div class="card tight">
+        <p class="hint" style="margin:0 0 8px">拖动框选保留区域，右下角可缩放。选好点"应用裁剪"。</p>
+        <div class="chips" id="cropPresets" style="margin-bottom:10px">
+          <button class="chip" data-ar="free">自由</button>
+          <button class="chip" data-ar="1">方形 1:1</button>
+          <button class="chip on" data-ar="0.75">竖 3:4</button>
+          <button class="chip" data-ar="0.5625">竖 9:16</button>
+          <button class="chip" data-ar="1.5">横 3:2</button>
+        </div>
+        <div class="zm-wrap" id="cropWrap">
+          <img id="cropImg" alt="裁剪预览">
+          <div class="crop-box" id="cropBox"><div class="mv" id="cropMove"></div><div class="hd" id="cropHandle"></div></div>
+        </div>
+        <button class="btn primary block" id="applyCrop" style="margin-top:12px">应用裁剪</button>
+      </div>
+    </div>
+
+    <div id="ep-tone" class="hidden">
+      <div class="card">
+        <div class="slider"><label>亮度 <b id="vBri">0</b></label><input type="range" id="sBri" min="-50" max="50" value="0"></div>
+        <div class="slider"><label>对比度 <b id="vCon">0</b></label><input type="range" id="sCon" min="-50" max="50" value="0"></div>
+        <div class="slider"><label>饱和度 <b id="vSat">0</b></label><input type="range" id="sSat" min="-50" max="50" value="0"></div>
+        <div class="slider"><label>色温（暖） <b id="vWarm">0</b></label><input type="range" id="sWarm" min="-50" max="50" value="0"></div>
+        <button class="btn ghost block" id="resetTone" style="margin-top:4px">重置调色</button>
+      </div>
+    </div>
+
+    <div id="ep-beauty" class="hidden">
+      <div class="card">
+        <div class="slider"><label>磨皮 <b id="vSmooth">0</b></label><input type="range" id="sSmooth" min="0" max="100" value="0"></div>
+        <div class="slider"><label>提亮 <b id="vLight">0</b></label><input type="range" id="sLight" min="0" max="60" value="0"></div>
+        <button class="btn ghost block" id="resetBeauty" style="margin-top:4px">重置美颜</button>
+        <div class="hint" style="margin:10px 0 0">美颜在手机本地计算，磨皮开太大可能变慢，建议 20-40 之间。</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="btn primary block" id="oneClick">一键优化（自动对比 + 提亮 + 轻磨皮）</button>
+      <button class="btn ghost block" id="resetAll" style="margin-top:8px">还原到原图</button>
+    </div>
+
+    <div class="card">
+      <div class="h2" style="font-size:13px">效果对比</div>
+      <p class="hint">左边原图，右边精修图，左右对照看差别</p>
+      <div class="cmp">
+        <figure><div class="frame orig" id="cmpOrigFrame" data-l="原图"><img id="cmpOrig" alt="原图"></div><figcaption>原图</figcaption></figure>
+        <figure><div class="frame final" id="cmpFinalFrame" data-l="精修"><img id="cmpFinal" alt="精修图"></div><figcaption>精修图</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="h2" style="font-size:13px">构图体检</div>
+      <div class="diag" id="diag">处理中...</div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <button class="btn ghost" id="dlOrig" style="flex:1">下载原图</button>
+        <button class="btn ok" id="dlFinal" style="flex:1">下载精修图</button>
+      </div>
+      <button class="btn ghost block" id="toShoot" style="margin-top:8px">返回继续拍</button>
+    </div>
+  </div>
+  <div class="foot">所有处理都在这台手机上完成，照片不会离开设备</div>
+</section>
+</main>
+
+<div class="mask" id="poseMask">
+  <div class="big">
+    <button class="close" id="poseClose">×</button>
+    <div id="poseBigSvg"></div>
+    <div class="h2" id="poseBigName" style="margin-top:8px"></div>
+    <p id="poseBigTip" style="font-size:13px;color:var(--muted)"></p>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ===================== 数据 ===================== */
+const POSES=[
+  {cat:'站姿',name:'自然站',tip:'重心放一条腿，另一条腿放松微屈；双手自然垂在身侧，别贴太紧',p:{head:[60,26,13],neck:[60,42],sl:[48,48],sr:[72,48],el:[42,80],er:[78,80],hl:[40,108],hr:[80,108],hip:[60,108],hlp:[52,108],hrp:[68,108],kl:[48,146],kr:[72,146],fl:[44,182],fr:[78,182]}},
+  {cat:'站姿',name:'手叉腰',tip:'一只手叉腰、肘往外打开，另一只手自然下垂；肩膀放松别端着',p:{head:[60,26,13],neck:[60,42],sl:[48,48],sr:[72,48],el:[32,76],er:[80,80],hl:[52,100],hr:[82,108],hip:[60,108],hlp:[52,108],hrp:[68,108],kl:[46,146],kr:[74,146],fl:[40,182],fr:[80,182]}},
+  {cat:'站姿',name:'重心腿',tip:'重心放后腿，前腿向前伸脚尖点地；身体微侧，显腿长又自然',p:{head:[58,26,13],neck:[58,42],sl:[46,48],sr:[70,48],el:[40,82],er:[78,82],hl:[38,108],hr:[76,108],hip:[58,108],hlp:[50,108],hrp:[66,108],kl:[34,146],kr:[76,142],fl:[26,178],fr:[84,180]}},
+  {cat:'站姿',name:'抱胸',tip:'双臂交叠抱在胸前，微微侧身；下巴往伸出的那只手方向轻转',p:{head:[60,26,13],neck:[60,42],sl:[48,48],sr:[72,48],el:[36,74],er:[84,74],hl:[74,92],hr:[46,92],hip:[60,108],hlp:[52,108],hrp:[68,108],kl:[48,146],kr:[72,146],fl:[44,182],fr:[78,182]}},
+  {cat:'站姿',name:'扶墙/扶物',tip:'身体微靠，一手轻扶墙面或栏杆；肩膀下沉，别把全身重量压上去',p:{head:[56,26,13],neck:[56,42],sl:[44,48],sr:[68,48],el:[38,78],er:[86,60],hl:[36,104],hr:[100,52],hip:[56,108],hlp:[48,108],hrp:[64,108],kl:[46,146],kr:[70,146],fl:[42,182],fr:[76,182]}},
+  {cat:'坐姿',name:'侧坐',tip:'坐椅子前 1/3，身体转向侧面；一条腿前伸、一条腿收回，手轻放腿上',p:{head:[50,26,13],neck:[50,42],sl:[38,48],sr:[62,48],el:[34,78],er:[72,80],hl:[32,102],hr:[70,104],hip:[52,110],hlp:[44,110],hrp:[60,110],kl:[86,132],kr:[74,134],fl:[92,172],fr:[78,174]}},
+  {cat:'坐姿',name:'台阶坐',tip:'坐在台阶或地上，一腿屈膝踩地、一腿伸直；身体后撑，手放身后',p:{head:[52,28,13],neck:[52,44],sl:[40,50],sr:[64,50],el:[30,74],er:[80,74],hl:[24,98],hr:[88,98],hip:[54,114],hlp:[46,114],hrp:[62,114],kl:[46,150],kr:[90,136],fl:[42,182],fr:[96,168]}},
+  {cat:'坐姿',name:'盘腿坐',tip:'盘腿坐下，腰背挺直别驼；双手自然搭在膝盖上，肩膀打开',p:{head:[60,28,13],neck:[60,44],sl:[46,50],sr:[74,50],el:[38,78],er:[82,78],hl:[40,108],hr:[80,108],hip:[60,112],hlp:[48,112],hrp:[72,112],kl:[30,146],kr:[90,146],fl:[56,166],fr:[64,166]}},
+  {cat:'合影',name:'搭肩',tip:'两人靠近，一人搭肩一人比手势；身体微微朝对方倾，别各自站直',p:{head:[52,26,12],neck:[52,42],sl:[40,48],sr:[64,48],el:[36,76],er:[86,58],hl:[34,100],hr:[96,44],hip:[52,108],hlp:[44,108],hrp:[60,108],kl:[42,146],kr:[64,146],fl:[38,182],fr:[70,182]},extra:{head:[84,24,12],neck:[84,40],sl:[74,46],sr:[94,46],el:[70,74],er:[98,74],hl:[66,98],hr:[102,98],hip:[84,106],hlp:[76,106],hrp:[92,106],kl:[76,144],kr:[94,144],fl:[72,180],fr:[98,180]}},
+  {cat:'合影',name:'背靠背',tip:'两人背靠背，各自看向不同方向；靠近的那侧肩膀用力顶住',p:{head:[60,22,12],neck:[60,38],sl:[50,44],sr:[70,44],el:[44,72],er:[76,72],hl:[42,98],hr:[78,98],hip:[60,106],hlp:[52,106],hrp:[68,106],kl:[48,144],kr:[72,144],fl:[44,180],fr:[76,180]},extra:{head:[60,150,12],neck:[60,166],sl:[50,172],sr:[70,172],el:[44,196],er:[76,196],hl:[42,204],hr:[78,204],hip:[60,198],hlp:[52,198],hrp:[68,198],kl:[48,236],kr:[72,236],fl:[44,270],fr:[76,270]}},
+  {cat:'游客照',name:'剪刀手',tip:'手举到脸旁比 V，别挡脸；身体微侧、重心一腿，笑不出来就轻轻呼气',p:{head:[58,26,13],neck:[58,42],sl:[46,48],sr:[70,48],el:[40,80],er:[86,60],hl:[38,106],hr:[96,30],hip:[58,108],hlp:[50,108],hrp:[66,108],kl:[46,146],kr:[72,146],fl:[42,182],fr:[78,182],V:[96,30]}},
+  {cat:'游客照',name:'张开双臂',tip:'双臂张开到与肩同高或略高，仰头看天或看向远方；适合大场景',p:{head:[60,30,13],neck:[60,46],sl:[48,52],sr:[72,52],el:[28,46],er:[92,46],hl:[10,36],hr:[110,36],hip:[60,108],hlp:[52,108],hrp:[68,108],kl:[46,146],kr:[74,146],fl:[40,182],fr:[80,182]}},
+  {cat:'游客照',name:'回眸',tip:'身体侧对镜头，只把头转回来看镜头；下巴微收，眼睛看镜头上方一点',p:{head:[70,28,13],neck:[60,44],sl:[46,50],sr:[66,50],el:[40,82],er:[78,80],hl:[38,108],hr:[80,106],hip:[58,108],hlp:[50,108],hrp:[66,108],kl:[46,146],kr:[72,146],fl:[42,182],fr:[78,182]}},
+];
+const COMPS=[
+  {t:'三分法',d:'把主体放在画面的四条三分线交点附近，比放正中更耐看、更有呼吸感。',k:'打开取景的"三分"辅助线，把人的眼睛／物品的焦点对到交叉点上。',svg:'<rect x="6" y="6" width="108" height="62" rx="3"/><path d="M42 6v62M78 6v62M6 26.7h108M6 47.3h108" stroke-dasharray="3 3"/><circle cx="42" cy="26.7" r="5" fill="#e8622c" stroke="none"/>'},
+  {t:'引导线',d:'用道路、栏杆、河流、光影当"箭头"，把观众的视线引向主体。',k:'让线条从画面边缘出发，终点落在主体上；拍人时让人站在路的尽头。',svg:'<rect x="6" y="6" width="108" height="62" rx="3"/><path d="M6 68L60 26M114 68L60 26" stroke-width="1.6"/><circle cx="60" cy="26" r="5" fill="#e8622c" stroke="none"/>'},
+  {t:'中心对称',d:'主体居中、左右平衡，适合建筑、倒影、正面人像，稳重有仪式感。',k:'打开"中心"辅助线，让主体中轴对齐画面中线，水平线保持水平。',svg:'<rect x="6" y="6" width="108" height="62" rx="3"/><path d="M60 6v62M6 37h108" stroke-dasharray="3 3"/><rect x="46" y="20" width="28" height="34" rx="2"/><path d="M6 50h108" />'},
+  {t:'框架构图',d:'用门框、窗户、树枝、拱门当"画框"，把主体框在里面，层次立刻出来。',k:'找现成的前景框，让主体落在框内；手机贴近框边缘，框越明显越好。',svg:'<rect x="6" y="6" width="108" height="62" rx="3"/><path d="M18 14h84v46H18zM30 24h60v28H30z" stroke-dasharray="3 3"/><circle cx="60" cy="38" r="6" fill="#e8622c" stroke="none"/>'},
+  {t:'留白',d:'主体只占画面一小块，剩下大片空旷（天空、墙面、水面），才有意境。',k:'人物靠边、脸朝的方向留出空白；极简、天空、雾天最适合。',svg:'<rect x="6" y="6" width="108" height="62" rx="3"/><circle cx="26" cy="48" r="7" fill="#e8622c" stroke="none"/><path d="M6 56h108" stroke-dasharray="2 3"/>'},
+  {t:'前景纵深',d:'近景＋中景＋远景三层叠加，二维照片也能拍出空间感和立体感。',k:'蹲低，让前景（花草、栏杆）贴近镜头虚化，主体在中景，背景拉开距离。',svg:'<rect x="6" y="6" width="108" height="62" rx="3"/><path d="M6 62q30-18 50-6M60 62q25-26 54-10" fill="none"/><circle cx="70" cy="34" r="6" fill="#e8622c" stroke="none"/>'},
+];
+const CATS=['全部','站姿','坐姿','合影','游客照'];
+/* 按真实场景组织的姿势包：每个场景挑一组最合适的姿势索引 */
+const SCENES=[
+  {name:'旅行打卡',note:'大场景 + 地标',ids:[11,10,12,4,6,2]},
+  {name:'朋友聚会',note:'多人 / 轻松',ids:[8,9,7,3,6]},
+  {name:'日常随手',note:'逛街 / 散步',ids:[0,1,2,5,10]},
+  {name:'正式上镜',note:'面试 / 活动',ids:[0,3,1,5,12]},
+  {name:'安静文艺',note:'咖啡馆 / 书店',ids:[5,7,12,4]},
+];
+/* 拍前 3 秒自查清单 */
+const CHECKS={
+  '人像':[
+    {b:'背景干净吗？',s:'先看身后有没有垃圾桶、电线杆、路人，头顶有没有"长"出东西'},
+    {b:'光从哪来？',s:'别逆光（脸会发黑），让光打在脸上；室外找阴影处或面向光源'},
+    {b:'手放对了吗？',s:'别贴身体、别插兜太深；参考"手叉腰 / 抱胸 / 拿个道具"'},
+    {b:'表情放松吗？',s:'拍前一秒呼气、活动下巴，别憋气瞪眼'},
+    {b:'身体侧一点没？',s:'别正对镜头立正，重心放一条腿、身体微侧显瘦'},
+    {b:'头顶留白够吗？',s:'头顶别贴画面上沿，脚下别正好切在膝盖 / 手肘关节处'},
+  ],
+  '风景':[
+    {b:'水平线平吗？',s:'海平面 / 地平线要平别歪，打开"三分"辅助线对准'},
+    {b:'主体放哪？',s:'把主体（船、塔、花）放到三分线的交叉点上'},
+    {b:'前景有没有？',s:'蹲低找花草石头当近景，画面立刻有层次'},
+    {b:'天空过曝没？',s:'天空一片死白就点暗一点，留住云彩细节'},
+    {b:'边缘有杂物吗？',s:'检查四角有没有路牌、电线、垃圾桶混进来'},
+    {b:'颜色太杂吗？',s:'画面控制在 3 种主色以内，更干净耐看'},
+  ],
+  '物品':[
+    {b:'背景干净吗？',s:'用纯色桌面 / 白纸，或虚化背景，别杂乱'},
+    {b:'光够柔吗？',s:'避开顶光的黑影，窗边侧光 / 自然光最好看'},
+    {b:'角度对吗？',s:'美食俯拍 45°~90°，商品平视，别站着俯拍会变形'},
+    {b:'主体够大吗？',s:'物品占画面 60% 以上，别拍得太小'},
+    {b:'有脏点吗？',s:'收走水渍、油渍、多余餐具和杂物'},
+    {b:'留白够不够？',s:'主体别顶满，四周留点空间更精致'},
+  ],
+};
+/* 错误 vs 正确 对照：bad/good 均为线稿姿势数据 */
+const WRONGS=[
+  {t:'手臂紧贴身体',bad:{head:[60,26,13],neck:[60,42],sl:[48,48],sr:[72,48],el:[52,80],er:[68,80],hl:[52,108],hr:[68,108],hip:[60,108],hlp:[52,108],hrp:[68,108],kl:[48,146],kr:[72,146],fl:[44,182],fr:[78,182]},good:POSES[1].p,
+   why:'手臂贴着身体，上身显得又宽又僵。<b>手叉腰、肘往外打开</b>，立刻显腰细、有精神。'},
+  {t:'立正站直',bad:{head:[60,26,13],neck:[60,42],sl:[48,48],sr:[72,48],el:[48,80],er:[72,80],hl:[48,108],hr:[72,108],hip:[60,108],hlp:[54,108],hrp:[66,108],kl:[54,146],kr:[66,146],fl:[52,182],fr:[68,182]},good:POSES[2].p,
+   why:'立正像站军姿，呆板又显壮。<b>重心放一条腿、另一条前伸点地</b>，身体自然、显腿长。'},
+  {t:'低头看地',bad:{head:[60,40,13],neck:[60,44],sl:[48,50],sr:[72,50],el:[42,82],er:[78,82],hl:[40,110],hr:[80,110],hip:[60,110],hlp:[52,110],hrp:[68,110],kl:[48,148],kr:[72,148],fl:[44,184],fr:[78,184]},good:POSES[0].p,
+   why:'低头脸被阴影盖住、显双下巴没精神。<b>下巴微收、眼睛看镜头上方一点</b>，脸型最好看。'},
+  {t:'剪刀手挡脸',bad:{head:[60,26,13],neck:[60,42],sl:[48,48],sr:[72,48],el:[44,72],er:[60,40],hl:[42,96],hr:[60,26],hip:[60,108],hlp:[52,108],hrp:[68,108],kl:[48,146],kr:[72,146],fl:[44,182],fr:[78,182],V:[60,26]},good:POSES[10].p,
+   why:'手挡在脸前会遮五官、显脸大。<b>手举到脸侧 15 厘米、别碰到脸</b>，露出下巴线条。'},
+  {t:'驼背含胸',bad:{head:[52,30,13],neck:[56,46],sl:[44,52],sr:[66,52],el:[40,84],er:[76,84],hl:[40,110],hr:[78,110],hip:[60,110],hlp:[52,110],hrp:[68,110],kl:[46,146],kr:[74,146],fl:[42,182],fr:[78,182]},good:POSES[3].p,
+   why:'驼背显没气质还显矮。<b>想象头顶有根线把你往上提，肩膀往后往下沉</b>，立刻挺拔。'},
+];
+
+/* ===================== 通用 ===================== */
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+function poseSVG(p,color,extra){
+  const c=color||'#e8622c', w=2.6;
+  const line=(a,b)=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`;
+  const poly=(...pts)=>`<polyline points="${pts.map(q=>q.join(',')).join(' ')}"/>`;
+  let s=`<g fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">`;
+  const drawOne=(q)=>{
+    s+=`<circle cx="${q.head[0]}" cy="${q.head[1]}" r="${q.head[2]}" fill="${c}" fill-opacity="0.12"/>`;
+    s+=line(q.neck,q.hip);
+    s+=`<path d="M${q.sl[0]} ${q.sl[1]} Q${q.neck[0]} ${q.neck[1]-3} ${q.sr[0]} ${q.sr[1]}"/>`;
+    s+=poly(q.sl,q.el,q.hl);
+    s+=poly(q.sr,q.er,q.hr);
+    s+=`<path d="M${q.hlp[0]} ${q.hlp[1]} Q${q.hip[0]} ${q.hip[1]+5} ${q.hrp[0]} ${q.hrp[1]}"/>`;
+    s+=poly(q.hlp,q.kl,q.fl);
+    s+=poly(q.hrp,q.kr,q.fr);
+    s+=line([q.fl[0]-4,q.fl[1]],[q.fl[0]+4,q.fl[1]]);
+    s+=line([q.fr[0]-4,q.fr[1]],[q.fr[0]+4,q.fr[1]]);
+    if(q.V){s+=line(q.V,[q.V[0]-6,q.V[1]-8]);s+=line(q.V,[q.V[0]+6,q.V[1]-8]);}
+  };
+  drawOne(p);
+  if(extra&&p.extra)drawOne(p.extra);
+  s+='</g>';
+  return s;
+}
+const VB='0 0 120 200';
+
+/* ===================== 拍前学 ===================== */
+/* --- 拍前自查清单 --- */
+const CKKEY='photoCoach.checks.v1';
+let curCheck=Object.keys(CHECKS)[0];
+function loadChecks(){try{return JSON.parse(localStorage.getItem(CKKEY)||'{}');}catch(e){return {};}}
+function renderCheckChips(){
+  $('#checkChips').innerHTML=Object.keys(CHECKS).map(c=>`<div class="chip ${c===curCheck?'on':''}" data-chk="${c}">${c}</div>`).join('');
+  $$('#checkChips .chip').forEach(el=>el.onclick=()=>{curCheck=el.dataset.chk;renderCheckChips();renderCheckList();});
+}
+function renderCheckList(){
+  const done=loadChecks()[curCheck]||[];
+  const items=CHECKS[curCheck];
+  $('#checkList').innerHTML=items.map((it,i)=>`<div class="chk-item ${done.includes(i)?'done':''}" data-i="${i}">
+    <div class="chk-box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
+    <div class="chk-tx"><b>${it.b}</b><span>${it.s}</span></div></div>`).join('');
+  const n=done.filter(i=>i<items.length).length;
+  $('#chkNum').textContent=n+'/'+items.length;
+  $('#chkBar').style.width=(n/items.length*100)+'%';
+  $$('#checkList .chk-item').forEach(el=>el.onclick=()=>{
+    const i=+el.dataset.i,all=loadChecks();
+    let arr=all[curCheck]?all[curCheck].slice():[];
+    const at=arr.indexOf(i); if(at>=0)arr.splice(at,1); else arr.push(i);
+    all[curCheck]=arr;
+    try{localStorage.setItem(CKKEY,JSON.stringify(all));}catch(e){}
+    renderCheckList();
+  });
+}
+$('#chkReset').onclick=()=>{const all=loadChecks();delete all[curCheck];try{localStorage.setItem(CKKEY,JSON.stringify(all));}catch(e){}renderCheckList();};
+renderCheckChips();renderCheckList();
+
+/* --- 姿势图库：按场景 / 按姿势 --- */
+let poseWay='scene', curCat='全部', curScene=0;
+function renderPoseChips(){
+  if(poseWay==='scene'){
+    $('#poseHint').textContent='先选你要拍的场景，我把适合这个场景的姿势挑出来。';
+    $('#poseChips').innerHTML=SCENES.map((s,i)=>`<div class="chip ${i===curScene?'on':''}" data-scene="${i}">${s.name}</div>`).join('');
+    $$('#poseChips .chip').forEach(el=>el.onclick=()=>{curScene=+el.dataset.scene;renderPoseChips();renderPoses();});
+  }else{
+    $('#poseHint').textContent='按身体姿势分类，点开看要点，照着摆。';
+    $('#poseChips').innerHTML=CATS.map(c=>`<div class="chip ${c===curCat?'on':''}" data-cat="${c}">${c}</div>`).join('');
+    $$('#poseChips .chip').forEach(el=>el.onclick=()=>{curCat=el.dataset.cat;renderPoseChips();renderPoses();});
+  }
+}
+function renderPoses(){
+  const list=poseWay==='scene'?SCENES[curScene].ids.map(i=>POSES[i]):POSES.filter(p=>curCat==='全部'||p.cat===curCat);
+  $('#poseGrid').innerHTML=list.map(p=>`<div class="pose" data-i="${POSES.indexOf(p)}">
+    <svg viewBox="${VB}">${poseSVG(p.p,null,!!p.extra)}</svg>
+    <div class="nm">${p.name}</div><div class="tp">${p.tip}</div></div>`).join('');
+  $$('#poseGrid .pose').forEach(el=>el.onclick=()=>openPose(+el.dataset.i));
+}
+$$('.seg [data-poseway]').forEach(b=>b.onclick=()=>{
+  $$('.seg [data-poseway]').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  poseWay=b.dataset.poseway;renderPoseChips();renderPoses();
+});
+function openPose(i){
+  const p=POSES[i];
+  $('#poseBigSvg').innerHTML=`<svg viewBox="${VB}" style="height:300px">${poseSVG(p.p,null,!!p.extra)}</svg>`;
+  $('#poseBigName').textContent=p.name;
+  $('#poseBigTip').textContent=p.tip;
+  $('#poseMask').classList.add('show');
+}
+$('#poseClose').onclick=()=>$('#poseMask').classList.remove('show');
+$('#poseMask').onclick=e=>{if(e.target.id==='poseMask') $('#poseMask').classList.remove('show');};
+renderPoseChips();renderPoses();
+
+/* --- 错误 vs 正确 对照 --- */
+function renderWrong(){
+  $('#wrongList').innerHTML=WRONGS.map((w,i)=>`<div class="cmp-pose">
+    <div class="hd"><div class="no">${i+1}</div><b>${w.t}</b></div>
+    <div class="pair">
+      <div class="side bad"><svg viewBox="${VB}">${poseSVG(w.bad)}</svg><div class="lb">错误</div></div>
+      <div class="side good"><svg viewBox="${VB}">${poseSVG(w.good)}</svg><div class="lb">正确</div></div>
+    </div>
+    <div class="why">${w.why}</div></div>`).join('');
+}
+renderWrong();
+
+/* --- 构图法则 --- */
+function renderComp(){
+  $('#compList').innerHTML=COMPS.map(c=>`<div class="compcard"><div class="top">
+    <svg viewBox="0 0 120 74">${c.svg}</svg>
+    <div><h3>${c.t}</h3><p>${c.d}</p></div></div>
+    <div class="key"><b>怎么做：</b>${c.k}</div></div>`).join('');
+}
+renderComp();
+
+/* --- 拍前学 4 个子 tab 切换 --- */
+$$('.seg [data-sub]').forEach(b=>b.onclick=()=>{
+  $$('.seg [data-sub]').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  ['check','poses','wrong','comp'].forEach(k=>$('#sub-'+k).classList.toggle('hidden',b.dataset.sub!==k));
+});
+
+/* ===================== 拍中拍 ===================== */
+let stream=null,facing='environment',curGuide='thirds',overlayPose=-1,poseFlipped=false;
+let detectOn=false,detectTimer=null,usingStill=false;
+const video=$('#video'),overlaySvg=$('#overlaySvg'),guideTip=$('#guideTip');
+
+function guideSVG(kind){
+  if(kind==='none')return '';
+  let s='<g fill="none" stroke="rgba(255,255,255,.85)" stroke-width="0.5">';
+  if(kind==='thirds'){
+    s+='<rect x="1" y="1" width="98" height="131"/>';
+    s+='<path d="M33.7 1v131M66.3 1v131M1 44.7h98M1 88.3h98" stroke="rgba(255,255,255,.6)"/>';
+    s+='<circle cx="33.7" cy="44.7" r="1"/><circle cx="66.3" cy="44.7" r="1"/><circle cx="33.7" cy="88.3" r="1"/><circle cx="66.3" cy="88.3" r="1" fill="rgba(255,255,255,.85)"/>';
+  }else if(kind==='center'){
+    s+='<rect x="1" y="1" width="98" height="131"/>';
+    s+='<rect x="30" y="36" width="40" height="60" stroke="rgba(255,255,255,.7)"/>';
+    s+='<path d="M50 36v60M30 66h40" stroke="rgba(255,255,255,.5)"/>';
+  }else if(kind==='golden'){
+    s+='<rect x="1" y="1" width="98" height="131"/>';
+    s+='<path d="M99 30H71a29 29 0 0 0-29 29v42a20 20 0 0 1-20 20H3M3 52a20 20 0 0 1 20-20M42 30a29 29 0 0 1 29-29M71 101a20 20 0 0 0 20 20" stroke="rgba(255,255,255,.7)"/>';
+  }
+  s+='</g>';
+  return s;
+}
+function poseOverlaySVG(){
+  if(overlayPose<0)return '';
+  const p=POSES[overlayPose].p;
+  let g=`<g opacity="0.5" transform="translate(6,18) scale(0.72)">${poseSVG(p,'rgba(255,255,255,0.95)',true)}</g>`;
+  if(poseFlipped)g=`<g transform="translate(100,0) scale(-1,1)">${g}</g>`;
+  return g;
+}
+function detectionSVG(){return $('#_detectSvg')?$('#_detectSvg').outerHTML:'';}
+function drawOverlay(){
+  overlaySvg.innerHTML=guideSVG(curGuide)+poseOverlaySVG()+detectionSVG();
+}
+$$('.ctrl[data-guide]').forEach(el=>el.onclick=()=>{
+  $$('.ctrl[data-guide]').forEach(x=>x.classList.remove('on'));el.classList.add('on');
+  curGuide=el.dataset.guide;drawOverlay();updateTip();
+});
+function updateTip(){
+  let t='';
+  if(curGuide==='thirds')t='把人的眼睛／物品焦点，对到三分线的交叉点上';
+  else if(curGuide==='center')t='主体对准中间方框，水平线保持平';
+  else if(curGuide==='golden')t='让主体顺着螺旋线落在中心卷曲处';
+  else if(curGuide==='none')t='自由取景';
+  if(overlayPose>=0)t+=' · 白线是对照姿势，照着摆';
+  if(detectOn&&$('#_detectTxt'))t+=' · '+$('#_detectTxt').textContent;
+  guideTip.textContent=t||'对准了就按快门';
+}
+function renderOverlayChips(){
+  $('#overlayPoseChips').innerHTML=POSES.map((p,i)=>`<div class="chip ${i===overlayPose?'on':''}" data-i="${i}">${p.name}</div>`).join('');
+  $$('#overlayPoseChips .chip').forEach(el=>el.onclick=()=>{
+    const i=+el.dataset.i;overlayPose=(overlayPose===i?-1:i);
+    if(overlayPose>=0)$('#poseToggle').textContent='关闭';else $('#poseToggle').textContent='开启';
+    renderOverlayChips();drawOverlay();updateTip();
+  });
+}
+renderOverlayChips();
+$('#poseToggle').onclick=()=>{
+  if(overlayPose>=0){overlayPose=-1;$('#poseToggle').textContent='开启';}
+  else{overlayPose=0;$('#poseToggle').textContent='关闭';}
+  renderOverlayChips();drawOverlay();updateTip();
+};
+$('#flipPose').onclick=()=>{poseFlipped=!poseFlipped;drawOverlay();};
+$('#resetPose').onclick=()=>{poseFlipped=false;drawOverlay();};
+$('#detectToggle').onclick=()=>{
+  detectOn=!detectOn;$('#detectToggle').textContent=detectOn?'关闭':'开启';
+  $('#detectToggle').classList.toggle('on',detectOn);
+  if(detectOn){startDetect();}else{stopDetect();}
+  updateTip();
+};
+
+async function startCam(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    camFail();return;
+  }
+  try{
+    if(stream)stream.getTracks().forEach(t=>t.stop());
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:facing,width:{ideal:1280},height:{ideal:1706}},audio:false});
+    video.srcObject=stream;await video.play();
+    usingStill=false;
+    video.classList.remove('hidden');$('#stillBase').classList.add('hidden');
+    $('#camNotice').classList.add('hidden');
+    if(detectOn)startDetect();
+  }catch(e){camFail();}
+}
+function camFail(){
+  $('#camNotice').textContent='摄像头无法打开。手机浏览器通常要求 https 或 localhost 才允许调用摄像头。可以点"从相册选"继续用（选图后同样能叠加辅助线和轮廓做参照），或者把本工具放到本地服务/https 链接里打开。';
+  $('#camNotice').classList.remove('hidden');
+}
+$('#switchCam').onclick=()=>{facing=facing==='environment'?'user':'environment';if(!usingStill)startCam();};
+
+/* ---- 本地主体检测（显著性规则 + 设备端人脸 API 增强） ---- */
+function stopDetect(){if(detectTimer){clearInterval(detectTimer);detectTimer=null;}}
+function startDetect(){
+  stopDetect();detectTimer=setInterval(()=>{
+    const src=usingStill?$('#stillBase'):video;
+    const w=usingStill?src.width:(video.videoWidth||0), h=usingStill?src.height:(video.videoHeight||0);
+    if(!w||!h)return;
+    try{ detectFrame(src,w,h); }catch(e){}
+  },420);
+}
+function detectFrame(src,w,h){
+  const sw=64,sh=Math.round(64*h/w);
+  const c=document.createElement('canvas');c.width=sw;c.height=sh;
+  const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(src,0,0,sw,sh);
+  const d=cx.getImageData(0,0,sw,sh).data;
+  let sr=0,sg=0,sb=0,n=sw*sh;
+  for(let i=0;i<d.length;i+=4){sr+=d[i];sg+=d[i+1];sb+=d[i+2];}
+  sr/=n;sg/=n;sb/=n;
+  let minx=sw,miny=sh,maxx=0,maxy=0,found=false;
+  for(let y=0;y<sh;y++)for(let x=0;x<sw;x++){
+    const i=(y*sw+x)*4;
+    const diff=Math.abs(d[i]-sr)+Math.abs(d[i+1]-sg)+Math.abs(d[i+2]-sb);
+    if(diff>95){found=true;if(x<minx)minx=x;if(x>maxx)maxx=x;if(y<miny)miny=y;if(y>maxy)maxy=y;}
+  }
+  let box=null;
+  if(found&&maxx>minx&&maxy>miny){
+    const pad=4;
+    box={x:Math.max(0,minx-pad)/sw,y:Math.max(0,miny-pad)/sh,w:Math.min(1,(maxx+pad)/sw)-Math.max(0,minx-pad)/sw,h:Math.min(1,(maxy+pad)/sh)-Math.max(0,miny-pad)/sh};
+  }
+  const cxn=box?(box.x+box.w/2):0.5, area=box?box.w*box.h:0;
+  let pos=Math.abs(cxn-0.5)<0.12?'居中':(cxn<0.5?'偏左':'偏右');
+  let txt=`主体${pos}，约占画面${Math.round(area*100)}%`;
+  if(area>0.7)txt+=' · 主体太满，镜头拉远点';
+  else if(area<0.08)txt+=' · 主体太小，靠近一点';
+  if(box){
+    const X=box.x*100,Y=box.y*100,W=box.w*100,H=box.h*100;
+    const svg=`<g id="_detectSvg" fill="none" stroke="#ffd23f" stroke-width="0.6"><rect x="${X}" y="${Y*(133/100)}" width="${W}" height="${H*(133/100)}"/><path d="M${X} ${Y*1.33+3}h${W}" stroke-width="0.2"/></g>`;
+    let old=$('#_detectSvg');if(old)old.remove();
+    overlaySvg.insertAdjacentHTML('beforeend',svg);
+  }
+  let t=$('#_detectTxt');if(!t){t=document.createElement('span');t.id='_detectTxt';t.style.display='none';document.body.appendChild(t);}
+  t.textContent=txt;
+  updateTip();
+}
+
+/* ---- 拍照 / 选图 ---- */
+function toDataURLFromCanvas(src,w,h){
+  const c=document.createElement('canvas');c.width=w;c.height=h;
+  c.getContext('2d').drawImage(src,0,0,w,h);
+  return c.toDataURL('image/jpeg',0.9);
+}
+function shutterCapture(){
+  const src=usingStill?$('#stillBase'):video;
+  const w=usingStill?src.width:(video.videoWidth||0),h=usingStill?src.height:(video.videoHeight||0);
+  if(!w||!h){alert('画面还没准备好，稍等一下再拍');return;}
+  const max=1600,scale=Math.min(1,max/Math.max(w,h));
+  const data=toDataURLFromCanvas(src,Math.round(w*scale),Math.round(h*scale));
+  savePhoto(data);
+}
+$('#shutter').onclick=shutterCapture;
+function handleShootFile(file){compressFile(file,data=>{
+  const img=new Image();img.onload=()=>{
+    const cv=$('#stillBase');cv.width=img.width;cv.height=img.height;
+    cv.getContext('2d').drawImage(img,0,0);
+    usingStill=true;video.classList.add('hidden');cv.classList.remove('hidden');
+    if(detectOn)startDetect();
+    savePhoto(data);
+  };img.src=data;
+});}
+$('#pickFromAlbum').onclick=()=>$('#shootFile').click();
+$('#shootFile').onchange=e=>{if(e.target.files[0])handleShootFile(e.target.files[0]);e.target.value='';};
+
+function compressFile(file,cb){
+  const r=new FileReader();
+  r.onload=()=>{const img=new Image();img.onload=()=>{
+    const max=1600,sc=Math.min(1,max/Math.max(img.width,img.height));
+    const c=document.createElement('canvas');c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    cb(c.toDataURL('image/jpeg',0.85));
+  };img.src=r.result;};
+  r.readAsDataURL(file);
+}
+
+/* ---- 相册 ---- */
+const AKEY='photoCoach.albums.v1';
+function loadAlbums(){try{return JSON.parse(localStorage.getItem(AKEY)||'[]');}catch(e){return [];}}
+function saveAlbums(a){try{localStorage.setItem(AKEY,JSON.stringify(a));}catch(e){alert('本地存储空间不足，请删除一些旧照片');}}
+function savePhoto(data){
+  const a=loadAlbums();a.unshift({id:Date.now(),data});
+  while(a.length>24)a.pop();
+  saveAlbums(a);renderAlbum();
+  editData=data;openEdit(data);
+  switchTab('edit');
+}
+function renderAlbum(){
+  const a=loadAlbums();
+  $('#albumCount').textContent=a.length?`(${a.length})`:'';
+  if(!a.length){$('#album').innerHTML='<div class="empty" style="grid-column:1/-1">还没有照片</div>';return;}
+  $('#album').innerHTML=a.map(p=>`<div class="ph" data-id="${p.id}"><img src="${p.data}" alt="照片"><div class="del" data-del="${p.id}">×</div></div>`).join('');
+  $$('#album .ph').forEach(el=>el.onclick=e=>{
+    if(e.target.dataset.del){delPhoto(+e.target.dataset.del);return;}
+    const p=loadAlbums().find(x=>x.id===+el.dataset.id);if(p){editData=p.data;openEdit(p.data);switchTab('edit');}
+  });
+}
+function delPhoto(id){saveAlbums(loadAlbums().filter(x=>x.id!==id));renderAlbum();}
+renderAlbum();
+
+/* ===================== 拍后修 ===================== */
+let editData=null,baseImg=null,baseCanvas=null,pltCanvas=null,pltCtx=null;
+let edits={bri:0,con:0,sat:0,warm:0,smooth:0,light:0};
+let cropAR='0.75',cropRect=null;
+function openEdit(data){
+  editData=data;
+  $('#editEmpty').classList.add('hidden');$('#editWork').classList.remove('hidden');
+  const img=new Image();
+  img.onload=()=>{
+    baseImg=img;
+    const max=1400,sc=Math.min(1,max/Math.max(img.width,img.height));
+    baseCanvas=document.createElement('canvas');baseCanvas.width=Math.round(img.width*sc);baseCanvas.height=Math.round(img.height*sc);
+    baseCanvas.getContext('2d').drawImage(img,0,0,baseCanvas.width,baseCanvas.height);
+    pltCanvas=document.createElement('canvas');pltCanvas.width=baseCanvas.width;pltCanvas.height=baseCanvas.height;
+    pltCtx=pltCanvas.getContext('2d');
+    $('#cmpOrig').src=data;
+    edits={bri:0,con:0,sat:0,warm:0,smooth:0,light:0};syncSliders();
+    initCrop();renderAll();analyzeComposition();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  img.src=data;
+}
+function syncSliders(){
+  $('#sBri').value=edits.bri;$('#vBri').textContent=edits.bri;
+  $('#sCon').value=edits.con;$('#vCon').textContent=edits.con;
+  $('#sSat').value=edits.sat;$('#vSat').textContent=edits.sat;
+  $('#sWarm').value=edits.warm;$('#vWarm').textContent=edits.warm;
+  $('#sSmooth').value=edits.smooth;$('#vSmooth').textContent=edits.smooth;
+  $('#sLight').value=edits.light;$('#vLight').textContent=edits.light;
+}
+$$('.seg [data-edit]').forEach(b=>b.onclick=()=>{
+  $$('.seg [data-edit]').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  ['crop','tone','beauty'].forEach(k=>$('#ep-'+k).classList.toggle('hidden',b.dataset.edit!==k));
+});
+
+/* ---- 裁剪交互 ---- */
+function initCrop(){
+  const img=$('#cropImg');img.src=baseCanvas.toDataURL('image/jpeg',0.9);
+  img.onload=()=>{
+    const wrap=$('#cropWrap');const W=wrap.clientWidth||340;
+    img.style.width='100%';img.style.height='auto';
+    const scale=W/img.naturalWidth,dispW=W,dispH=img.naturalHeight*scale;
+    let bw=dispW*0.86,bh=bw/cropAR;if(bh>dispH*0.9){bh=dispH*0.9;bw=bh*cropAR;}
+    cropRect={x:(dispW-bw)/2,y:(dispH-bh)/2,w:bw,h:bh,dispW,dispH,scale};
+    updateCropBox();
+  };
+}
+function setAR(ar){cropAR=ar;initCrop();}
+$$('#cropPresets .chip').forEach(c=>c.onclick=()=>{
+  $$('#cropPresets .chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');
+  setAR(c.dataset.ar==='free'?1:parseFloat(c.dataset.ar));
+});
+function updateCropBox(){
+  if(!cropRect)return;
+  const b=$('#cropBox');b.style.left=cropRect.x+'px';b.style.top=cropRect.y+'px';
+  b.style.width=cropRect.w+'px';b.style.height=cropRect.h+'px';
+}
+(function(){
+  const box=$('#cropBox'),mv=$('#cropMove'),hd=$('#cropHandle');
+  let mode=null,sx=0,sy=0,orig=null;
+  const start=(e,m)=>{mode=m;sx=e.touches?e.touches[0].clientX:e.clientX;sy=e.touches?e.touches[0].clientY:e.clientY;
+    orig={...cropRect};e.preventDefault();};
+  mv.addEventListener('pointerdown',e=>start(e,'move'));
+  hd.addEventListener('pointerdown',e=>start(e,'resize'));
+  window.addEventListener('pointermove',e=>{
+    if(!mode)return;const x=e.clientX,y=e.clientY,dx=x-sx,dy=y-sy;
+    if(mode==='move'){
+      cropRect.x=Math.max(0,Math.min(cropRect.dispW-orig.w,orig.x+dx));
+      cropRect.y=Math.max(0,Math.min(cropRect.dispH-orig.h,orig.y+dy));
+    }else{
+      let nw=Math.max(60,orig.w+dx),nh=nw/cropAR;
+      if(cropAR===1||nw/cropAR>cropRect.dispH-orig.y){nh=Math.min(cropAR===1?nw:Math.max(60,orig.h+dy),cropRect.dispH-orig.y);nw=nh*cropAR;}
+      cropRect.w=Math.min(nw,cropRect.dispW-orig.x);
+      cropRect.h=cropAR===1?cropRect.w:Math.min(cropRect.w/cropAR,cropRect.dispH-orig.y);
+    }
+    updateCropBox();
+  });
+  window.addEventListener('pointerup',()=>mode=null);
+})();
+$('#applyCrop').onclick=()=>{
+  if(!cropRect||!baseCanvas)return;
+  const sx=cropRect.x/cropRect.scale,sy=cropRect.y/cropRect.scale,sw=cropRect.w/cropRect.scale,sh=cropRect.h/cropRect.scale;
+  const c=document.createElement('canvas');c.width=Math.round(sw);c.height=Math.round(sh);
+  c.getContext('2d').drawImage(baseCanvas,sx,sy,sw,sh,0,0,c.width,c.height);
+  baseCanvas=c;
+  pltCanvas.width=c.width;pltCanvas.height=c.height;
+  $('#cmpOrig').src=c.toDataURL('image/jpeg',0.9);
+  edits={bri:0,con:0,sat:0,warm:0,smooth:0,light:0};syncSliders();
+  initCrop();renderAll();analyzeComposition();
+};
+
+/* ---- 像素级调色 + 美颜 ---- */
+function smoothImage(ctx,w,h,amount){
+  if(amount<=0)return;
+  const img=ctx.getImageData(0,0,w,h),src=img.data;
+  const r=Math.max(1,Math.round(amount/22));
+  const tmp=new Uint8ClampedArray(src);
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+    let tr=0,tg=0,tb=0,cnt=0;
+    for(let yy=-r;yy<=r;yy+=2)for(let xx=-r;xx<=r;xx+=2){
+      const nx=x+xx,ny=y+yy;if(nx<0||ny<0||nx>=w||ny>=h)continue;
+      const i=(ny*w+nx)*4;tr+=src[i];tg+=src[i+1];tb+=src[i+2];cnt++;
+    }
+    const i=(y*w+x)*4,a=amount/100*0.85;
+    src[i]=src[i]*(1-a)+tr/cnt*a;src[i+1]=src[i+1]*(1-a)+tg/cnt*a;src[i+2]=src[i+2]*(1-a)+tb/cnt*a;
+  }
+  ctx.putImageData(img,0,0);
+}
+function renderAll(){
+  if(!baseCanvas||!pltCtx)return;
+  const w=baseCanvas.width,h=baseCanvas.height;
+  pltCtx.clearRect(0,0,w,h);
+  pltCtx.filter=`brightness(${1+edits.bri/150+edits.light/200}) contrast(${1+edits.con/120}) saturate(${1+edits.sat/100}) sepia(${Math.max(0,edits.warm)/300}) hue-rotate(${edits.warm<0?edits.warm*0.25:0}deg)`;
+  pltCtx.drawImage(baseCanvas,0,0);
+  pltCtx.filter='none';
+  if(edits.smooth>0)smoothImage(pltCtx,w,h,edits.smooth);
+  $('#cmpFinal').src=pltCanvas.toDataURL('image/jpeg',0.9);
+}
+let renderTimer=null;
+function renderDebounced(){clearTimeout(renderTimer);renderTimer=setTimeout(renderAll,60);}
+function bindSlider(id,key){
+  $(id).oninput=e=>{edits[key]=+e.target.value;$('#v'+key[0].toUpperCase()+key.slice(1)).textContent=edits[key];renderDebounced();};
+}
+bindSlider('#sBri','bri');bindSlider('#sCon','con');bindSlider('#sSat','sat');
+bindSlider('#sWarm','warm');bindSlider('#sSmooth','smooth');bindSlider('#sLight','light');
+$('#sSmooth').onchange=()=>renderAll();
+$('#resetTone').onclick=()=>{edits.bri=edits.con=edits.sat=edits.warm=0;syncSliders();renderAll();};
+$('#resetBeauty').onclick=()=>{edits.smooth=edits.light=0;syncSliders();renderAll();};
+$('#resetAll').onclick=()=>{setTimeout(()=>openEdit(editData),0);};
+$('#oneClick').onclick=()=>{
+  edits={bri:12,con:16,sat:10,warm:6,smooth:28,light:8};syncSliders();renderAll();
+};
+
+/* ---- 构图体检（本地） ---- */
+function analyzeComposition(){
+  if(!baseCanvas)return;
+  const w=baseCanvas.width,h=baseCanvas.height;
+  const c=document.createElement('canvas');c.width=80;c.height=Math.round(80*h/w);
+  const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(baseCanvas,0,0,c.width,c.height);
+  const d=cx.getImageData(0,0,c.width,c.height).data;
+  let minx=c.width,miny=c.height,maxx=0,maxy=0,n=c.width*c.height,sr=0,sg=0,sb=0;
+  for(let i=0;i<d.length;i+=4){sr+=d[i];sg+=d[i+1];sb+=d[i+2];}
+  sr/=n;sg/=n;sb/=n;
+  for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){
+    const i=(y*c.width+x)*4;
+    if(Math.abs(d[i]-sr)+Math.abs(d[i+1]-sg)+Math.abs(d[i+2]-sb)>100){
+      if(x<minx)minx=x;if(x>maxx)maxx=x;if(y<miny)miny=y;if(y>maxy)maxy=y;
+    }
+  }
+  const out=[];
+  if(maxx>minx){
+    const px=(minx+maxx)/2/c.width,py=(miny+maxy)/2/c.height;
+    const off=Math.abs(px-0.5);
+    out.push(off<0.13?'<span class="tag g">主体位置</span>主体大致居中，稳':'<span class="tag w">主体位置</span>主体偏'+(px<0.5?'左':'右')+'，下次可往中间或三分线交点挪');
+    if(py<0.38)out.push('<span class="tag w">留白</span>主体偏上，下方留白偏多，可把镜头压低');
+    else out.push('<span class="tag g">留白</span>主体高度合适');
+  }else out.push('<span class="tag w">主体位置</span>画面比较平，主体不够突出，试试靠近或简化背景');
+  const bright=sr*0.3+sg*0.59+sb*0.11;
+  if(bright<70)out.push('<span class="tag w">曝光</span>画面偏暗，可调高亮度或提亮');
+  else if(bright>200)out.push('<span class="tag w">曝光</span>画面偏亮，注意高光溢出');
+  else out.push('<span class="tag g">曝光</span>整体亮度正常');
+  $('#diag').innerHTML='<ul>'+out.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+}
+
+/* ---- 下载 ---- */
+function download(url,name){
+  const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+}
+$('#dlOrig').onclick=()=>{if(editData)download(editData,'原图_'+Date.now()+'.jpg');};
+$('#dlFinal').onclick=()=>{if(pltCanvas)download(pltCanvas.toDataURL('image/jpeg',0.92),'精修图_'+Date.now()+'.jpg');};
+$('#editPick').onclick=()=>$('#editFile').click();
+$('#editFile').onchange=e=>{if(e.target.files[0])compressFile(e.target.files[0],d=>openEdit(d));e.target.value='';};
+$('#toShoot').onclick=()=>switchTab('shoot');
+
+/* ===================== tab 切换 ===================== */
+function switchTab(name){
+  $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
+  $$('.section').forEach(s=>s.classList.toggle('active',s.id==='sec-'+name));
+  if(name==='shoot'&&!usingStill&&!stream)startCam();
+  window.scrollTo({top:0});
+}
+$$('.tab').forEach(t=>t.onclick=()=>switchTab(t.dataset.tab));
+drawOverlay();updateTip();
+
+/* ============================================================
+   新增：首页模式选择 + 三模式拍摄预览页
+   ============================================================ */
+
+/* ---- 骨架关键点（13 点，坐标基于 120x200 画布）---- */
+const SKEL={
+  stand:{head:[60,24],neck:[60,40],ls:[48,47],rs:[72,47],le:[44,78],re:[76,78],lw:[42,106],rw:[78,106],lh:[52,108],rh:[68,108],ll:[48,150],rl:[72,150],lf:[44,184],rf:[76,184]},
+  standSide:{head:[62,24],neck:[58,40],ls:[46,47],rs:[68,47],le:[40,78],re:[76,78],lw:[38,106],rw:[78,106],lh:[50,108],rh:[66,108],ll:[42,150],rl:[72,148],lf:[36,184],rf:[80,184]},
+  backHead:{head:[70,26],neck:[58,42],ls:[46,49],rs:[68,49],le:[40,82],re:[78,80],lw:[38,108],rw:[80,106],lh:[50,110],rh:[66,110],ll:[46,152],rl:[72,150],lf:[42,186],rf:[78,184]},
+  squat:{head:[56,40],neck:[54,56],ls:[42,63],rs:[66,63],le:[34,90],re:[74,88],lw:[46,112],rw:[86,108],lh:[50,116],rh:[66,116],ll:[34,150],rl:[88,146],lf:[30,184],rf:[94,180]},
+  sit:{head:[54,26],neck:[52,42],ls:[40,49],rs:[64,49],le:[36,78],re:[72,80],lw:[34,104],rw:[70,106],lh:[50,110],rh:[64,110],ll:[84,134],rl:[74,136],lf:[90,174],rf:[78,176]},
+  sitChin:{head:[56,30],neck:[54,46],ls:[42,53],rs:[66,53],le:[40,80],re:[76,82],lw:[60,42],rw:[78,108],lh:[50,112],rh:[66,112],ll:[44,150],rl:[72,150],lf:[40,184],rf:[76,184]},
+  armsCross:{head:[60,24],neck:[60,40],ls:[48,47],rs:[72,47],le:[34,72],re:[86,72],lw:[74,90],rw:[46,90],lh:[52,108],rh:[68,108],ll:[46,150],rl:[74,150],lf:[42,184],rf:[78,184]},
+  handHat:{head:[60,26],neck:[60,42],ls:[48,49],rs:[72,49],le:[38,74],re:[86,58],lw:[36,100],rw:[60,20],lh:[52,110],rh:[68,110],ll:[46,152],rl:[74,150],lf:[42,186],rf:[78,184]},
+  wave:{head:[58,24],neck:[58,40],ls:[46,47],rs:[70,47],le:[40,78],re:[86,58],lw:[38,106],rw:[96,30],lh:[50,108],rh:[66,108],ll:[46,150],rl:[72,150],lf:[42,184],rf:[78,184]},
+  walk:{head:[58,26],neck:[58,42],ls:[46,49],rs:[70,49],le:[40,80],re:[78,80],lw:[38,108],rw:[80,106],lh:[52,110],rh:[66,110],ll:[32,150],rl:[80,148],lf:[24,182],rf:[88,182]},
+  wall:{head:[56,24],neck:[54,40],ls:[44,47],rs:[66,47],le:[38,78],re:[84,60],lw:[36,104],rw:[98,52],lh:[50,108],rh:[64,108],ll:[46,150],rl:[70,148],lf:[42,184],rf:[74,184]},
+  handHeart:{head:[60,26],neck:[60,42],ls:[48,49],rs:[72,49],le:[40,76],re:[88,66],lw:[58,34],rw:[70,32],lh:[52,110],rh:[68,110],ll:[46,152],rl:[74,150],lf:[42,186],rf:[78,184]},
+};
+function skelSVG(key){
+  const k=SKEL[key]||SKEL.stand, c='#37d67a';
+  const seg=(a,b)=>`<line x1="${k[a][0]}" y1="${k[a][1]}" x2="${k[b][0]}" y2="${k[b][1]}"/>`;
+  let s=`<g fill="none" stroke="${c}" stroke-width="2.4" stroke-linecap="round" opacity=".92">`;
+  s+=seg('neck','lh'); s+=`<path d="M${k.ls[0]} ${k.ls[1]} Q${k.neck[0]} ${k.neck[1]-3} ${k.rs[0]} ${k.rs[1]}"/>`;
+  s+=seg('ls','le')+seg('le','lw')+seg('rs','re')+seg('re','rw');
+  s+=`<path d="M${k.lh[0]} ${k.lh[1]} Q${k.neck[0]} ${k.neck[1]+26} ${k.rh[0]} ${k.rh[1]}"/>`;
+  s+=seg('lh','ll')+seg('ll','lf')+seg('rh','rl')+seg('rl','rf');
+  s+='</g><g fill="'+c+'" opacity=".95">';
+  Object.values(k).forEach(p=>{s+=`<circle cx="${p[0]}" cy="${p[1]}" r="2.6"/>`;});
+  s+='</g>';
+  return `<g transform="translate(6,16) scale(.72)">${s}</g>`;
+}
+
+/* ---- 动作脚本（7 个，纯文字分步）---- */
+const ACTIONS=[
+  {name:'侧身回眸',tags:'外景 站姿 氛围感',skel:'backHead',desc:'海边/街道氛围感经典动作，新手不容易僵硬',steps:[
+    '身体侧对镜头约45°，肩膀放松下沉','缓慢转头看向镜头，下巴轻轻微收','稳住姿态，准备拍摄']},
+  {name:'手拿咖啡低头浅笑',tags:'室内 手持道具 坐姿',skel:'sitChin',desc:'咖啡店室内，温柔日常感',steps:[
+    '坐直，单手捧住咖啡杯，手肘轻搭桌面','头部微微低下，视线看向杯口，轻轻微笑','缓缓抬眼看向镜头，保持微笑']},
+  {name:'向前走回头抓拍',tags:'外景 行走 抓拍',skel:'walk',desc:'马路、步道动态抓拍，自然不死板',steps:[
+    '慢慢向前走一步，身体自然向前','停住，转头向后看镜头']},
+  {name:'抬手轻挡阳光',tags:'外景 站姿 晴天',skel:'handHat',desc:'晴天户外，遮挡强光，光影很好看',steps:[
+    '正对阳光侧一点，站直','抬起靠近阳光一侧的手，轻轻挡在额头上方','眼睛透过指缝看向镜头']},
+  {name:'撩头发氛围感',tags:'窗边 站姿 温柔',skel:'wave',desc:'室内窗边、晚风外景，简单出片',steps:[
+    '侧身站立，一只手自然垂落','另一只手轻轻撩耳边头发，动作慢一点','手停在耳旁，眼神柔和看向镜头']},
+  {name:'拿花闻花香',tags:'手持道具 外景 清新',skel:'handHeart',desc:'公园、花店，清新感',steps:[
+    '双手轻捧花束放在身前','低头，把花靠近鼻子，像闻花香','微微抬眼，看向镜头']},
+  {name:'靠墙侧头',tags:'室内 靠墙 站姿',skel:'wall',desc:'白墙、走廊，极简干净',steps:[
+    '肩膀轻靠墙面，身体微微侧转','头向墙面一侧轻轻倾斜，看向镜头']},
+];
+
+/* ---- 静态姿势（两批合并去重，重复取详细版，共 20 个）---- */
+const POSES2=[
+  {n:'站姿三角重心',s:'stand',t:'双脚前后错开，前脚轻点地面，重心放在后腿；胯轻轻侧送，肩膀一高一低自然错开；别立正夹紧身体。构图：人放三分线竖线上，脚下留空间别卡脚踝。'},
+  {n:'虚托下巴',s:'sitChin',t:'手肘稳稳支撑在桌面，手掌轻轻虚托下颌，不要用力挤压脸蛋；手指自然分开；脖子微拉长别耸肩。构图：眼睛放在上三分线。'},
+  {n:'轻抱臂侧身',s:'armsCross',t:'手臂轻轻搭在一起别抱太紧；身体45度侧对镜头，肩膀一前一后；脸转回看镜头；手臂别挡住下颌线。构图：主体放右侧三分线。'},
+  {n:'半蹲手搭膝盖',s:'squat',t:'半蹲别完全蹲下；一腿屈膝靠前另一腿向后支撑；单手轻搭前侧膝盖别死撑；背部向上舒展别驼背。构图：头顶留白别贴顶。'},
+  {n:'手提包侧身回头',s:'walk',t:'手自然拎包、手臂放松下垂别绷紧；身体侧向行走方向；缓慢回头看镜头；包放身体侧面别挡脸。'},
+  {n:'窗边双手后置',s:'standSide',t:'双手在身后轻轻相搭别用力紧扣；肩膀下沉打开锁骨；脸微转向窗户光源；下巴微收脖子拉长；后背别贴死墙。构图：光源在侧面，脸朝亮处。'},
+  {n:'坐姿歪头浅笑',s:'sit',t:'臀部只坐椅子前半段别靠死椅背；身体微倾，头轻轻歪向一侧；双肩一松一沉；笑容自然别刻意咧嘴。'},
+  {n:'单手浅插兜',s:'standSide',t:'手指浅浅插入口袋别整只塞进去；另一手臂自然垂落微弯别绷直；身体侧转重心错开；肩膀放松别抬肩。'},
+  {n:'侧脸望向远方',s:'backHead',t:'侧脸轮廓正对镜头，视线看向画面外侧远处别看镜头；下巴微抬拉长脖子；肩膀放平别耸肩。构图：留白放在视线看向的那侧。'},
+  {n:'双手举奶茶靠脸颊',s:'handHeart',t:'双手握杯轻轻贴在脸颊侧边；避开眼睛别挡五官；肩膀下沉放松；可微微歪头。构图：杯子和脸作为主体放右下三分点。'},
+  {n:'盘腿坐单手后撑',s:'sit',t:'轻松盘腿别硬掰；一只手撑身后地面支撑，另一只手搭膝盖；腰背向上提别塌腰；肩膀打开。构图：俯拍或平视，四周留白。'},
+  {n:'轻提裙摆',s:'standSide',t:'只用指尖轻提裙摆一小角别大把抓；手臂形成柔和弧线别僵硬直角；身体微侧转，重心前后错开。'},
+  {n:'靠墙斜靠',s:'wall',t:'只有上背或肩膀轻贴墙面，屁股别死顶墙；一腿弯曲脚尖点地，重心放后腿；头轻歪向墙面一侧，脸转镜头。别整身扁平贴墙。'},
+  {n:'手轻扶帽檐',s:'handHat',t:'手指轻搭帽檐边缘别用力压帽子；手肘向外打开一点；身体侧45度；别让帽子完全遮住眼睛。'},
+  {n:'单手托脸侧',s:'sitChin',t:'手肘支撑，手掌轻贴脸颊侧面别挤压颧骨；另一只手自然放腿上；身体转侧面，脸转回镜头；下巴微收别耸肩。'},
+  {n:'双手握书放腰前',s:'stand',t:'书本放小腹位置别挡胸口；双手自然握住书两侧；身体微侧转；视线可看镜头或低头看书；腰背挺直。'},
+  {n:'单膝点地',s:'squat',t:'单膝轻点地，另一腿屈膝支撑；上身微前倾靠近花草；一只手可轻触花草；背部舒展别埋头驼背。'},
+  {n:'抬手整理耳发',s:'wave',t:'缓慢抬手，指尖把耳旁碎发捋到耳后；手臂线条柔和；脸微转向光源；别用力扯头发。'},
+  {n:'坐姿双腿侧向一边',s:'sit',t:'臀部坐边缘，双腿并拢侧向画面一侧；上身微转回镜头；一手搭腿一手撑身后；腰背挺直别瘫坐。构图：腿部线条顺引导线。'},
+  {n:'手背轻抵嘴唇',s:'handHeart',t:'放松手腕，手背轻靠嘴唇别捂住整张脸；手指自然分开；肩膀下沉；眼神柔和看镜头。'},
+];
+
+/* ---- 三模式提示 + 箭头配置 ---- */
+const MODE_TIPS={
+  portrait:{name:'人像模式',guide:['thirds','golden','lead','none'],tips:[
+    {t:'往左移一点',arrow:'left'},{t:'往右移一点',arrow:'right'},
+    {t:'蹲一点',arrow:'down'},{t:'转头看镜头',arrow:'turn'},
+    {t:'主体放右下交点',arrow:'br'},{t:'别贴顶，头顶留白',arrow:'up'}]},
+  landscape:{name:'风景模式',guide:['thirds','golden','lead','none'],tips:[
+    {t:'地平线放平',arrow:'flat'},{t:'主体放三分交点',arrow:'br'},
+    {t:'蹲低找前景',arrow:'down'},{t:'天空留白多一点',arrow:'up'},
+    {t:'往左移，避开杂物',arrow:'left'},{t:'顺着引导线取景',arrow:'lead'}]},
+  object:{name:'静物模式',guide:['thirds','lead','golden','none'],tips:[
+    {t:'光源从左侧来',arrow:'left'},{t:'转个角度拍',arrow:'turn'},
+    {t:'主体放中央',arrow:'center'},{t:'镜头再靠近点',arrow:'in'},
+    {t:'背景留白',arrow:'up'},{t:'俯拍 45 度',arrow:'down'}]},
+};
+
+/* ---- 辅助线 SVG（叠加层 1）---- */
+function guideSVG2(kind){
+  if(kind==='none')return '';
+  let s='<g fill="none" stroke="rgba(255,255,255,.85)" stroke-width="0.5">';
+  if(kind==='thirds'){
+    s+='<rect x="1" y="1" width="98" height="131"/>';
+    s+='<path d="M33.7 1v131M66.3 1v131M1 44.7h98M1 88.3h98" stroke="rgba(255,255,255,.6)"/>';
+    s+='<g fill="rgba(255,255,255,.9)" stroke="none"><circle cx="33.7" cy="44.7" r="1"/><circle cx="66.3" cy="44.7" r="1"/><circle cx="33.7" cy="88.3" r="1"/><circle cx="66.3" cy="88.3" r="1"/></g>';
+  }else if(kind==='golden'){
+    s+='<rect x="1" y="1" width="98" height="131"/>';
+    s+='<path d="M99 30H71a29 29 0 0 0-29 29v42a20 20 0 0 1-20 20H3M3 52a20 20 0 0 1 20-20M42 30a29 29 0 0 1 29-29M71 101a20 20 0 0 0 20 20" stroke="rgba(255,255,255,.7)"/>';
+  }else if(kind==='lead'){
+    s+='<rect x="1" y="1" width="98" height="131"/>';
+    s+='<path d="M1 132L38 60h30L99 132" stroke="rgba(255,255,255,.55)" stroke-dasharray="2 2"/>';
+    s+='<rect x="38" y="44" width="30" height="40" stroke="rgba(255,220,90,.9)"/>';
+  }
+  s+='</g>';return s;
+}
+/* ---- 箭头 SVG（叠加层 2）---- */
+function arrowSVG(kind){
+  if(!kind)return '';
+  const col='#ffd23f', w='1';
+  const defs=`<defs><marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="${col}" stroke-width="1.6"/></marker></defs>`;
+  const line=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="${w}" marker-end="url(#ah)"/>`;
+  const M={
+    left:line(60,66,32,66), right:line(40,66,68,66), up:line(50,90,50,60),
+    down:line(50,44,50,76), turn:`<path d="M38 66q12-14 24 0" fill="none" stroke="${col}" stroke-width="1" marker-end="url(#ah)"/>`,
+    br:`<circle cx="66.3" cy="88.3" r="4" fill="none" stroke="${col}" stroke-width=".8"/>`,
+    flat:line(20,88,80,88), lead:`<path d="M10 130L40 70" fill="none" stroke="${col}" stroke-width="1" marker-end="url(#ah)"/>`,
+    center:`<rect x="35" y="46" width="30" height="40" fill="none" stroke="${col}" stroke-width=".8"/>`,
+    in:`<circle cx="50" cy="66" r="14" fill="none" stroke="${col}" stroke-width=".8"/>`+line(64,66,54,66),
+  };
+  return defs+(M[kind]||'');
+}
+
+/* ---- 预览页状态 ---- */
+let curMode='portrait';          // portrait | landscape | object
+let curGuide2='thirds';
+let curTipIdx=-1;                // 当前选中的提示索引，-1=无
+let curSkel=null;                // 当前骨架 key（人像模式）
+let curScript=0, curStep=0;      // 当前脚本 / 步骤
+let prevStream=null, prevFacing='environment', prevUsingStill=false;
+
+/* ---- 首页模式选择 ---- */
+$$('.mode-card').forEach(card=>card.onclick=()=>enterMode(card.dataset.mode));
+function enterMode(mode){
+  curMode=mode;
+  $('#homeView').classList.add('hidden');
+  $('#mainHeader').classList.remove('hidden');
+  $('#mainWrap').classList.remove('hidden');
+  $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='preview'));
+  $$('.section').forEach(s=>s.classList.toggle('active',s.id==='sec-preview'));
+  // 模式标识
+  const cfg=MODE_TIPS[mode];
+  $('#prevModeName').textContent=cfg.name;
+  $('#prevModeTag').querySelector('svg').outerHTML=modeIcon(mode);
+  // 辅助线选项：按模式定制顺序
+  const order=cfg.guide;
+  $('#guideTools').innerHTML=order.map((g,i)=>`<div class="pt ${i===0?'on':''}" data-guide="${g}">${guideName(g)}</div>`).join('');
+  $$('#guideTools .pt').forEach(el=>el.onclick=()=>{
+    $$('#guideTools .pt').forEach(x=>x.classList.remove('on'));el.classList.add('on');
+    curGuide2=el.dataset.guide;updatePrevOverlay();
+  });
+  curGuide2=order[0];
+  // 提示选项
+  curTipIdx=-1;
+  $('#tipTools').innerHTML='<span style="font-size:11px;color:var(--muted);align-self:center;margin-right:2px">提示</span>'+
+    cfg.tips.map((tp,i)=>`<div class="pt" data-tip="${i}">${tp.t}</div>`).join('');
+  $$('#tipTools .pt').forEach(el=>el.onclick=()=>{
+    const i=+el.dataset.tip;
+    curTipIdx=(curTipIdx===i?-1:i);
+    $$('#tipTools .pt').forEach(x=>x.classList.remove('on'));
+    if(curTipIdx>=0)el.classList.add('on');
+    updatePrevOverlay();updateHud();
+  });
+  // 人像脚本区显示与否
+  $('#portraitScript').classList.toggle('hidden',mode!=='portrait');
+  if(mode==='portrait'){
+    curScript=0;curStep=0;curSkel=ACTIONS[0].skel;
+    renderScriptPicker();renderScript();renderPoseStrip();
+  }
+  updatePrevOverlay();updateHud();
+  startPrevCam();
+  window.scrollTo({top:0});
+}
+function guideName(g){return {thirds:'三分线',golden:'黄金螺旋',lead:'引导框',none:'无辅助线'}[g]||g;}
+function modeIcon(mode){
+  if(mode==='portrait')return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="7" r="3.2"/><path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"/></svg>';
+  if(mode==='landscape')return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 18l5-6 4 5 3-4 6 5z"/><circle cx="17" cy="6" r="2"/></svg>';
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>';
+}
+$('#changeMode').onclick=()=>{
+  if(prevStream){prevStream.getTracks().forEach(t=>t.stop());prevStream=null;}
+  $('#homeView').classList.remove('hidden');
+  $('#mainHeader').classList.add('hidden');
+  $('#mainWrap').classList.add('hidden');
+};
+
+/* ---- 叠加层更新 ---- */
+function updatePrevOverlay(){
+  let s=guideSVG2(curGuide2);
+  if(curTipIdx>=0) s+=arrowSVG(MODE_TIPS[curMode].tips[curTipIdx].arrow);
+  if(curMode==='portrait'&&curSkel) s+=skelSVG(curSkel);
+  $('#prevOverlay').innerHTML=s;
+}
+function updateHud(){
+  if(curTipIdx>=0){
+    $('#hudNo').textContent='提示';
+    $('#hudText').textContent=MODE_TIPS[curMode].tips[curTipIdx].t;
+  }else if(curMode==='portrait'&&$('#scriptName').textContent){
+    $('#hudNo').textContent='第'+(curStep+1)+'步';
+    $('#hudText').textContent=ACTIONS[curScript].steps[curStep];
+  }else{
+    $('#hudNo').textContent='提示';
+    $('#hudText').textContent=curMode==='portrait'?'照着骨架摆姿势，选提示看箭头':
+      (curMode==='landscape'?'选提示对齐构图':'选提示调整角度和光影');
+  }
+}
+
+/* ---- 脚本分步 ---- */
+function renderScriptPicker(){
+  $('#scriptPicker').innerHTML=ACTIONS.map((a,i)=>`<div class="sp ${i===curScript?'on':''}" data-i="${i}">${a.name}</div>`).join('');
+  $$('#scriptPicker .sp').forEach(el=>el.onclick=()=>{
+    curScript=+el.dataset.i;curStep=0;curSkel=ACTIONS[curScript].skel;
+    renderScriptPicker();renderScript();updatePrevOverlay();updateHud();
+  });
+}
+function renderScript(){
+  const a=ACTIONS[curScript];
+  $('#scriptName').textContent=a.name;
+  $('#scriptDesc').textContent=a.desc+' · '+a.tags;
+  $('#stepTrack').innerHTML=a.steps.map((_,i)=>`<i class="${i<curStep?'done':(i===curStep?'on':'')}"></i>`).join('');
+  $('#stepTip').innerHTML=`<b>第 ${curStep+1}/${a.steps.length} 步：</b>${a.steps[curStep]}`;
+  $('#stepPrev').disabled=curStep===0;
+  $('#stepNext').textContent=curStep===a.steps.length-1?'完成，去拍照':'下一步';
+}
+$('#stepPrev').onclick=()=>{if(curStep>0){curStep--;renderScript();updateHud();}};
+$('#stepNext').onclick=()=>{
+  const a=ACTIONS[curScript];
+  if(curStep<a.steps.length-1){curStep++;renderScript();updateHud();}
+  else{$('#hudNo').textContent='就绪';$('#hudText').textContent='姿势已就位，按快门拍照吧';}
+};
+function renderPoseStrip(){
+  $('#poseStrip').innerHTML=POSES2.map((p,i)=>`<div class="ps ${i===0?'on':''}" data-i="${i}" data-s="${p.s}">
+    <svg viewBox="0 0 120 200">${skelSVG(p.s)}</svg><span>${p.n}</span></div>`).join('');
+  $$('#poseStrip .ps').forEach(el=>el.onclick=()=>{
+    $$('#poseStrip .ps').forEach(x=>x.classList.remove('on'));el.classList.add('on');
+    curSkel=el.dataset.s;updatePrevOverlay();
+  });
+}
+
+/* ---- 预览页摄像头 ---- */
+async function startPrevCam(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){prevCamFail();return;}
+  try{
+    if(prevStream)prevStream.getTracks().forEach(t=>t.stop());
+    prevStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:prevFacing,width:{ideal:1280},height:{ideal:1706}},audio:false});
+    const v=$('#prevVideo');v.srcObject=prevStream;await v.play();
+    prevUsingStill=false;$('#camNotice2').classList.add('hidden');
+  }catch(e){prevCamFail();}
+}
+function prevCamFail(){
+  $('#camNotice2').textContent='摄像头需 https 或 localhost 才能打开。可点"从相册选"上传一张，同样能叠加辅助线、提示和骨架做参照。';
+  $('#camNotice2').classList.remove('hidden');
+}
+$('#prevFlip').onclick=()=>{prevFacing=prevFacing==='environment'?'user':'environment';if(!prevUsingStill)startPrevCam();};
+$('#prevPick').onclick=()=>$('#prevFile').click();
+$('#prevFile').onchange=e=>{if(e.target.files[0])compressFile(e.target.files[0],data=>loadStill(data));e.target.value='';};
+function loadStill(data){
+  const img=new Image();
+  img.onload=()=>{
+    const cv=document.createElement('canvas');cv.width=img.width;cv.height=img.height;
+    cv.getContext('2d').drawImage(img,0,0);
+    const v=$('#prevVideo');v.style.display='none';
+    // 用一个 canvas 覆盖视频位显示静态图
+    let old=$('#prevStill');if(old)old.remove();
+    const c=document.createElement('canvas');c.id='prevStill';
+    c.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover';
+    c.width=cv.width;c.height=cv.height;c.getContext('2d').drawImage(cv,0,0);
+    $('#prevViewport').insertBefore(c,$('#prevViewport').querySelector('.prev-overlay'));
+    prevUsingStill=true;
+    prevStillCanvas=c;
+  };
+  img.src=data;
+}
+let prevStillCanvas=null;
+$('#prevShutter').onclick=()=>{
+  let w,h,src;
+  if(prevUsingStill&&prevStillCanvas){src=prevStillCanvas;w=src.width;h=src.height;}
+  else{const v=$('#prevVideo');if(!v.videoWidth){alert('画面还没准备好');return;}src=v;w=v.videoWidth;h=v.videoHeight;}
+  const data=toDataURLFromCanvas(src,w,h);
+  savePhoto(data);
+  $('#hudNo').textContent='已拍';$('#hudText').textContent='照片已保存，去「拍后修」优化吧';
+};
+</script>
+</body>
+</html>
