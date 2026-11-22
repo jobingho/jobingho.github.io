@@ -431,13 +431,13 @@ section:nth-of-type(even){background:var(--bg-2)}
 .ql:hover{border-color:var(--brand);background:#fff;transform:translateX(3px);box-shadow:0 6px 18px -10px rgba(59,79,224,.4)}
 .ql-t{font-weight:600;font-size:14.5px}
 .ql-d{font-size:13px;color:var(--ink-3);line-height:1.5}
-.ql-u{font-family:"SFMono-Regular",Consolas,monospace;font-size:12px;color:var(--brand);background:rgba(59,79,224,.07);padding:5px 11px;border-radius:8px;white-space:nowrap}
+.ql-u{font-family:"SFMono-Regular",Consolas,monospace;font-size:12px;color:var(--brand);background:rgba(59,79,224,.07);padding:5px 11px;border-radius:8px;white-space:nowrap;width:300px;justify-self:start}
 .ql-u em{font-style:normal;background:var(--ink);color:var(--ink);border-radius:3px;padding:0 3px;letter-spacing:1px}
 .ql-go{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#fff;background:var(--ink);padding:8px 15px;border-radius:9px;white-space:nowrap;transition:.18s}
 .ql:hover .ql-go{background:var(--brand)}
 .ql-go::after{content:"→";font-size:13px;transition:.18s}
 .ql:hover .ql-go::after{transform:translateX(3px)}
-@media(max-width:980px){.ql{grid-template-columns:132px 1fr;gap:8px 16px}.ql-u,.ql-go{justify-self:start}}
+@media(max-width:980px){.ql{grid-template-columns:132px 1fr;gap:8px 16px}.ql-u,.ql-go{justify-self:start}.ql-u{width:auto}}
 @media(max-width:760px){.ql{grid-template-columns:1fr;gap:8px}.ql-u{white-space:normal;word-break:break-all}}
 
 /* ---------- contact ---------- */
@@ -599,6 +599,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
 
   a{text-decoration:none!important;color:#14151c!important}
   .ql-u em{background:#dfe1e9!important;color:#14151c!important}
+  .ql-u{width:auto!important}
 }
 </style>
 </head>
@@ -1239,12 +1240,12 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
     <div class="ql-wrap rv">
       <div class="ql-head">
         <h3>在线演示平台</h3>
-        <p>三个平台都已部署上线，开箱即用 —— 不用下载、不用注册，点开就能上手操作。演示走站内中转页，原站地址不会暴露在浏览器地址栏里，页面内也加了水印保护。</p>
+        <p>四个平台都已部署上线，开箱即用 —— 不用下载、不用注册，点开就能上手操作。演示走站内中转页，原站地址不会暴露在浏览器地址栏里，页面内也加了水印保护。</p>
       </div>
       <div class="ql-list">
         <a class="ql" data-key="wk" href="demo.html?p=wk" rel="nofollow noopener">
           <span class="ql-t">ai平台</span>
-          <span class="ql-d">工作台 · 活动排期 · 数据看板 · 广告自动化 · 资讯快报 · 文章自动上传</span>
+          <span class="ql-d">工作台 · 活动排期 · 数据看板 · 广告自动化 · 文章上传</span>
           <span class="ql-u">jobingho.github.io/dxw-<em>weekly</em>-report-pages</span>
           <span class="ql-go">进入演示</span>
         </a>
@@ -1258,6 +1259,12 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
           <span class="ql-t">投资分析小工具</span>
           <span class="ql-d">K 线 / MACD 指标 · 评分信号 · 形态识别</span>
           <span class="ql-u">ec23b558<em>................</em>agentos-app.net</span>
+          <span class="ql-go">进入演示</span>
+        </a>
+        <a class="ql" data-key="ops" href="demo.html?p=ops" rel="nofollow noopener">
+          <span class="ql-t">运营中台</span>
+          <span class="ql-d">首页工作台 · 活动日历 · 每日运营诊断 · 复盘文档 · 资讯快报</span>
+          <span class="ql-u">jobingho.github.io/dxw-<em>renewal</em>-ad-panel</span>
           <span class="ql-go">进入演示</span>
         </a>
       </div>
@@ -1285,7 +1292,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink-3);font-s
         </div>
         <div class="c-points">
           <div>邮件请附岗位 JD，我逐条对照回复能承接的部分</div>
-          <div>可先看作品集：3 个平台、14 张真实界面截图</div>
+          <div>可先看作品集：4 个平台、35 张真实界面截图</div>
           <div>可约线上沟通，当面演示 AI 工作台的实际用法</div>
         </div>
       </div>
