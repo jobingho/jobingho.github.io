@@ -158,7 +158,17 @@ body{font-family:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,"Segoe 
   fr.addEventListener('load', protect);
   setInterval(protect, 1500);
 
-  fr.src = decode(m.k);
+  /* 周数据看板 / 运营中台：演示入口追加脱敏参数，站点据此隐藏真实数据与笔记。
+     日常直接访问原站（不带此参数）时不触发，不影响本人使用。 */
+  function withDemo(u){
+    var hash = '', main = u, hi = u.indexOf('#');
+    if (hi >= 0){ hash = u.slice(hi); main = u.slice(0, hi); }
+    var sep = main.indexOf('?') >= 0 ? '&' : '?';
+    return main + sep + 'demo=1' + hash;
+  }
+  var target = decode(m.k);
+  if (m.k === 'wk' || m.k === 'ops') target = withDemo(target);
+  fr.src = target;
 })();
 </script>
 </body>
