@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>英语对话复盘工具</title>
+<style>
+:root{
+  --bg:#f6f7fb; --panel:#ffffff; --ink:#1f2430; --muted:#6b7280;
+  --line:#e5e7eb; --brand:#3b5bdb; --brand-dark:#2f49b3; --brand-soft:#eef2ff;
+  --ai:#eef4ff; --ai-line:#c7d7fe; --me:#fff7ed; --me-line:#fed7aa;
+  --hl:#fff1a8; --hl-ink:#7a4b00; --danger:#dc2626; --ok:#0f9d58;
+  --shadow:0 1px 2px rgba(16,24,40,.05),0 8px 24px rgba(16,24,40,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.hidden{display:none !important}
+.app{max-width:1240px;margin:0 auto;padding:22px 20px 60px}
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 22px;box-shadow:var(--shadow)}
+.logo{width:42px;height:42px;border-radius:12px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;letter-spacing:.5px}
+.title h1{margin:0;font-size:19px;line-height:1.3}
+.title p{margin:2px 0 0;color:var(--muted);font-size:12px}
+.top-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13px;transition:.15s}
+.btn:hover{border-color:var(--brand);color:var(--brand)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:var(--brand-dark)}
+.btn.ghost-danger:hover{border-color:var(--danger);color:var(--danger)}
+.btn.sm{padding:4px 9px;font-size:12px;border-radius:7px}
+.tabs{display:flex;gap:6px;margin:18px 0 16px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.tab{border:0;background:transparent;padding:9px 16px;border-radius:9px;color:var(--muted);font-weight:600}
+.tab:hover{background:#fff;color:var(--ink)}
+.tab.active{background:var(--brand-soft);color:var(--brand)}
+.view{animation:fade .18s ease}
+@keyframes fade{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:none}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}
+.search{flex:1;min-width:200px;padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;outline:none}
+.search:focus,.field:focus,textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(59,91,219,.1)}
+.field{padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;outline:none}
+.stats{display:flex;gap:18px;margin-left:auto;color:var(--muted);font-size:12px;white-space:nowrap}
+.stats b{color:var(--ink);font-size:15px}
+.hint{padding:12px 16px;background:#fffdf3;border-bottom:1px solid #f6e9b8;color:#7a6400;font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;padding:16px}
+.card{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fff;transition:.15s;cursor:pointer}
+.card:hover{border-color:#b9c8f7;box-shadow:0 6px 18px rgba(59,91,219,.09);transform:translateY(-1px)}
+.card-top{display:flex;align-items:flex-start;gap:8px}
+.term{font-size:18px;font-weight:750;line-height:1.35;word-break:break-word;flex:1}
+.badge{font-size:11px;padding:2px 7px;border-radius:20px;background:#f1f3f9;color:var(--muted);white-space:nowrap}
+.badge.ok{background:#e8f7ee;color:#0b7a43}
+.badge.pending{background:#fff5dc;color:#92610a}
+.badge.fail{background:#fdecec;color:#b42318}
+.meaning{margin-top:10px;padding:9px 11px;border-radius:9px;background:var(--brand-soft);color:#25337a;min-height:38px;word-break:break-word}
+.meaning.masked{background:#f5f6f8;color:#9aa0aa;letter-spacing:.5px}
+.quote{margin:11px 0 0;padding-left:11px;border-left:3px solid var(--ai-line);color:#4b5563;font-size:12.5px;word-break:break-word;max-height:76px;overflow:hidden}
+.meta{margin-top:10px;color:#9aa0aa;font-size:11.5px}
+.card-actions{display:flex;gap:6px;margin-top:11px;padding-top:10px;border-top:1px dashed var(--line)}
+.empty{padding:34px 16px;text-align:center;color:#9aa0aa}
+.conv-layout{display:grid;grid-template-columns:290px 1fr;gap:14px;align-items:start}
+.conv-list{padding:8px;max-height:calc(100vh - 210px);overflow:auto}
+.conv-row{position:relative;padding:11px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent}
+.conv-row:hover{background:#f7f8fc}
+.conv-row.active{background:var(--brand-soft);border-color:#cdd8fb}
+.conv-title{font-weight:650;font-size:13.5px;padding-right:44px;word-break:break-word}
+.conv-sub{color:var(--muted);font-size:11.5px;margin-top:3px}
+.conv-del{position:absolute;right:8px;top:10px;border:0;background:transparent;color:#b6bcc7;font-size:16px;line-height:1;padding:2px 5px;border-radius:6px}
+.conv-del:hover{color:var(--danger);background:#fdecec}
+.detail{min-height:420px}
+.detail-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.detail-head h2{font-size:16px;margin:0;flex:1;min-width:160px}
+.detail-head span{color:var(--muted);font-size:12px}
+.msgs{padding:16px 18px;max-height:calc(100vh - 270px);overflow:auto}
+.msg{display:flex;gap:10px;margin-bottom:14px}
+.role{flex:0 0 34px;height:26px;border-radius:7px;display:grid;place-items:center;font-size:11px;font-weight:700;color:#3b4b78;background:#e4ecff}
+.msg.me .role{background:#ffedd5;color:#9a4c07}
+.bubble{flex:1;padding:9px 12px;border-radius:10px;background:var(--ai);border:1px solid var(--ai-line);user-select:text;line-height:1.75;overflow-wrap:anywhere}
+.msg.me .bubble{background:var(--me);border-color:var(--me-line)}
+mark.hl{background:var(--hl);color:var(--hl-ink);border-radius:3px;padding:0 2px;cursor:pointer;box-shadow:inset 0 -2px 0 #f0c93c}
+mark.hl:hover{background:#ffe066}
+.import-body{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.form-row{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.form-row label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px}
+.form-row .grow{flex:1;min-width:150px}
+textarea#importText{width:100%;min-height:330px;resize:vertical;padding:12px;border:1px solid var(--line);border-radius:10px;outline:none;line-height:1.7}
+.preview-box{border:1px solid var(--line);border-radius:10px;max-height:392px;overflow:auto;background:#fcfcfe}
+.prev-row{display:flex;gap:8px;align-items:flex-start;padding:7px 10px;border-bottom:1px solid #f0f1f5}
+.prev-row:last-child{border-bottom:0}
+.idx{flex:0 0 28px;color:#a5abb6;font-size:11px;padding-top:3px;text-align:right}
+.prev-row select{border:1px solid var(--line);border-radius:6px;padding:2px 4px;font-size:11px;background:#fff}
+.prev-text{flex:1;font-size:12px;overflow-wrap:anywhere;color:#4b5563}
+.preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12px;color:var(--muted)}
+.float-bar{position:fixed;z-index:50;background:#1f2430;color:#fff;padding:6px;border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.float-bar button{border:0;background:var(--brand);color:#fff;border-radius:6px;padding:6px 12px;font-size:12px}
+.float-bar button:hover{background:#5b78e8}
+.modal-backdrop{position:fixed;inset:0;background:rgba(17,24,39,.42);z-index:60;display:grid;place-items:center;padding:16px}
+.modal{background:#fff;border-radius:16px;width:min(540px,100%);padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.2)}
+.modal h3{margin:0 0 16px;font-size:17px}
+.modal label{display:block;font-size:12px;color:var(--muted);margin:12px 0 5px}
+.modal input,.modal textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;outline:none}
+.modal textarea{min-height:82px;resize:vertical}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#1f2430;color:#fff;padding:10px 18px;border-radius:10px;z-index:80;box-shadow:var(--shadow);font-size:13px;max-width:90vw;text-align:center}
+@media(max-width:900px){.conv-layout{grid-template-columns:1fr}.import-body{grid-template-columns:1fr}.conv-list{max-height:230px}.msgs{max-height:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="logo">EN</div>
+    <div class="title"><h1>英语对话复盘工具</h1><p>粘贴对话 · 划出生词短语 · 卡片自测 · 数据只留本机</p></div>
+    <div class="top-actions">
+      <button class="btn" id="btnExport" title="把所有对话和生词卡导出为 JSON 备份">导出备份</button>
+      <button class="btn" id="btnImport" title="从 JSON 备份恢复">导入备份</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="cards">生词卡复盘</button>
+    <button class="tab" data-tab="convs">对话原文</button>
+    <button class="tab" data-tab="import">导入对话</button>
+  </nav>
+
+  <section id="view-cards" class="view">
+    <div class="panel">
+      <div class="toolbar">
+        <input id="cardSearch" class="search" placeholder="搜英文词、中文释义或原句…">
+        <select id="cardFilterConv" class="field"><option value="">全部对话</option></select>
+        <button class="btn sm" id="btnRevealAll">全部显示释义</button>
+        <div class="stats"><span>生词卡 <b id="statCards">0</b></span><span>对话 <b id="statConvs">0</b></span><span>近7天 <b id="statWeek">0</b></span></div>
+      </div>
+      <div class="hint">默认藏起中文释义，先自测再点卡片翻面。想加新词：去「对话原文」用鼠标划选文字 → 点浮出的「存为生词卡」。</div>
+      <div id="cardGrid" class="cards"></div>
+    </div>
+  </section>
+
+  <section id="view-convs" class="view hidden">
+    <div class="conv-layout">
+      <div class="panel conv-list" id="convList"></div>
+      <div class="panel detail" id="convDetail"><div class="empty">选一段对话，就能在原文里划词标注</div></div>
+    </div>
+  </section>
+
+  <section id="view-import" class="view hidden">
+    <div class="panel import-body">
+      <div>
+        <div class="form-row">
+          <div class="grow"><label>对话标题（留空取第一句）</label><input id="importTitle" class="field" style="width:100%" placeholder="例如：周末 · 言情小说与奶茶"></div>
+          <div><label>日期</label><input id="importDate" class="field" type="date"></div>
+          <div><label>第一行是谁</label><select id="firstRole" class="field"><option value="ai">AI</option><option value="me">我</option></select></div>
+        </div>
+        <textarea id="importText" placeholder="把和 AI 的英语对话整段粘进来，一行一条。空行会被忽略。"></textarea>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button class="btn" id="btnPreview">预览解析</button>
+          <button class="btn primary" id="btnSaveImport">保存对话</button>
+          <button class="btn" id="btnLoadSample">填入示例对话</button>
+          <button class="btn ghost-danger" id="btnClearImport">清空</button>
+        </div>
+      </div>
+      <div>
+        <div class="preview-head"><span>解析预览（可逐条改角色）</span><span id="importCount">共 0 条消息</span></div>
+        <div class="preview-box" id="preview"><div class="empty">粘贴对话后点「预览解析」</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="floatBar" class="float-bar hidden"><button id="btnAddCard" type="button">＋ 存为生词卡</button></div>
+
+<div id="modalBackdrop" class="modal-backdrop hidden">
+  <div class="modal">
+    <h3>编辑生词卡</h3>
+    <input type="hidden" id="editId">
+    <label>英文词 / 短语</label><input id="editTerm">
+    <label>中文释义（自动查不到就手填）</label><input id="editMeaning" placeholder="例如：放松；解压">
+    <label>所在原句</label><textarea id="editSentence"></textarea>
+    <div class="modal-actions">
+      <button class="btn" id="btnReLookup">重新查释义</button>
+      <button class="btn" id="btnCancelEdit">取消</button>
+      <button class="btn primary" id="btnSaveEdit">保存</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<input type="file" id="fileInput" accept="application/json,.json" hidden>
+
+<script>
+(function(){
+'use strict';
+var KEY='en_review_data_v1', SEED='en_review_seeded_v1';
+var SAMPLE_TEXT = `Hi, how was your weekend?
+Nothing much happened, neither good nor bad.
+Did you stay home over the weekend?
+Yes. I have to work on Sunday. Also, I can’t enjoy my phone if I go out.
+Do you prefer staying home more?
+Sure. Some people love going out because it makes them feel free and refreshed. Others prefer staying home, as it’s their way to unwind and recharge.
+So staying home is your favourite way to relax, right?
+Not exactly. My favourite way to relax is doing things I enjoy at home.
+What’s your favourite thing to do at home?
+Umm, they’re pretty simple things — watching short videos, reading romance novels, playing with my cat or chatting with my boyfriend on WeChat.
+Do you spend most of your free time with your cat and boyfriend?
+I spend most of my free time with my cat and boyfriend. But sometimes I want to stay alone and enjoy the quiet.
+Do you usually read romance novels when you’re alone?
+Yes!! Some plots in the novels make me feel embarrassed, so I prefer reading romance novels in secret. I feel at ease when I’m alone.
+What kind of romance stories do you like best?
+Maybe you can tell me the detailed categories of romance stories.
+Here are common romance novel categories:1. Contemporary Romance 现言 — Love stories set in modern times2. Historical Romance 古言 / 年代文 — Stories in the past, like ancient or old eras3. Fantasy Romance 奇幻言情 — With magic, immortals, supernatural beings4. Paranormal Romance 异能 / 吸血鬼这类超自然言情— Vampires, werewolves, ghosts5. Romantic Suspense 悬疑言情— Romance plus crime and mystery6. Sports Romance 竞技言情 — Athletes as main characters7. Office Romance / Workplace Romance 职场言情8. Reverse Harem 乙女 / 多男一女.Do you have a favourite type among them?
+I’m into pretty much every romance novel trope, except sports romance, office romance, reverse harem and romantic suspense. Those ones just aren’t for me.
+Which romance trope is your absolute favourite?
+I think my favourite romance trope is contemporary romance.
+What do you love most about contemporary romance?
+I just love reading them, no particular reason.
+Do you prefer sweet, fluffy stories or ones with a little bit of drama?
+I prefer ones with a little bit of drama.
+Do you have any plans for your free time this week?
+I think I’ll sleep in, hang out with my boyfriend, scroll short videos, read romance novels, order takeout, get milk tea, play games and watch movies.
+What’s your go-to milk tea order?
+I usually get roasted chestnut milk tea.
+Do you like sweet drinks, or do you always choose less sugar?
+I always choose less sugar.
+Do you like adding any toppings to your milk tea?
+No, I don’t add any toppings.
+What’s your favourite snack to pair with milk tea?
+No snacks. I always have milk tea with my dinner.
+What kind of food do you usually order for dinner?
+Just regular food from the cafeteria. Since I’m working, I grab something near my workplace.
+Do you prefer eating alone or having meals with colleagues?
+Alone, because it’s more comfortable and I feel at ease.
+Do you like listening to music while you eat?
+I usually don’t. I always scroll short videos instead.
+What kind of short videos do you watch the most?
+I like watching funny and touching videos.
+Do you often laugh or even cry when you watch them?
+Sure! I’m quite sensitive.
+Do you easily get teary-eyed when watching touching clips?
+Not really. It depends on whether the story can touch me.
+What’s the most touching video you’ve seen recently?
+I’ve forgotten.
+Do you save those touching videos to watch again later?
+No, I don't.
+What do you usually do after you finish scrolling short videos?
+It depends. I’ll usually read romance novels.
+Do you set a time limit for reading, or just keep reading until you feel sleepy?
+Sometimes I get totally absorbed when I’m reading. So I keep reading until I feel sleepy or lose track of time.`;
+
+function $(s){return document.querySelector(s);}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function load(){
+  try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);if(o&&Array.isArray(o.conversations)&&Array.isArray(o.cards))return o;}}catch(e){}
+  return {conversations:[],cards:[]};
+}
+var data=load();
+var activeConvId=null, revealed={}, pendingSel=null, previewLines=[], previewSource='', toastTimer=null, revealAll=false;
+
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){toast('保存失败：浏览器本地空间可能已满');}}
+function toast(msg){var t=$('#toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.add('hidden');},2900);}
+function parseText(txt,firstRole){
+  var lines=String(txt||'').split(/\r?\n/).map(function(s){return s.trim();}).filter(Boolean);
+  return lines.map(function(text,i){return {id:uid(),role:(i%2===0)?firstRole:(firstRole==='ai'?'me':'ai'),text:text};});
+}
+if(!data.conversations.length && !localStorage.getItem(SEED)){
+  var demo={id:uid(),title:'示例对话：周末与言情小说（可删除）',date:today(),createdAt:Date.now(),messages:parseText(SAMPLE_TEXT,'ai')};
+  data.conversations.push(demo);activeConvId=demo.id;
+  localStorage.setItem(SEED,'1');save();
+}
+if(!activeConvId && data.conversations.length) activeConvId=data.conversations[0].id;
+
+function getConv(id){for(var i=0;i<data.conversations.length;i++)if(data.conversations[i].id===id)return data.conversations[i];return null;}
+function getMsg(convId,msgId){var c=getConv(convId);if(!c)return null;for(var i=0;i<c.messages.length;i++)if(c.messages[i].id===msgId)return c.messages[i];return null;}
+function cardCount(convId){return data.cards.filter(function(c){return c.convId===convId;}).length;}
+
+function renderStats(){
+  var weekAgo=Date.now()-7*86400000;
+  $('#statCards').textContent=data.cards.length;
+  $('#statConvs').textContent=data.conversations.length;
+  $('#statWeek').textContent=data.cards.filter(function(c){return (c.createdAt||0)>=weekAgo;}).length;
+}
+function renderFilter(){
+  var sel=$('#cardFilterConv'), old=sel.value;
+  var list=data.conversations.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.createdAt||0)-(a.createdAt||0);});
+  sel.innerHTML='<option value="">全部对话</option>'+list.map(function(c){return '<option value="'+esc(c.id)+'">'+esc(c.date+' · '+c.title)+'</option>';}).join('');
+  sel.value=old && getConv(old)?old:'';
+}
+function renderCards(){
+  renderFilter();
+  var q=$('#cardSearch').value.trim().toLowerCase(), fc=$('#cardFilterConv').value;
+  var list=data.cards.filter(function(c){
+    if(fc && c.convId!==fc)return false;
+    if(!q)return true;
+    return (String(c.term)+' '+String(c.meaning||'')+' '+String(c.sentence||'')).toLowerCase().indexOf(q)>=0;
+  });
+  if(!list.length){$('#cardGrid').innerHTML='<div class="empty" style="grid-column:1/-1">'+(data.cards.length?'没有匹配的生词卡':'还没有生词卡。去「对话原文」划选文字就能添加。')+'</div>';return;}
+  $('#cardGrid').innerHTML=list.map(function(c){
+    var conv=getConv(c.convId), open=revealAll||!!revealed[c.id];
+    var badge=c.lookup==='ok'?'<span class="badge ok">自动释义</span>':c.lookup==='pending'?'<span class="badge pending">查询中</span>':'<span class="badge fail">待补释义</span>';
+    return '<article class="card" data-id="'+esc(c.id)+'">'+
+      '<div class="card-top"><div class="term">'+esc(c.term)+'</div>'+badge+'</div>'+
+      '<div class="meaning'+(open?'':' masked')+'">'+(open?esc(c.meaning||'（还没填释义，点卡片编辑）'):'点击卡片查看中文释义')+'</div>'+
+      '<blockquote class="quote">'+esc(c.sentence||'')+'</blockquote>'+
+      '<div class="meta">'+(conv?esc(conv.date+' · '+conv.title):'来源已删除')+(c.msgIndex!=null?' · 第'+(c.msgIndex+1)+'条':'')+'</div>'+
+      '<div class="card-actions"><button class="btn sm" data-act="flip">'+(open?'隐藏':'翻面自测')+'</button>'+
+      '<button class="btn sm" data-act="edit">编辑</button>'+
+      '<button class="btn sm ghost-danger" data-act="del">删除</button></div></article>';
+  }).join('');
+}
+function renderConvList(){
+  var list=data.conversations.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.createdAt||0)-(a.createdAt||0);});
+  if(!list.length){$('#convList').innerHTML='<div class="empty">还没有对话，去「导入对话」粘贴一段</div>';return;}
+  $('#convList').innerHTML=list.map(function(c){
+    return '<div class="conv-row'+(c.id===activeConvId?' active':'')+'" data-id="'+esc(c.id)+'">'+
+      '<div class="conv-title">'+esc(c.title)+'</div>'+
+      '<div class="conv-sub">'+esc(c.date)+' · '+c.messages.length+' 条 · '+cardCount(c.id)+' 个标注</div>'+
+      '<button class="conv-del" data-del="'+esc(c.id)+'" title="删除这段对话">×</button></div>';
+  }).join('');
+}
+function messageHTML(msg,conv){
+  var hs=data.cards.filter(function(c){return c.msgId===msg.id&&c.convId===conv.id;}).sort(function(a,b){return a.start-b.start;});
+  var html='',pos=0;
+  for(var i=0;i<hs.length;i++){
+    var c=hs[i], s=Math.max(0,Math.min(c.start,msg.text.length)), e=Math.max(s,Math.min(c.end,msg.text.length));
+    if(s<pos)continue;
+    html+=esc(msg.text.slice(pos,s));
+    html+='<mark class="hl" data-card="'+esc(c.id)+'">'+esc(msg.text.slice(s,e))+'</mark>';
+    pos=e;
+  }
+  return html+esc(msg.text.slice(pos));
+}
+function renderDetail(){
+  var conv=getConv(activeConvId);
+  if(!conv){$('#convDetail').innerHTML='<div class="empty">选一段对话，就能在原文里划词标注</div>';return;}
+  var h='<div class="detail-head"><h2>'+esc(conv.title)+'</h2><span>'+esc(conv.date)+' · '+conv.messages.length+' 条消息 · '+cardCount(conv.id)+' 处高亮</span>'+
+    '<button class="btn sm" id="btnGoImport">再导入一段</button></div><div class="msgs">';
+  conv.messages.forEach(function(m,i){
+    h+='<div class="msg '+(m.role==='ai'?'ai':'me')+'" data-index="'+i+'">'+
+       '<div class="role">'+(m.role==='ai'?'AI':'我')+'</div><div class="bubble" data-msg-id="'+esc(m.id)+'">'+messageHTML(m,conv)+'</div></div>';
+  });
+  $('#convDetail').innerHTML=h+'</div>';
+}
+function renderAll(){renderStats();renderCards();renderConvList();renderDetail();}
+function switchTab(name){
+  ['cards','convs','import'].forEach(function(t){$('#view-'+t).classList.toggle('hidden',t!==name);});
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(b){b.classList.toggle('active',b.getAttribute('data-tab')===name);});
+  if(name==='convs')renderDetail();
+}
+
+function extractSentence(text,start,end){
+  var re=/[^.!?。！？\n]+[.!?。！？]?/g,m;
+  while((m=re.exec(text))!==null){
+    if(m.index<=start && (m.index+m[0].length)>=end)return m[0].trim();
+  }
+  return text.slice(Math.max(0,start-90),Math.min(text.length,end+90)).trim();
+}
+function elemOf(node){return node&&node.nodeType===3?node.parentElement:node;}
+function offsetInMsg(msgEl,node,offset){
+  try{var r=document.createRange();r.selectNodeContents(msgEl);r.setEnd(node,offset);return r.toString().length;}catch(e){return -1;}
+}
+function handleSelection(){
+  var sel=window.getSelection();
+  if(!sel||sel.isCollapsed||!String(sel).trim()){$('#floatBar').classList.add('hidden');return;}
+  var range=sel.getRangeAt(0);
+  var a=elemOf(range.startContainer),b=elemOf(range.endContainer);
+  var ma=a?a.closest('[data-msg-id]'):null, mb=b?b.closest('[data-msg-id]'):null;
+  if(!ma||!mb||ma!==mb){$('#floatBar').classList.add('hidden');return;}
+  var s=offsetInMsg(ma,range.startContainer,range.startOffset), e=offsetInMsg(ma,range.endContainer,range.endOffset);
+  var msg=getMsg(activeConvId,ma.getAttribute('data-msg-id'));
+  if(!msg||s<0||e<0||e<=s){$('#floatBar').classList.add('hidden');return;}
+  pendingSel={convId:activeConvId,msgId:msg.id,start:s,end:e};
+  var rect=range.getBoundingClientRect(), bar=$('#floatBar');
+  var left=Math.max(8,Math.min(rect.left+rect.width/2-65,window.innerWidth-150));
+  bar.style.left=left+'px';bar.style.top=Math.max(8,rect.top-46)+'px';
+  bar.classList.remove('hidden');
+}
+function addCard(){
+  if(!pendingSel)return;
+  var p=pendingSel, msg=getMsg(p.convId,p.msgId), conv=getConv(p.convId);
+  if(!msg||!conv){$('#floatBar').classList.add('hidden');return;}
+  var term=msg.text.slice(p.start,p.end), s=p.start, e=p.end;
+  while(term.length&&/^\s$/.test(term.charAt(0))){term=term.slice(1);s++;}
+  while(term.length&&/^\s$/.test(term.charAt(term.length-1))){term=term.slice(0,-1);e--;}
+  if(!term){$('#floatBar').classList.add('hidden');return;}
+  var overlap=data.cards.some(function(c){return c.msgId===p.msgId&&c.start<e&&s<c.end;});
+  if(overlap){toast('这段已经标注过了，点高亮可查看');$('#floatBar').classList.add('hidden');return;}
+  var card={id:uid(),term:term,meaning:'',sentence:extractSentence(msg.text,s,e),convId:p.convId,msgId:p.msgId,
+    msgIndex:conv.messages.findIndex(function(m){return m.id===p.msgId;}),start:s,end:e,createdAt:Date.now(),lookup:'pending'};
+  data.cards.unshift(card);save();
+  $('#floatBar').classList.add('hidden');
+  try{window.getSelection().removeAllRanges();}catch(err){}
+  renderAll();toast('已存为生词卡，正在查中文释义…');lookupWord(card.id);
+}
+function lookupWord(id){
+  var c=data.cards.filter(function(x){return x.id===id;})[0];
+  if(!c||!c.term)return;
+  var url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(c.term)+'&langpair=en%7Czh-CN';
+  var ctl=typeof AbortController!=='undefined'?new AbortController():null;
+  var timer=setTimeout(function(){if(ctl)ctl.abort();},9000);
+  fetch(url,ctl?{signal:ctl.signal}:{}).then(function(r){if(!r.ok)throw new Error('http');return r.json();}).then(function(o){
+    clearTimeout(timer);
+    var t=o&&o.responseData&&o.responseData.translatedText?String(o.responseData.translatedText):'';
+    if(!t||/MYMEMORY|QUERY LENGTH|INVALID/i.test(t)||t.toLowerCase()===String(c.term).toLowerCase())throw new Error('empty');
+    if(!c.meaning)c.meaning=t;
+    c.lookup='ok';save();renderAll();
+  }).catch(function(){
+    clearTimeout(timer);c.lookup='fail';save();renderAll();
+  });
+}
+
+function openEdit(id){
+  var c=data.cards.filter(function(x){return x.id===id;})[0];if(!c)return;
+  $('#editId').value=c.id;$('#editTerm').value=c.term;$('#editMeaning').value=c.meaning||'';$('#editSentence').value=c.sentence||'';
+  $('#modalBackdrop').classList.remove('hidden');
+}
+function closeEdit(){$('#modalBackdrop').classList.add('hidden');}
+
+function buildPreview(){
+  previewSource=$('#importText').value+'|'+$('#firstRole').value;
+  previewLines=parseText($('#importText').value,$('#firstRole').value);
+  var box=$('#preview');
+  $('#importCount').textContent='共 '+previewLines.length+' 条消息';
+  if(!previewLines.length){box.innerHTML='<div class="empty">还没有可解析的内容</div>';return;}
+  box.innerHTML=previewLines.slice(0,120).map(function(m,i){
+    return '<div class="prev-row"><span class="idx">'+(i+1)+'</span>'+
+      '<select data-prev="'+i+'"><option value="ai"'+(m.role==='ai'?' selected':'')+'>AI</option>'+
+      '<option value="me"'+(m.role==='me'?' selected':'')+'>我</option></select>'+
+      '<span class="prev-text">'+esc(m.text)+'</span></div>';
+  }).join('')+(previewLines.length>120?'<div class="empty">…还有 '+(previewLines.length-120)+' 条未展示</div>':'');
+}
+function syncPreview(){if(($('#importText').value+'|'+$('#firstRole').value)!==previewSource)buildPreview();}
+
+function exportData(){
+  var o={app:'english-review',version:1,exportedAt:new Date().toISOString(),conversations:data.conversations,cards:data.cards};
+  var blob=new Blob([JSON.stringify(o,null,2)],{type:'application/json;charset=utf-8'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='英语对话复盘备份-'+today()+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(a.href);},1500);toast('备份已下载');
+}
+
+Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(b){
+  b.addEventListener('click',function(){switchTab(b.getAttribute('data-tab'));});
+});
+$('#btnExport').addEventListener('click',exportData);
+$('#btnImport').addEventListener('click',function(){$('#fileInput').click();});
+$('#fileInput').addEventListener('change',function(e){
+  var f=e.target.files&&e.target.files[0];if(!f)return;
+  var rd=new FileReader();
+  rd.onload=function(){
+    try{
+      var o=JSON.parse(rd.result);
+      if(!o||!Array.isArray(o.conversations)||!Array.isArray(o.cards))throw new Error('bad');
+      if(!confirm('导入会覆盖当前所有对话和生词卡，确定继续吗？'))return;
+      data={conversations:o.conversations,cards:o.cards};save();
+      activeConvId=data.conversations.length?data.conversations[0].id:null;
+      revealed={};renderAll();toast('导入成功，共 '+data.cards.length+' 张生词卡');
+    }catch(err){toast('文件格式不对，请选择本工具导出的 JSON');}
+  };
+  rd.readAsText(f,'utf-8');e.target.value='';
+});
+$('#cardSearch').addEventListener('input',renderCards);
+$('#cardFilterConv').addEventListener('change',renderCards);
+$('#btnRevealAll').addEventListener('click',function(){revealAll=!revealAll;this.textContent=revealAll?'全部隐藏释义':'全部显示释义';renderCards();});
+$('#cardGrid').addEventListener('click',function(e){
+  var cardEl=e.target.closest('.card');if(!cardEl)return;
+  var id=cardEl.getAttribute('data-id'), act=e.target.getAttribute('data-act');
+  if(act==='flip'){revealed[id]=!revealed[id];renderCards();return;}
+  if(act==='del'){if(confirm('删除这张生词卡？')){data.cards=data.cards.filter(function(c){return c.id!==id;});delete revealed[id];save();renderAll();}return;}
+  if(act==='edit'){openEdit(id);return;}
+  revealed[id]=!revealed[id];renderCards();
+});
+$('#convList').addEventListener('click',function(e){
+  var del=e.target.getAttribute('data-del');
+  if(del){
+    if(!confirm('删除这段对话？生词卡会保留，但出处显示为“来源已删除”。'))return;
+    data.conversations=data.conversations.filter(function(c){return c.id!==del;});
+    if(activeConvId===del)activeConvId=data.conversations.length?data.conversations[0].id:null;
+    save();renderAll();return;
+  }
+  var row=e.target.closest('.conv-row');if(!row)return;
+  activeConvId=row.getAttribute('data-id');renderConvList();renderDetail();
+});
+$('#convDetail').addEventListener('click',function(e){
+  if(e.target.id==='btnGoImport'){switchTab('import');return;}
+  var mark=e.target.closest('mark.hl');if(mark)openEdit(mark.getAttribute('data-card'));
+});
+document.addEventListener('mouseup',function(){setTimeout(handleSelection,0);});
+$('#floatBar').addEventListener('mousedown',function(e){e.preventDefault();});
+$('#btnAddCard').addEventListener('click',addCard);
+$('#btnCancelEdit').addEventListener('click',closeEdit);
+$('#modalBackdrop').addEventListener('click',function(e){if(e.target===$('#modalBackdrop'))closeEdit();});
+$('#btnSaveEdit').addEventListener('click',function(){
+  var c=data.cards.filter(function(x){return x.id===$('#editId').value;})[0];if(!c)return;
+  var t=$('#editTerm').value.trim();if(!t){toast('英文词不能为空');return;}
+  c.term=t;c.meaning=$('#editMeaning').value.trim();c.sentence=$('#editSentence').value.trim();
+  if(c.meaning)c.lookup='ok';save();closeEdit();renderAll();toast('已保存');
+});
+$('#btnReLookup').addEventListener('click',function(){
+  var c=data.cards.filter(function(x){return x.id===$('#editId').value;})[0];if(!c)return;
+  c.meaning='';c.lookup='pending';save();closeEdit();renderAll();lookupWord(c.id);toast('正在重新查词…');
+});
+$('#btnPreview').addEventListener('click',buildPreview);
+$('#firstRole').addEventListener('change',buildPreview);
+$('#btnSaveImport').addEventListener('click',function(){
+  syncPreview();
+  if(!previewLines.length){toast('先粘贴对话内容');return;}
+  var title=$('#importTitle').value.trim()||previewLines[0].text.slice(0,28);
+  var conv={id:uid(),title:title,date:$('#importDate').value||today(),createdAt:Date.now(),messages:previewLines};
+  data.conversations.unshift(conv);activeConvId=conv.id;save();renderAll();
+  $('#importText').value='';$('#importTitle').value='';previewLines=[];previewSource='';
+  $('#preview').innerHTML='<div class="empty">粘贴对话后点「预览解析」</div>';$('#importCount').textContent='共 0 条消息';
+  switchTab('convs');toast('已保存 '+conv.messages.length+' 条消息，划选文字即可标注');
+});
+$('#preview').addEventListener('change',function(e){
+  var s=e.target.getAttribute('data-prev');if(s==null||!previewLines[s])return;
+  previewLines[s].role=e.target.value;
+  toast('第 '+(Number(s)+1)+' 条角色已改为「'+(e.target.value==='ai'?'AI':'我')+'」');
+});
+$('#btnLoadSample').addEventListener('click',function(){$('#importText').value=SAMPLE_TEXT;$('#importTitle').value='英语对话示例';buildPreview();toast('示例已填入，可点保存体验');});
+$('#btnClearImport').addEventListener('click',function(){$('#importText').value='';$('#importTitle').value='';previewLines=[];previewSource='';buildPreview();});
+$('#importDate').value=today();
+renderAll();
+})();
+</script>
+</body>
+</html>
