@@ -43,6 +43,8 @@ button{cursor:pointer}
 .stats{display:flex;gap:18px;margin-left:auto;color:var(--muted);font-size:12px;white-space:nowrap}
 .stats b{color:var(--ink);font-size:15px}
 .hint{padding:12px 16px;background:#fffdf3;border-bottom:1px solid #f6e9b8;color:#7a6400;font-size:12px}
+.warn{padding:10px 12px;background:#fff4f4;border:1px solid #fecaca;border-radius:9px;color:#9f2d2d;font-size:12px;line-height:1.6;margin-bottom:12px}
+.sync-status{margin-top:14px;padding:9px 11px;background:#f5f7fb;border-radius:8px;color:var(--muted);font-size:12px;min-height:34px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;padding:16px}
 .card{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fff;transition:.15s;cursor:pointer}
 .card:hover{border-color:#b9c8f7;box-shadow:0 6px 18px rgba(59,91,219,.09);transform:translateY(-1px)}
@@ -111,6 +113,7 @@ textarea#importText{width:100%;min-height:330px;resize:vertical;padding:12px;bor
     <div class="logo">EN</div>
     <div class="title"><h1>英语对话复盘工具</h1><p>粘贴对话 · 划出生词短语 · 卡片自测 · 数据只留本机</p></div>
     <div class="top-actions">
+      <button class="btn primary" id="btnSync" title="GitHub 私有仓库双向同步">GitHub 同步</button>
       <button class="btn" id="btnExport" title="把所有对话和生词卡导出为 JSON 备份">导出备份</button>
       <button class="btn" id="btnImport" title="从 JSON 备份恢复">导入备份</button>
     </div>
@@ -179,6 +182,33 @@ textarea#importText{width:100%;min-height:330px;resize:vertical;padding:12px;bor
       <button class="btn" id="btnReLookup">重新查释义</button>
       <button class="btn" id="btnCancelEdit">取消</button>
       <button class="btn primary" id="btnSaveEdit">保存</button>
+    </div>
+  </div>
+</div>
+
+<div id="syncBackdrop" class="modal-backdrop hidden">
+  <div class="modal">
+    <h3>GitHub 双向同步</h3>
+    <div class="warn">数据将存到你自己的<b>私有仓库</b>，只有你能读。Token 会保存在当前浏览器本地，请勿在公共电脑使用；建议用只授权该仓库的 token。「合并」按条目 id 取较新版本，<b>不会同步删除</b>；「推送/拉取」是整份覆盖。</div>
+    <label>GitHub Token（ classic token 需 repo 权限）</label>
+    <input id="ghToken" type="password" placeholder="ghp_… 或 github_pat_…">
+    <div class="form-row" style="margin-top:12px">
+      <div class="grow"><label>用户名</label><input id="ghOwner" class="field" style="width:100%" value="jobingho"></div>
+      <div class="grow"><label>私有仓库名</label><input id="ghRepo" class="field" style="width:100%" value="english-review-data"></div>
+    </div>
+    <div class="form-row">
+      <div class="grow"><label>分支</label><input id="ghBranch" class="field" style="width:100%" value="main"></div>
+      <div class="grow"><label>文件路径</label><input id="ghPath" class="field" style="width:100%" value="english-review-data.json"></div>
+    </div>
+    <div class="sync-status" id="syncStatus">上次同步：从未</div>
+    <div class="modal-actions">
+      <button class="btn" id="btnSyncPull">拉取覆盖本地</button>
+      <button class="btn" id="btnSyncMerge">智能合并</button>
+      <button class="btn primary" id="btnSyncPush">推送覆盖远端</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn sm" id="btnSyncSave">仅保存设置</button>
+      <button class="btn sm" id="btnSyncClose">关闭</button>
     </div>
   </div>
 </div>
@@ -254,6 +284,9 @@ function load(){
   return {conversations:[],cards:[]};
 }
 var data=load();
+var GH_KEY='en_review_github_v1';
+var gh={token:'',owner:'jobingho',repo:'english-review-data',branch:'main',path:'english-review-data.json',sha:'',lastSync:''};
+try{var ghSaved=JSON.parse(localStorage.getItem(GH_KEY)||'{}');if(ghSaved&&typeof ghSaved==='object'){Object.keys(gh).forEach(function(k){if(ghSaved[k]!=null)gh[k]=ghSaved[k];});}}catch(e){}
 var activeConvId=null, revealed={}, pendingSel=null, previewLines=[], previewSource='', toastTimer=null, revealAll=false;
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){toast('保存失败：浏览器本地空间可能已满');}}
@@ -385,7 +418,7 @@ function addCard(){
   var overlap=data.cards.some(function(c){return c.msgId===p.msgId&&c.start<e&&s<c.end;});
   if(overlap){toast('这段已经标注过了，点高亮可查看');$('#floatBar').classList.add('hidden');return;}
   var card={id:uid(),term:term,meaning:'',sentence:extractSentence(msg.text,s,e),convId:p.convId,msgId:p.msgId,
-    msgIndex:conv.messages.findIndex(function(m){return m.id===p.msgId;}),start:s,end:e,createdAt:Date.now(),lookup:'pending'};
+    msgIndex:conv.messages.findIndex(function(m){return m.id===p.msgId;}),start:s,end:e,createdAt:Date.now(),updatedAt:Date.now(),lookup:'pending'};
   data.cards.unshift(card);save();
   $('#floatBar').classList.add('hidden');
   try{window.getSelection().removeAllRanges();}catch(err){}
@@ -402,9 +435,9 @@ function lookupWord(id){
     var t=o&&o.responseData&&o.responseData.translatedText?String(o.responseData.translatedText):'';
     if(!t||/MYMEMORY|QUERY LENGTH|INVALID/i.test(t)||t.toLowerCase()===String(c.term).toLowerCase())throw new Error('empty');
     if(!c.meaning)c.meaning=t;
-    c.lookup='ok';save();renderAll();
+    c.lookup='ok';c.updatedAt=Date.now();save();renderAll();
   }).catch(function(){
-    clearTimeout(timer);c.lookup='fail';save();renderAll();
+    clearTimeout(timer);c.lookup='fail';c.updatedAt=Date.now();save();renderAll();
   });
 }
 
@@ -438,9 +471,111 @@ function exportData(){
   setTimeout(function(){URL.revokeObjectURL(a.href);},1500);toast('备份已下载');
 }
 
+function saveGh(){try{localStorage.setItem(GH_KEY,JSON.stringify(gh));}catch(e){}}
+function fillGh(){
+  $('#ghToken').value=gh.token||'';$('#ghOwner').value=gh.owner||'jobingho';$('#ghRepo').value=gh.repo||'english-review-data';
+  $('#ghBranch').value=gh.branch||'main';$('#ghPath').value=gh.path||'english-review-data.json';updateSyncStatus();
+}
+function readGh(){
+  gh.token=$('#ghToken').value.trim();gh.owner=$('#ghOwner').value.trim()||'jobingho';gh.repo=$('#ghRepo').value.trim()||'english-review-data';
+  gh.branch=$('#ghBranch').value.trim()||'main';gh.path=$('#ghPath').value.trim()||'english-review-data.json';
+  saveGh();updateSyncStatus();
+}
+function updateSyncStatus(){
+  var el=$('#syncStatus');if(!el)return;
+  el.textContent='上次同步：'+(gh.lastSync?new Date(gh.lastSync).toLocaleString():'从未')+' · 远端文件 '+gh.repo+'/'+gh.path;
+}
+function validGh(){
+  if(!gh.token){toast('先填 GitHub token');return false;}
+  if(!gh.owner||!gh.repo||!gh.path){toast('仓库信息不完整');return false;}
+  return true;
+}
+function b64encode(str){
+  var bytes=new TextEncoder().encode(str),bin='';
+  for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+function b64decode(s){
+  var bin=atob(String(s||'').replace(/\s/g,'')),arr=new Uint8Array(bin.length);
+  for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
+  return new TextDecoder().decode(arr);
+}
+function ghApi(){
+  return 'https://api.github.com/repos/'+encodeURIComponent(gh.owner)+'/'+encodeURIComponent(gh.repo)+'/contents/'+gh.path;
+}
+function ghHeads(){return {Authorization:'Bearer '+gh.token,Accept:'application/vnd.github+json','Content-Type':'application/json'};}
+async function ghGet(){
+  var url=ghApi()+'?ref='+encodeURIComponent(gh.branch);
+  var r=await fetch(url,{headers:ghHeads()});
+  if(r.status===404)return {data:null,sha:null};
+  if(!r.ok)throw new Error('拉取失败 HTTP '+r.status+'：'+(await r.text()).slice(0,140));
+  var o=await r.json();
+  var payload=JSON.parse(b64decode(o.content));
+  if(!payload||!Array.isArray(payload.conversations)||!Array.isArray(payload.cards))throw new Error('远端数据格式不对');
+  return {data:payload,sha:o.sha};
+}
+async function ghPut(payload,sha){
+  var body={message:'sync English review data '+new Date().toISOString(),content:b64encode(JSON.stringify(payload)),branch:gh.branch};
+  if(sha)body.sha=sha;
+  var r=await fetch(ghApi(),{method:'PUT',headers:ghHeads(),body:JSON.stringify(body)});
+  if(!r.ok)throw new Error('推送失败 HTTP '+r.status+'：'+(await r.text()).slice(0,160));
+  var o=await r.json();
+  return o&&o.content&&o.content.sha?o.content.sha:sha;
+}
+function payloadNow(){return {app:'english-review',version:1,updatedAt:new Date().toISOString(),conversations:data.conversations,cards:data.cards};}
+function mergedData(remote,local){
+  var out={conversations:[],cards:[]},map=new Map(),i,a,b;
+  remote.conversations.forEach(function(x){if(x&&x.id)map.set(x.id,x);});
+  local.conversations.forEach(function(x){
+    if(!x||!x.id)return;a=map.get(x.id);
+    if(!a||(x.updatedAt||x.createdAt||0)>(a.updatedAt||a.createdAt||0))map.set(x.id,x);
+  });
+  out.conversations=Array.from(map.values());
+  map=new Map();
+  remote.cards.forEach(function(x){if(x&&x.id)map.set(x.id,x);});
+  local.cards.forEach(function(x){
+    if(!x||!x.id)return;a=map.get(x.id);
+    if(!a||(x.updatedAt||x.createdAt||0)>(a.updatedAt||a.createdAt||0))map.set(x.id,x);
+  });
+  out.cards=Array.from(map.values());
+  return out;
+}
+async function doSync(mode){
+  readGh();if(!validGh())return;
+  var btn=$('#syncStatus');btn.textContent='正在'+(mode==='push'?'推送':mode==='pull'?'拉取':'合并')+'…';
+  try{
+    var remote=await ghGet();
+    if(mode==='pull'){
+      if(!remote.data){toast('远端还没有数据文件');updateSyncStatus();return;}
+      if(!confirm('拉取会用远端数据整份覆盖当前本地对话和生词卡，确定继续吗？')){updateSyncStatus();return;}
+      data={conversations:remote.data.conversations,cards:remote.data.cards};
+      save();revealed={};activeConvId=data.conversations.length?data.conversations[0].id:null;renderAll();
+      gh.sha=remote.sha;gh.lastSync=new Date().toISOString();saveGh();updateSyncStatus();
+      toast('已拉取 '+data.cards.length+' 张卡 / '+data.conversations.length+' 段对话');return;
+    }
+    if(mode==='merge'&&!remote.data){toast('远端还没有数据文件，直接推送即可');updateSyncStatus();return;}
+    var payload=mode==='merge'?mergedData(remote.data,data):payloadNow();
+    if(mode==='merge'){data={conversations:payload.conversations,cards:payload.cards};save();renderAll();}
+    var sha=remote.sha;
+    try{sha=await ghPut(payload,sha);}catch(e){
+      if(/409|422/.test(e.message)){var fresh=await ghGet();sha=await ghPut(payload,fresh.sha);}else throw e;
+    }
+    if(sha)gh.sha=sha;
+    gh.lastSync=new Date().toISOString();saveGh();updateSyncStatus();
+    toast((mode==='merge'?'已合并并推送':'已推送')+' '+payload.cards.length+' 张卡 / '+payload.conversations.length+' 段对话');
+  }catch(e){toast(e.message||'同步失败');updateSyncStatus();}
+}
+
 Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(b){
   b.addEventListener('click',function(){switchTab(b.getAttribute('data-tab'));});
 });
+$('#btnSync').addEventListener('click',function(){fillGh();$('#syncBackdrop').classList.remove('hidden');});
+$('#btnSyncClose').addEventListener('click',function(){readGh();$('#syncBackdrop').classList.add('hidden');});
+$('#syncBackdrop').addEventListener('click',function(e){if(e.target===$('#syncBackdrop')){readGh();$('#syncBackdrop').classList.add('hidden');}});
+$('#btnSyncSave').addEventListener('click',function(){readGh();toast('同步设置已保存在本机浏览器');});
+$('#btnSyncPush').addEventListener('click',function(){doSync('push');});
+$('#btnSyncPull').addEventListener('click',function(){doSync('pull');});
+$('#btnSyncMerge').addEventListener('click',function(){doSync('merge');});
 $('#btnExport').addEventListener('click',exportData);
 $('#btnImport').addEventListener('click',function(){$('#fileInput').click();});
 $('#fileInput').addEventListener('change',function(e){
@@ -493,11 +628,11 @@ $('#btnSaveEdit').addEventListener('click',function(){
   var c=data.cards.filter(function(x){return x.id===$('#editId').value;})[0];if(!c)return;
   var t=$('#editTerm').value.trim();if(!t){toast('英文词不能为空');return;}
   c.term=t;c.meaning=$('#editMeaning').value.trim();c.sentence=$('#editSentence').value.trim();
-  if(c.meaning)c.lookup='ok';save();closeEdit();renderAll();toast('已保存');
+  if(c.meaning)c.lookup='ok';c.updatedAt=Date.now();save();closeEdit();renderAll();toast('已保存');
 });
 $('#btnReLookup').addEventListener('click',function(){
   var c=data.cards.filter(function(x){return x.id===$('#editId').value;})[0];if(!c)return;
-  c.meaning='';c.lookup='pending';save();closeEdit();renderAll();lookupWord(c.id);toast('正在重新查词…');
+  c.meaning='';c.lookup='pending';c.updatedAt=Date.now();save();closeEdit();renderAll();lookupWord(c.id);toast('正在重新查词…');
 });
 $('#btnPreview').addEventListener('click',buildPreview);
 $('#firstRole').addEventListener('change',buildPreview);
@@ -505,7 +640,7 @@ $('#btnSaveImport').addEventListener('click',function(){
   syncPreview();
   if(!previewLines.length){toast('先粘贴对话内容');return;}
   var title=$('#importTitle').value.trim()||previewLines[0].text.slice(0,28);
-  var conv={id:uid(),title:title,date:$('#importDate').value||today(),createdAt:Date.now(),messages:previewLines};
+  var conv={id:uid(),title:title,date:$('#importDate').value||today(),createdAt:Date.now(),updatedAt:Date.now(),messages:previewLines};
   data.conversations.unshift(conv);activeConvId=conv.id;save();renderAll();
   $('#importText').value='';$('#importTitle').value='';previewLines=[];previewSource='';
   $('#preview').innerHTML='<div class="empty">粘贴对话后点「预览解析」</div>';$('#importCount').textContent='共 0 条消息';
@@ -519,6 +654,7 @@ $('#preview').addEventListener('change',function(e){
 $('#btnLoadSample').addEventListener('click',function(){$('#importText').value=SAMPLE_TEXT;$('#importTitle').value='英语对话示例';buildPreview();toast('示例已填入，可点保存体验');});
 $('#btnClearImport').addEventListener('click',function(){$('#importText').value='';$('#importTitle').value='';previewLines=[];previewSource='';buildPreview();});
 $('#importDate').value=today();
+updateSyncStatus();
 renderAll();
 })();
 </script>
