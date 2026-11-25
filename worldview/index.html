@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>世界视野 · 资讯收集整理工具</title>
+<style>
+:root{
+  --bg:#f5f6f8; --card:#ffffff; --ink:#1f2430; --sub:#6b7280; --line:#e5e7eb;
+  --up:#d92b2b; --down:#12924a; --brand:#1f4e79; --brand-soft:#eaf1f8;
+  --warn:#b45309; --warn-bg:#fffbeb; --chip:#f3f4f6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",-apple-system,sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.6;padding:18px}
+.wrap{max-width:1360px;margin:0 auto}
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:14px}
+.logo{font-size:20px;font-weight:700;color:var(--brand);letter-spacing:1px}
+.logo small{font-size:11px;font-weight:400;color:var(--sub);letter-spacing:0;margin-left:8px}
+.meta{color:var(--sub);font-size:12px;margin-left:auto}
+button{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 14px;font-size:12px;cursor:pointer;color:var(--ink);font-family:inherit}
+button:hover{border-color:var(--brand);color:var(--brand)}
+button.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+button.primary:hover{background:#173c5e;color:#fff}
+button.on{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+.tagbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tag{background:var(--chip);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--sub);cursor:pointer;border:1px solid transparent}
+.tag.on{background:var(--brand-soft);color:var(--brand);border-color:#b9d0e6}
+.section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.sec-title{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sec-title h2{font-size:15px;font-weight:700;color:var(--brand)}
+.badge{font-size:10px;color:var(--sub);border:1px solid var(--line);border-radius:20px;padding:1px 8px}
+.badge.week{color:var(--warn);border-color:#fcd34d;background:var(--warn-bg)}
+.badge.month{color:#7c3aed;border-color:#ddd6fe;background:#f5f3ff}
+.src{font-size:11px;color:var(--sub);margin-left:auto}
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.q{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fafbfc}
+.q .n{font-size:11px;color:var(--sub)}
+.q .v{font-size:19px;font-weight:700;margin-top:2px}
+.q .c{font-size:12px;font-weight:600}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--sub)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:900px){.cols{grid-template-columns:1fr}}
+.sub-sec{margin-bottom:14px}
+.sub-sec:last-child{margin-bottom:0}
+.sub-h{font-size:12px;font-weight:700;color:var(--ink);border-left:3px solid var(--brand);padding-left:8px;margin-bottom:8px}
+.news-list{display:flex;flex-direction:column}
+.item{padding:8px 0;border-bottom:1px dashed var(--line)}
+.item:last-child{border-bottom:none}
+.item .t{font-size:13px;color:var(--ink);text-decoration:none;line-height:1.45}
+.item .t:hover{color:var(--brand);text-decoration:underline}
+.item .s{font-size:11px;color:var(--sub);margin-top:3px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.item .sum{font-size:11px;color:#4b5563;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mini-btn{border:none;background:none;padding:0 2px;color:var(--sub);font-size:12px;cursor:pointer}
+.mini-btn:hover{color:var(--brand)}
+.mini-btn.faved{color:#e0a800}
+.tag-input{font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 5px;width:82px;font-family:inherit;color:var(--ink)}
+.grid-live{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.live{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.live .n{font-size:12px;font-weight:600}
+.live .v{font-size:17px;font-weight:700;margin:3px 0}
+.live .d{font-size:11px;color:var(--sub)}
+.hot-list{display:flex;flex-direction:column;gap:5px}
+.hot{display:flex;gap:8px;align-items:baseline;font-size:12px}
+.hot .rk{width:18px;text-align:center;color:var(--sub);font-size:11px}
+.hot .rk.top{color:var(--up);font-weight:700}
+.hot a{color:var(--ink);text-decoration:none}
+.hot a:hover{color:var(--brand);text-decoration:underline}
+.msg{font-size:11px;color:var(--warn);background:var(--warn-bg);border:1px solid #fde68a;border-radius:8px;padding:6px 10px;margin-bottom:10px;display:none}
+.empty{font-size:12px;color:var(--sub);padding:8px 0}
+footer{text-align:center;color:var(--sub);font-size:11px;padding:10px 0 20px}
+a{color:var(--brand)}
+.hint{font-size:11px;color:var(--sub);margin-top:8px;line-height:1.5}
+.markets{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:1000px){.markets{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.markets{grid-template-columns:1fr}}
+.market{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fafbfc}
+.market h3{font-size:13px;color:var(--brand);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.market .q{padding:7px 9px;margin-bottom:6px;background:var(--card)}
+.market .q:last-child{margin-bottom:0}
+.market .q .v{font-size:16px}
+.news-list.two-col{display:grid;grid-template-columns:1fr 1fr;column-gap:18px}
+@media(max-width:900px){.news-list.two-col{grid-template-columns:1fr}}
+.pager{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
+.pager .pinfo{font-size:11px;color:var(--sub);margin-right:auto}
+.pg{font-size:11px;padding:3px 8px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);cursor:pointer;font-family:inherit}
+.pg:hover{border-color:var(--brand);color:var(--brand)}
+.pg.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.pg:disabled{opacity:.45;cursor:default}
+.pg:disabled:hover{border-color:var(--line);color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="logo">世界视野<small>资讯收集整理工具</small></div>
+  <div class="tagbar" id="tagbar"></div>
+  <div class="meta" id="meta">尚未更新</div>
+  <button class="primary" id="btnRefresh">刷新资讯</button>
+  <button id="btnFav">收藏 0</button>
+</header>
+
+<div class="msg" id="msg"></div>
+
+<section class="section">
+  <div class="sec-title"><h2>价格速览</h2><span class="badge">实时行情</span><span class="src">来源：东方财富行情 · 红涨绿跌</span></div>
+  <div class="quotes" id="quotes"><div class="empty">加载中…</div></div>
+</section>
+
+<section class="section">
+  <div class="sec-title"><h2>全球股市</h2><span class="badge">四国主要指数</span><span class="src">来源：东方财富行情 · 红涨绿跌</span></div>
+  <div class="markets" id="markets"><div class="empty">加载中…</div></div>
+</section>
+
+<section class="section">
+  <div class="sec-title"><h2>民生物价</h2><span class="badge week">周更 · 官方监测</span><span class="badge month">月更 · CPI / 70城房价</span><span class="src">来源：农业农村部全国农产品批发市场价格信息系统 · 国家统计局（东方财富数据中心转发）</span></div>
+  <div class="sub-sec">
+    <div class="sub-h">批发价与成品油（每周更新）</div>
+    <div class="grid-live" id="livelihood"><div class="empty">加载中…</div></div>
+    <div class="hint" id="liveHint"></div>
+  </div>
+  <div class="sub-sec">
+    <div class="sub-h">月度指标（每月更新）</div>
+    <div class="grid-live" id="monthly"><div class="empty">加载中…</div></div>
+  </div>
+</section>
+
+<div class="cols">
+  <section class="section">
+    <div class="sec-title"><h2>时政要闻</h2><span class="src">来源：新浪新闻</span></div>
+    <div class="news-list" id="newsIntl"><div class="empty">加载中…</div></div>
+    <div class="pager" id="pager-newsIntl"></div>
+  </section>
+  <section class="section">
+    <div class="sec-title"><h2>经济资讯</h2><span class="src">来源：东方财富快讯 · 新浪财经</span></div>
+    <div class="news-list" id="newsEcon"><div class="empty">加载中…</div></div>
+    <div class="pager" id="pager-newsEcon"></div>
+  </section>
+</div>
+
+<div class="cols">
+  <section class="section">
+    <div class="sec-title"><h2>趣闻 · 网络热榜</h2><span class="src">来源：百度热搜</span></div>
+    <div class="hot-list" id="hotList"><div class="empty">加载中…</div></div>
+    <div class="pager" id="pager-hotList"></div>
+  </section>
+  <section class="section">
+    <div class="sec-title"><h2>趣闻 · 媒体新知</h2><span class="src">来源：新浪科技</span></div>
+    <div class="news-list" id="newsTech"><div class="empty">加载中…</div></div>
+    <div class="pager" id="pager-newsTech"></div>
+  </section>
+</div>
+
+<section class="section">
+  <div class="sec-title"><h2>期货资讯</h2><span class="badge">商品 · 金融期货</span><span class="src">来源：东方财富资讯检索</span></div>
+  <div class="news-list two-col" id="newsFut"><div class="empty">加载中…</div></div>
+  <div class="pager" id="pager-newsFut"></div>
+  <div class="hint">期货行情参考见「价格速览」中的沪金、沪银、沪铜、原油及鸡蛋、豆油主力合约。</div>
+</section>
+
+<footer>数据来自公开接口，仅供参考；原创内容版权归各来源所有。收藏与标签保存在本机浏览器，不上传。</footer>
+</div>
+
+<script>
+(function(){
+'use strict';
+var LS_FAV='worldview_favs_v1', LS_CACHE='worldview_cache_v1';
+var WEEK=7*24*3600*1000, PAGE_SIZE=10;
+var favs=load(LS_FAV,{}), cache=load(LS_CACHE,{});
+var favMode=false, activeTag='';
+var LIST_STATE={}; // 各资讯板块的 {items, page} 状态
+
+function load(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v||d}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function fmtTime(ts){var d=new Date(ts*1000);return (d.getMonth()+1)+'-'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function todayStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function monthStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+function showMsg(t){var el=document.getElementById('msg');el.textContent=t;el.style.display='block'}
+function hideMsg(){document.getElementById('msg').style.display='none'}
+
+var jpSeq=0;
+function jsonp(url,cbName,timeout){
+  return new Promise(function(resolve,reject){
+    var cb='wv'+(++jpSeq)+'x'+Math.floor(Math.random()*100000);
+    var name=cbName||'cb';
+    var s=document.createElement('script');
+    var timer=setTimeout(function(){cleanup();reject(new Error('timeout'))},timeout||12000);
+    function cleanup(){clearTimeout(timer);try{delete window[cb]}catch(e){window[cb]=undefined}if(s.parentNode)s.parentNode.removeChild(s)}
+    window[cb]=function(data){cleanup();resolve(data)};
+    s.onerror=function(){cleanup();reject(new Error('network'))};
+    var u=url;
+    var re=new RegExp('([?&])'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'=[^&]*','g');
+    if(re.test(u)){u=u.replace(re,'$1'+name+'='+cb)}else{u=u+(u.indexOf('?')>=0?'&':'?')+name+'='+cb}
+    s.src=u;
+    document.head.appendChild(s);
+  });
+}
+function fetchJSON(url,timeout){
+  return new Promise(function(resolve,reject){
+    var ctl=typeof AbortController!=='undefined'?new AbortController():null;
+    var timer=setTimeout(function(){if(ctl)ctl.abort();reject(new Error('timeout'))},timeout||12000);
+    fetch(url,{signal:ctl?ctl.signal:undefined,cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(function(j){clearTimeout(timer);resolve(j)}).catch(function(e){clearTimeout(timer);reject(e)});
+  });
+}
+function postJSON(url,body,timeout){
+  return new Promise(function(resolve,reject){
+    var ctl=typeof AbortController!=='undefined'?new AbortController():null;
+    var timer=setTimeout(function(){if(ctl)ctl.abort();reject(new Error('timeout'))},timeout||12000);
+    fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{}),signal:ctl?ctl.signal:undefined,cache:'no-store'})
+      .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(function(j){clearTimeout(timer);resolve(j)}).catch(function(e){clearTimeout(timer);reject(e)});
+  });
+}
+function color(v){var n=parseFloat(v);return isNaN(n)?'flat':(n>0?'up':(n<0?'down':'flat'))}
+function sign(v,digits){var n=parseFloat(v);if(isNaN(n))return '--';return (n>0?'+':'')+n.toFixed(digits==null?2:digits)+'%'}
+
+/* ---------- 收藏与标签 ---------- */
+function itemKey(it){return it.source+'|'+(it.url||it.title)}
+function tagsOf(it){var f=favs[itemKey(it)];return f?f.tags:[]}
+function renderTags(){
+  var set={};Object.keys(favs).forEach(function(k){(favs[k].tags||[]).forEach(function(t){set[t]=1})});
+  var box=document.getElementById('tagbar');box.innerHTML='';
+  Object.keys(set).forEach(function(t){
+    var b=document.createElement('span');b.className='tag'+(activeTag===t?' on':'');b.textContent=t;
+    b.onclick=function(){activeTag=activeTag===t?'':t;favMode=true;renderTags();applyFilter(true)};box.appendChild(b);
+  });
+  var btn=document.getElementById('btnFav');btn.textContent='收藏 '+Object.keys(favs).length;btn.className=Object.keys(favs).length?(favMode?'on':''):'';
+}
+function toggleFav(it,btn){
+  var k=itemKey(it);
+  if(favs[k]){delete favs[k];btn.classList.remove('faved');btn.textContent='☆'}
+  else{var t=btn.parentNode.querySelector('.tag-input');favs[k]={title:it.title,url:it.url,source:it.source,time:it.time||'',tags:t&&t.value.trim()?[t.value.trim()]:[]};btn.classList.add('faved');btn.textContent='★'}
+  save(LS_FAV,favs);renderTags();applyFilter();
+}
+function updateTag(it,input){
+  var k=itemKey(it);if(!favs[k])return;
+  var v=input.value.trim();favs[k].tags=v?[v]:[];save(LS_FAV,favs);renderTags();applyFilter();
+}
+function hotKey(x){return '百度热搜|'+(x.url||x.word)}
+function visibleItems(id){
+  var st=LIST_STATE[id]; if(!st)return [];
+  if(!favMode)return st.items;
+  return st.items.filter(function(it){
+    var f=favs[id==='hotList'?hotKey(it):itemKey(it)];
+    if(!f)return false;
+    return !activeTag||(f.tags||[]).indexOf(activeTag)>=0;
+  });
+}
+function applyFilter(reset){
+  Object.keys(LIST_STATE).forEach(function(id){
+    if(reset)LIST_STATE[id].page=1;
+    if(id==='hotList')drawHot();else drawNews(id);
+  });
+}
+function newsHTML(it){
+  var k=itemKey(it),f=favs[k];
+  return '<div class="item" data-key="'+esc(k)+'">'+
+    '<a class="t" href="'+esc(it.url)+'" target="_blank" rel="noopener">'+esc(it.title)+'</a>'+
+    (it.summary?'<div class="sum">'+esc(it.summary)+'</div>':'')+
+    '<div class="s"><span>'+esc(it.source)+'</span><span>'+esc(it.time||'')+'</span>'+
+    '<button class="mini-btn'+(f?' faved':'')+'" data-act="fav">'+(f?'★':'☆')+'</button>'+
+    '<input class="tag-input" data-act="tag" placeholder="加标签" value="'+esc(f&&f.tags?f.tags.join(','):'')+'"></div></div>';
+}
+function renderPager(id,total){
+  var st=LIST_STATE[id];if(!st)return;
+  var pages=Math.max(1,Math.ceil(total/PAGE_SIZE));
+  if(st.page>pages)st.page=pages;
+  if(st.page<1)st.page=1;
+  var p=st.page,el=document.getElementById('pager-'+id);if(!el)return;
+  if(pages<=1){el.innerHTML='';return}
+  var start=Math.max(1,Math.min(p-3,pages-6)),end=Math.min(pages,start+6),nums=[];
+  for(var i=start;i<=end;i++)nums.push(i);
+  var h='<span class="pinfo">共 '+total+' 条 · 第 '+p+'/'+pages+' 页</span>'+
+    '<button class="pg" data-go="'+(p-1)+'"'+(p<=1?' disabled':'')+'>上一页</button>';
+  nums.forEach(function(n){h+='<button class="pg'+(n===p?' on':'')+'" data-go="'+n+'">'+n+'</button>'});
+  h+='<button class="pg" data-go="'+(p+1)+'"'+(p>=pages?' disabled':'')+'>下一页</button>';
+  el.innerHTML=h;
+  Array.prototype.forEach.call(el.querySelectorAll('[data-go]'),function(b){
+    b.onclick=function(){st.page=parseInt(this.getAttribute('data-go'),10);if(id==='hotList')drawHot();else drawNews(id)};
+  });
+}
+function bindList(id,items,keepPage){
+  LIST_STATE[id]={items:items||[],page:(keepPage&&LIST_STATE[id])?LIST_STATE[id].page:1};
+  drawNews(id);
+}
+function drawNews(id){
+  var box=document.getElementById(id),st=LIST_STATE[id];
+  if(!box||!st)return;
+  var visible=visibleItems(id);
+  renderPager(id,visible.length);
+  var slice=visible.slice((st.page-1)*PAGE_SIZE,st.page*PAGE_SIZE);
+  if(!slice.length){box.innerHTML='<div class="empty">'+(favMode?'当前筛选条件下暂无收藏':'暂无数据')+'</div>';return}
+  box.innerHTML=slice.map(newsHTML).join('');
+  Array.prototype.forEach.call(box.querySelectorAll('.item'),function(el){
+    var k=el.getAttribute('data-key');
+    var it=slice.find(function(x){return itemKey(x)===k});if(!it)return;
+    var fb=el.querySelector('[data-act="fav"]');fb.onclick=function(){toggleFav(it,fb)};
+    var ti=el.querySelector('[data-act="tag"]');ti.onchange=function(){updateTag(it,ti)};
+  });
+}
+
+/* ---------- 行情 ---------- */
+var QUOTE_LIST=[
+  {secid:'122.XAU',name:'伦敦金 (美元/盎司)',digits:2},
+  {secid:'113.au2612',name:'沪金主力 (元/克)',digits:2},
+  {secid:'113.ag2612',name:'沪银主力 (元/千克)',digits:0},
+  {secid:'102.CL00Y',name:'NYMEX原油 (美元/桶)',digits:2},
+  {secid:'113.cu2612',name:'沪铜主力 (元/吨)',digits:0},
+  {secid:'100.UDI',name:'美元指数',digits:2},
+  {secid:'133.USDCNH',name:'离岸人民币',digits:4},
+  {secid:'1.000001',name:'上证指数',digits:2},
+  {secid:'100.HSI',name:'恒生指数',digits:2},
+  {secid:'100.DJIA',name:'道琼斯指数',digits:2},
+  {secid:'114.jd2612',name:'鸡蛋期货主力 (参考)',digits:0},
+  {secid:'114.y2612',name:'豆油期货主力 (参考)',digits:0}
+];
+function loadQuotes(){
+  var ids=QUOTE_LIST.map(function(q){return q.secid}).join(',');
+  var url='https://push2.eastmoney.com/api/qt/ulist.np/get?fltt=2&secids='+ids+'&fields=f12,f14,f2,f3&cb=cb&_='+Date.now();
+  return jsonp(url,'cb').then(function(j){
+    var diff=(j&&j.data&&j.data.diff)||[];
+    var map={};diff.forEach(function(d){map[d.f12]=d});
+    var html=QUOTE_LIST.map(function(q){
+      var d=map[q.secid.split('.')[1]];if(!d)return '';
+      var v=d.f2,p=d.f3;
+      return '<div class="q"><div class="n">'+esc(q.name)+'</div><div class="v '+color(p)+'">'+
+        (parseFloat(v)||0).toLocaleString('zh-CN',{minimumFractionDigits:q.digits,maximumFractionDigits:q.digits})+'</div>'+
+        '<div class="c '+color(p)+'">'+(p==='-'?'--':sign(p))+'</div></div>';
+    }).filter(Boolean).join('');
+    document.getElementById('quotes').innerHTML=html||'<div class="empty">行情暂不可用</div>';
+  }).catch(function(){document.getElementById('quotes').innerHTML='<div class="empty">行情接口暂不可用，请稍后刷新</div>'});
+}
+
+/* ---------- 全球股市 ---------- */
+var STOCK_GROUPS=[
+  {country:'中国',items:[{secid:'1.000001',name:'上证指数',digits:2},{secid:'0.399001',name:'深证成指',digits:2},{secid:'0.399006',name:'创业板指',digits:2}]},
+  {country:'美国',items:[{secid:'100.DJIA',name:'道琼斯',digits:2},{secid:'100.NDX',name:'纳斯达克',digits:2},{secid:'100.SPX',name:'标普500',digits:2}]},
+  {country:'日本',items:[{secid:'100.N225',name:'日经225',digits:2}]},
+  {country:'韩国',items:[{secid:'100.KS11',name:'韩国KOSPI',digits:2}]}
+];
+function loadStocks(){
+  var ids=[];STOCK_GROUPS.forEach(function(g){g.items.forEach(function(q){ids.push(q.secid)})});
+  var url='https://push2.eastmoney.com/api/qt/ulist.np/get?fltt=2&secids='+ids.join(',')+'&fields=f12,f14,f2,f3&cb=cb&_='+Date.now();
+  return jsonp(url,'cb').then(function(j){
+    var diff=(j&&j.data&&j.data.diff)||[],map={};diff.forEach(function(d){map[d.f12]=d});
+    var html=STOCK_GROUPS.map(function(g){
+      var inner=g.items.map(function(q){
+        var d=map[q.secid.split('.')[1]];if(!d)return '';
+        var v=d.f2,p=d.f3;
+        return '<div class="q"><div class="n">'+esc(q.name)+'</div><div class="v '+color(p)+'">'+
+          (parseFloat(v)||0).toLocaleString('zh-CN',{minimumFractionDigits:q.digits,maximumFractionDigits:q.digits})+'</div>'+
+          '<div class="c '+color(p)+'">'+(p==='-'?'--':sign(p))+'</div></div>';
+      }).filter(Boolean).join('');
+      return '<div class="market"><h3>'+esc(g.country)+'</h3>'+(inner||'<div class="empty">暂无数据</div>')+'</div>';
+    }).join('');
+    document.getElementById('markets').innerHTML=html||'<div class="empty">全球股市行情暂不可用</div>';
+  }).catch(function(){document.getElementById('markets').innerHTML='<div class="empty">全球股市行情暂不可用，请稍后刷新</div>'});
+}
+
+/* ---------- 民生物价（周更） ---------- */
+var LOCAL_PROXY='http://127.0.0.1:7823';
+var CLOUD_PROXY='https://weight-calc.app.workbuddy.host', SHARECODE='XOFBXF6WEQ';
+var IS_LOCAL=location.protocol==='file:'||location.hostname==='127.0.0.1'||location.hostname==='localhost';
+function cloudURL(path){return CLOUD_PROXY+path+(path.indexOf('?')>=0?'&':'?')+'sharecode='+SHARECODE}
+var SNAPSHOT={ // 内置官方快照（2026-11-25 采集），无代理时兜底
+  date:'2026-11-25',
+  pig:{timeId:'2026-11-24',wholeCountry:'14.84'},
+  idx:{publishDate:'2026-11-24',agriculture:112.86,grainAndOil:114.03,vegetableBasket:112.66},
+  veg:[{name:'大白菜',price:'1.264',chg:1.9},{name:'南瓜',price:'2.4403',chg:4.53},{name:'茄子',price:'3.6337',chg:3.77},{name:'豆角',price:'7.5407',chg:2.79},{name:'莴笋',price:'2.9286',chg:1.56},{name:'韭菜',price:'4.6455',chg:1.44},{name:'西葫芦',price:'3.5249',chg:1.34},{name:'油菜',price:'3.7186',chg:-0.91}],
+  oil:[]
+};
+function last(a){return a&&a.length?a[a.length-1]:null}
+function proxyGet(path){
+  if(IS_LOCAL)return fetchJSON(LOCAL_PROXY+path,8000).catch(function(){return fetchJSON(cloudURL(path),14000)});
+  return fetchJSON(cloudURL(path),14000);
+}
+function loadLivelihood(){
+  var c=cache.weekly;
+  var useCache=c&&Date.now()-c.ts<WEEK;
+  var oilTask=proxyGet('/api/oil').then(function(r){return r&&r.ok?r.data:null}).catch(function(){return null});
+  if(useCache){renderLivelihood(c.data);return oilTask.then(function(r){var d=JSON.parse(JSON.stringify(c.data));var oil=r&&r.result?r.result.cmsArticleWebOld||[]:[];if(oil.length)d.oil=oil.slice(0,4);renderLivelihood(d)})}
+  return Promise.all([
+    proxyGet('/api/pig').catch(function(){return null}),
+    proxyGet('/api/indexDay').catch(function(){return null}),
+    proxyGet('/api/ranking').catch(function(){return null}),
+    oilTask
+  ]).then(function(r){
+    var pig=r[0]&&r[0].ok&&r[0].data&&r[0].data.content?last(r[0].data.content):SNAPSHOT.pig;
+    var idx=r[1]&&r[1].ok&&r[1].data&&r[1].data.content?last(r[1].data.content):SNAPSHOT.idx;
+    var rank=r[2]&&r[2].ok&&r[2].data&&r[2].data.data?r[2].data.data:null;
+    var oil=r[3]&&r[3].result?r[3].result.cmsArticleWebOld||[]:[];
+    var veg=[],focus=['大白菜','莴笋','韭菜','西葫芦','豆角','茄子','油菜','南瓜'];
+    if(rank&&rank.names){rank.names.forEach(function(n,i){if(focus.indexOf(n)>=0)veg.push({name:n,price:rank.avgPrice[i],chg:rank.priceHbs?rank.priceHbs[i]:null})})}
+    if(!veg.length)veg=SNAPSHOT.veg;
+    var data={date:todayStr(),pig:pig,idx:idx,veg:veg,oil:oil.slice(0,4),live:!!(r[0]&&r[0].ok)};
+    cache.weekly={ts:Date.now(),data:data};save(LS_CACHE,cache);
+    renderLivelihood(data);
+  });
+}
+function renderLivelihood(d){
+  if(!d){document.getElementById('livelihood').innerHTML='<div class="empty">暂无数据</div>';return}
+  var cards=[];
+  if(d.pig&&d.pig.wholeCountry){
+    cards.push(card('生猪 · 白条猪出厂价全国均价',d.pig.wholeCountry+' 元/公斤','数据日 '+d.pig.timeId,'农业农村部监测'));
+  }
+  if(d.idx){
+    cards.push(card('农产品批发价格200指数',d.idx.agriculture,'点 · '+d.idx.publishDate,'农业农村部监测'));
+    cards.push(card('"菜篮子"产品批发价格指数',d.idx.vegetableBasket,'点 · '+d.idx.publishDate,'农业农村部监测'));
+    cards.push(card('粮油产品批发价格指数',d.idx.grainAndOil,'点 · '+d.idx.publishDate,'农业农村部监测'));
+  }
+  d.veg.forEach(function(v){cards.push(card('重点蔬菜 · '+v.name,v.price+' 元/公斤','全国批发均价',v.chg!==null?sign(v.chg,2):''))});
+  d.oil.forEach(function(o){
+    cards.push('<div class="live"><div class="n"><a href="'+esc(o.url)+'" target="_blank" rel="noopener">'+esc(String(o.title).replace(/<[^>]+>/g,''))+'</a></div><div class="d">成品油调价 · '+esc(o.date)+'</div></div>');
+  });
+  document.getElementById('livelihood').innerHTML=cards.join('')||'<div class="empty">暂无数据</div>';
+  var tag=d.live?'实时官方数据':'内置快照（'+d.date+'）';
+  document.getElementById('liveHint').innerHTML='当前：'+tag+'。说明：生猪、蔬菜、价格指数为全国农产品批发市场监测均价（农业农村部）；成品油为国家发改委调价信息。鸡蛋、豆油现货批发价暂无稳定公开接口，行情参考见上方期货主力价，现货以 <a href="https://pfsc.agri.cn" target="_blank" rel="noopener">农业农村部信息系统</a> 为准。'+(d.live?'':'<br>如需本地更新官方数据，双击「启动世界视野.bat」；线上版本自动使用云端数据代理。');
+}
+function card(n,v,d,tail){
+  return '<div class="live"><div class="n">'+esc(n)+'</div><div class="v">'+esc(v)+'</div><div class="d">'+esc(d)+(tail?' · '+esc(tail):'')+'</div></div>';
+}
+
+/* ---------- 月度指标 ---------- */
+function loadMonthly(){
+  var c=cache.monthly;
+  if(c&&c.key===monthStr()){renderMonthly(c.data);return Promise.resolve()}
+  var dc='https://datacenter-web.eastmoney.com/api/data/v1/get?';
+  var p1='reportName=RPT_ECONOMY_CPI&columns=ALL&sortColumns=REPORT_DATE&sortTypes=-1&pageSize=2&pageNumber=1&callback=cb&_='+Date.now();
+  var p2='reportName=RPT_ECONOMY_HOUSE_PRICE&columns=ALL&sortColumns=REPORT_DATE&sortTypes=-1&pageSize=75&pageNumber=1&callback=cb&_='+Date.now();
+  return Promise.all([
+    jsonp(dc+p1,'callback').catch(function(){return null}),
+    jsonp(dc+p2,'callback').catch(function(){return null})
+  ]).then(function(r){
+    var cpi=r[0]&&r[0].result&&r[0].result.data?r[0].result.data[0]:null;
+    var hs=r[1]&&r[1].result&&r[1].result.data?r[1].result.data:[];
+    var data={key:monthStr(),cpi:cpi,house:hs};
+    cache.monthly={key:monthStr(),ts:Date.now(),data:data};save(LS_CACHE,cache);
+    renderMonthly(data);
+  });
+}
+function renderMonthly(d){
+  if(!d){document.getElementById('monthly').innerHTML='<div class="empty">暂无数据</div>';return}
+  var cards=[];
+  if(d.cpi){
+    cards.push(card('CPI · 全国同比',sign(d.cpi.NATIONAL_SAME,1),d.cpi.TIME,'国家统计局'));
+    cards.push(card('CPI · 全国环比',sign(d.cpi.NATIONAL_SEQUENTIAL,1),d.cpi.TIME,'国家统计局'));
+  }
+  var hs=d.house||[];
+  var latest=hs.length?hs[0].REPORT_DATE.slice(0,7):'';
+  var cur=hs.filter(function(x){return x.REPORT_DATE.slice(0,7)===latest});
+  ['北京','上海','广州','深圳'].forEach(function(city){
+    var x=cur.find(function(y){return y.CITY===city});
+    if(x)cards.push(card(city+' · 新房价格同比',sign(x.FIRST_COMHOUSE_SAME-100,1),latest+' · 70城监测','国家统计局'));
+  });
+  document.getElementById('monthly').innerHTML=cards.join('')||'<div class="empty">暂无数据</div>';
+}
+
+/* ---------- 新闻 ---------- */
+function sinaNews(lid,num){
+  var url='https://feed.mix.sina.com.cn/api/roll/get?pageid=153&lid='+lid+'&k=&num='+(num||12)+'&page=1&callback=cb&_='+Date.now();
+  return jsonp(url,'callback').then(function(j){
+    var arr=(j&&j.result&&j.result.data)||[];
+    return arr.map(function(x){return {title:x.title||x.stitle||'',url:x.url||'',time:x.ctime?fmtTime(x.ctime):'',source:'新浪新闻',summary:x.wapsummary||''}}).filter(function(x){return x.title});
+  });
+}
+function eastMoneyNews(num){
+  var url='https://np-listapi.eastmoney.com/comm/web/getFastNewsList?client=web&biz=web_news_col&fastColumn=102&sortType=1&sortEnd=0&pageSize='+(num||14)+'&pageNo=1&req_trace=1&callback=cb&_='+Date.now();
+  return jsonp(url,'callback').then(function(j){
+    var arr=(j&&j.data&&j.data.fastNewsList)||[];
+    return arr.map(function(x){return {title:x.title||'',url:'https://finance.eastmoney.com/a/'+x.code+'.html',time:(x.showTime||'').slice(5,16),source:'东方财富',summary:(x.summary||'').replace(/^【|】$/g,'')}}).filter(function(x){return x.title});
+  });
+}
+function parseHot(j){
+  var cs=(j&&j.data&&j.data.cards)||[];
+  var arr=[];
+  cs.forEach(function(c){(c.content||[]).forEach(function(g){(g.content||[]).forEach(function(x){if(x.word)arr.push(x)})})});
+  return arr.slice(0,50);
+}
+function baiduHot(){
+  return proxyGet('/api/hot').then(function(r){return parseHot(r&&r.ok?r.data:null)})
+    .catch(function(){return fetchJSON('https://top.baidu.com/api/board?platform=wise&tab=realtime&_='+Date.now()).then(parseHot)});
+}
+function renderHot(arr){
+  LIST_STATE.hotList={items:arr||[],page:LIST_STATE.hotList?LIST_STATE.hotList.page:1};
+  drawHot();
+}
+function drawHot(){
+  var box=document.getElementById('hotList'),st=LIST_STATE.hotList;
+  if(!box||!st)return;
+  var visible=visibleItems('hotList');
+  renderPager('hotList',visible.length);
+  var p=st.page,slice=visible.slice((p-1)*PAGE_SIZE,p*PAGE_SIZE);
+  if(!slice.length){box.innerHTML='<div class="empty">'+(favMode?'当前筛选条件下暂无收藏':'热榜暂不可用（网络限制），可稍后刷新')+'</div>';return}
+  box.innerHTML=slice.map(function(x,i){
+    var rank=(p-1)*PAGE_SIZE+i+1,k=hotKey(x);
+    return '<div class="hot" data-key="'+esc(k)+'"><span class="rk'+(rank<4?' top':'')+'">'+rank+'</span><a href="'+esc(x.url||'https://www.baidu.com/s?wd='+encodeURIComponent(x.word))+'" target="_blank" rel="noopener">'+esc(x.word)+'</a>'+
+      '<button class="mini-btn'+(favs[k]?' faved':'')+'" style="margin-left:auto" data-act="fav">'+(favs[k]?'★':'☆')+'</button></div>';
+  }).join('');
+  Array.prototype.forEach.call(box.querySelectorAll('.hot'),function(el){
+    var k=el.getAttribute('data-key'),x=slice.find(function(y){return hotKey(y)===k});
+    if(!x)return;
+    var b=el.querySelector('[data-act="fav"]');
+    b.onclick=function(){
+      if(favs[k]){delete favs[k];b.classList.remove('faved');b.textContent='☆'}
+      else{favs[k]={title:x.word,url:x.url||'',source:'百度热搜',time:''};b.classList.add('faved');b.textContent='★'}
+      save(LS_FAV,favs);renderTags();applyFilter();
+    };
+  });
+}
+function loadNews(){
+  var tasks=[
+    sinaNews(2511,12),
+    eastMoneyNews(14),
+    sinaNews(2515,12),
+    baiduHot()
+  ];
+  return Promise.all(tasks.map(function(p){return p.catch(function(){return null})})).then(function(r){
+    bindList('newsIntl',r[0]||[]);
+    var econ=(r[1]||[]).slice();
+    sinaNews(2516,8).then(function(extra){bindList('newsEcon',econ.concat(extra||[]))}).catch(function(){bindList('newsEcon',econ)});
+    bindList('newsTech',r[2]||[]);
+    renderHot(r[3]||[]);
+  });
+}
+
+/* ---------- 期货资讯 ---------- */
+function loadFutures(){
+  var p=proxyGet('/api/futures').then(function(r){
+    if(!r||!r.ok||!r.data||!r.data.result||!r.data.result.cmsArticleWebOld)throw new Error('proxy');
+    return r.data.result.cmsArticleWebOld;
+  });
+  return p.catch(function(){
+    var param=encodeURIComponent(JSON.stringify({uid:'',keyword:'期货',type:['cmsArticleWebOld'],client:'web',clientType:'web',clientVersion:'curr',param:{cmsArticleWebOld:{searchScope:'default',sort:'time',pageIndex:1,pageSize:30}}}));
+    return jsonp('https://search-api-web.eastmoney.com/search/jsonp?cb=cb&param='+param+'&_='+Date.now(),'cb')
+      .then(function(j){return (j&&j.result&&j.result.cmsArticleWebOld)||[]});
+  }).then(function(arr){
+    var items=(arr||[]).map(function(x){
+      return {title:String(x.title||'').replace(/<[^>]+>/g,''),url:x.url||'',time:(x.date||'').slice(5,16),
+        source:x.mediaName||'东方财富',summary:String(x.content||'').replace(/<[^>]+>/g,'')};
+    }).filter(function(x){return x.title});
+    bindList('newsFut',items);
+  }).catch(function(){bindList('newsFut',[])});
+}
+
+/* ---------- 初始化 ---------- */
+function refresh(force){
+  hideMsg();
+  var btn=document.getElementById('btnRefresh');btn.textContent='更新中…';btn.disabled=true;
+  if(force){delete cache.weekly;delete cache.monthly;save(LS_CACHE,cache)}
+  Promise.all([loadQuotes(),loadStocks(),loadLivelihood(),loadMonthly(),loadNews(),loadFutures()]).then(function(){
+    document.getElementById('meta').textContent='更新于 '+new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+' · 民生周更 '+((cache.weekly&&cache.weekly.data&&cache.weekly.data.date)||'-');
+    btn.textContent='刷新资讯';btn.disabled=false;
+  });
+}
+document.getElementById('btnRefresh').onclick=function(){refresh(true)};
+document.getElementById('btnFav').onclick=function(){favMode=!favMode;activeTag='';this.className=favMode?'on':'';renderTags();applyFilter(true)};
+renderTags();
+refresh(false);
+})();
+</script>
+</body>
+</html>
