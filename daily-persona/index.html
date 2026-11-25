@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#E8D9B6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="今日人设">
+<meta name="description" content="每天早上打开，领一份属于今天的身份、气质、任务与开场白。">
+<title>今日人设 · 人设管理局</title>
+<style>
+:root{
+  --paper:#F4E8CE; --paper-deep:#E7D8B5; --card:#FBF4E2;
+  --ink:#2E261C; --ink-soft:#6C5B44; --ink-faint:#9A8B72;
+  --seal:#A8322A; --line:#BCA884; --line-soft:#D6C6A4;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;padding:0}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+  color:var(--ink);
+  background:#D8CAAE;
+  background-image:
+    repeating-linear-gradient(0deg,rgba(90,68,38,.035) 0 1px,transparent 1px 5px),
+    radial-gradient(circle at 18% 8%,#F0E5CC 0,#D8CAAE 70%);
+  min-height:100vh;
+  -webkit-text-size-adjust:100%;
+}
+.app{max-width:520px;margin:0 auto;padding:22px 16px 108px;position:relative}
+.masthead{text-align:center;margin-bottom:18px}
+.bureau{font:500 11px/1.4 "Courier New",monospace;letter-spacing:.24em;color:var(--ink-soft)}
+.masthead h1{
+  font:500 31px/1.2 "Songti SC","STSong","SimSun",serif;
+  letter-spacing:.32em;margin:10px 0 8px;padding-left:.32em;color:#30271B;
+}
+.meta{display:flex;justify-content:center;gap:16px;font:12px/1.4 "Courier New",monospace;color:var(--ink-soft)}
+.meta span+span::before{content:"·";margin-right:16px;color:var(--ink-faint)}
+.dossier{
+  position:relative;background:var(--card);
+  border:1px solid var(--line);
+  box-shadow:0 2px 0 rgba(120,95,55,.18),0 12px 26px rgba(80,60,30,.13);
+  padding:28px 22px 24px;
+  background-image:repeating-linear-gradient(90deg,rgba(140,110,60,.025) 0 1px,transparent 1px 7px);
+  animation:unfold .42s ease both;
+}
+@keyframes unfold{from{opacity:0;transform:translateY(10px) rotate(-.4deg)}to{opacity:1;transform:none}}
+.dossier::after{
+  content:"";position:absolute;inset:7px;border:1px solid var(--line-soft);pointer-events:none;
+}
+.pin{
+  position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  width:46px;height:13px;border-radius:3px;
+  background:linear-gradient(#9A9A93,#D8D8D0 45%,#8C8C85);
+  border:1px solid #7C7C74;box-shadow:0 2px 3px rgba(0,0,0,.2);
+}
+.stamp{
+  position:absolute;top:22px;right:18px;width:76px;height:76px;border-radius:50%;
+  border:3px double var(--ink-faint);color:var(--ink-faint);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font:500 15px/1.25 "Songti SC","STSong","SimSun",serif;
+  transform:rotate(-13deg);opacity:.65;letter-spacing:.1em;
+}
+.stamp.done{border:3px double var(--seal);color:var(--seal);opacity:.9}
+.eyebrow{
+  font:500 10px/1.4 "Courier New",monospace;letter-spacing:.22em;
+  color:var(--ink-soft);border-bottom:1px solid var(--line-soft);padding-bottom:10px;
+}
+.dossier h2{
+  font:500 39px/1.25 "Songti SC","STSong","SimSun",serif;
+  margin:22px 0 10px;letter-spacing:.06em;color:#2B2318;
+}
+.tagline{display:inline-block;border:1px solid var(--seal);color:var(--seal);
+  padding:5px 12px;border-radius:2px;font:500 15px/1.3 "Songti SC","STSong","SimSun",serif;
+  letter-spacing:.14em;margin-bottom:22px}
+.quote{
+  border-left:3px solid var(--seal);background:rgba(168,50,42,.045);
+  padding:15px 16px;font:500 18px/1.75 "Songti SC","STSong","SimSun",serif;
+  color:#3A2F22;letter-spacing:.03em;
+}
+.section-title{
+  margin:26px 0 14px;font:500 15px/1.4 "Songti SC","STSong","SimSun",serif;
+  letter-spacing:.18em;color:var(--ink-soft);display:flex;align-items:center;gap:10px;
+}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line-soft)}
+.acts{list-style:none;margin:0;padding:0;counter-reset:none}
+.acts li{display:flex;gap:13px;padding:9px 0;font-size:15px;line-height:1.7;color:#392F23}
+.acts li .num{
+  flex:0 0 26px;height:26px;border:1px solid var(--seal);border-radius:50%;
+  color:var(--seal);font:500 11px/24px "Courier New",monospace;text-align:center;margin-top:2px;
+}
+.footline{
+  display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:22px;padding-top:12px;
+  border-top:1px dashed var(--line);font-size:12px;color:var(--ink-soft);
+}
+.actions,.accepted-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.btn{
+  appearance:none;border:1px solid var(--ink);background:transparent;color:var(--ink);
+  border-radius:3px;padding:13px 10px;font-size:15px;cursor:pointer;
+  font-family:inherit;transition:transform .12s,background .15s;
+}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--ink);color:#FBF4E2}
+.btn.seal{background:var(--seal);border-color:var(--seal);color:#FFF4E4}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.btn small{font-size:11px;opacity:.72}
+.note{text-align:center;font-size:12px;line-height:1.7;color:var(--ink-soft);margin:14px 4px 0}
+.tabs{
+  position:fixed;left:50%;bottom:0;transform:translateX(-50%);
+  width:min(520px,100%);display:grid;grid-template-columns:1fr 1fr;
+  background:rgba(244,232,206,.97);border-top:1px solid var(--line);
+  backdrop-filter:blur(8px);z-index:20;
+}
+.tabs button{
+  appearance:none;border:0;background:transparent;padding:14px 0 18px;
+  font:500 14px/1.4 inherit;color:var(--ink-soft);cursor:pointer;letter-spacing:.1em;
+}
+.tabs button.active{color:var(--seal);box-shadow:inset 0 3px 0 var(--seal)}
+.archive-head{display:flex;align-items:baseline;justify-content:space-between;margin:4px 0 6px}
+.archive-head h2{font:500 24px/1.4 "Songti SC","STSong","SimSun",serif;margin:0;letter-spacing:.14em}
+.link{appearance:none;border:0;background:none;color:var(--seal);font-size:13px;cursor:pointer;padding:6px}
+.archive-item{
+  display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  background:var(--card);border:1px solid var(--line);margin-top:12px;padding:14px 16px;
+  cursor:pointer;font-family:inherit;color:var(--ink);
+}
+.archive-item .day{font:500 17px/1.4 "Courier New",monospace;color:var(--seal);flex:0 0 62px}
+.archive-item .body{min-width:0}
+.archive-item .body strong{display:block;font:500 19px/1.4 "Songti SC","STSong","SimSun",serif}
+.archive-item .body span{font-size:12px;color:var(--ink-soft)}
+.empty{text-align:center;padding:60px 12px;color:var(--ink-soft);font-size:14px;line-height:1.9}
+.modal{
+  position:fixed;inset:0;background:rgba(38,30,20,.68);z-index:50;
+  display:flex;align-items:flex-end;justify-content:center;
+}
+.sheet{
+  width:min(520px,100%);max-height:92vh;overflow:auto;background:var(--paper);
+  border-radius:14px 14px 0 0;padding:16px 16px 26px;text-align:center;
+}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;
+  font:500 16px/1.4 "Songti SC","STSong","SimSun",serif;letter-spacing:.1em}
+.sheet-head button{appearance:none;border:0;background:none;font-size:24px;line-height:1;color:var(--ink-soft);cursor:pointer}
+#shareImg{display:block;width:100%;max-width:380px;margin:0 auto;border:1px solid var(--line)}
+.hint{font-size:12px;color:var(--ink-soft);line-height:1.7;margin:12px 0}
+.sheet .btn{width:100%;margin-top:9px}
+#textBackup{display:none;white-space:pre-wrap;text-align:left;font-size:12px;line-height:1.7;
+  background:var(--card);border:1px solid var(--line);padding:12px;margin-top:10px}
+@media(min-width:560px){.sheet{border-radius:14px;margin-bottom:24px}}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="masthead">
+    <div class="bureau">PERSONA ARCHIVE · 人设管理局</div>
+    <h1>今日人设</h1>
+    <div class="meta"><span id="dateLabel"></span><span id="noLabel"></span></div>
+  </header>
+
+  <section id="todayView" aria-live="polite">
+    <article class="dossier" id="card">
+      <div class="pin" aria-hidden="true"></div>
+      <div class="stamp" id="stamp"><span>待确认</span></div>
+      <div class="eyebrow">CONFIDENTIAL · 今日份卷宗</div>
+      <h2 id="pName"></h2>
+      <div class="tagline" id="pTag"></div>
+      <div class="quote" id="pOpening"></div>
+      <div class="section-title">今日行动建议</div>
+      <ol class="acts" id="pActs"></ol>
+      <div class="footline"><span id="traitLine"></span><span id="taskLine"></span></div>
+    </article>
+
+    <div class="actions" id="pendingActions">
+      <button class="btn seal" id="acceptBtn">接受此人设</button>
+      <button class="btn" id="swapBtn">换一个 <small id="swapLeft"></small></button>
+    </div>
+    <div class="accepted-actions" id="acceptedActions" hidden>
+      <button class="btn primary" id="shareBtn">生成分享卡片</button>
+      <button class="btn" id="toArchiveBtn">查看我的档案</button>
+    </div>
+    <p class="note" id="note">同一天再打开还是这张；每天有 3 次换卡机会。</p>
+  </section>
+
+  <section id="archiveView" hidden>
+    <div class="archive-head"><h2>我的档案</h2><button class="link" id="clearBtn">清空档案</button></div>
+    <p class="note">只保存在这台设备上，不会上传。</p>
+    <div id="archiveList"></div>
+  </section>
+</main>
+
+<nav class="tabs" aria-label="主导航">
+  <button id="tabToday" class="active">今日卡片</button>
+  <button id="tabArchive">我的档案</button>
+</nav>
+
+<div class="modal" id="shareModal" hidden role="dialog" aria-modal="true" aria-label="人设分享卡片">
+  <div class="sheet">
+    <div class="sheet-head"><span>人设卡片</span><button id="closeShare" aria-label="关闭">×</button></div>
+    <img id="shareImg" alt="今日人设分享卡片">
+    <p class="hint">手机长按图片保存到相册；电脑可点下方按钮下载。</p>
+    <a class="btn primary" id="downloadBtn" download="今日人设.png">下载图片</a>
+    <button class="btn" id="copyBtn">复制文字版</button>
+    <div id="textBackup"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+var IDENTITIES=[
+ {n:'侦探',tag:'侦探',act:'把今天第一个可疑的细节记进备忘录。'},
+ {n:'诗人',tag:'诗人',act:'给眼前普通的一幕起个题目。'},
+ {n:'隐士',tag:'隐士',act:'给自己留十分钟不解释的时间。'},
+ {n:'外交官',tag:'外交官',act:'把一句可能伤人的话换个说法再说。'},
+ {n:'观察员',tag:'观察员',act:'记录一个你平时会忽略的变化。'},
+ {n:'流浪者',tag:'流浪者',act:'走一条和昨天不同的路回家。'},
+ {n:'档案管理员',tag:'档案员',act:'把今天最值得留的一件事存进相册。'},
+ {n:'园丁',tag:'园丁',act:'照料一件需要耐心的小东西。'},
+ {n:'信使',tag:'信使',act:'给许久没联系的人发一句问候。'},
+ {n:'炼金术士',tag:'炼金师',act:'把一件烦心事换个角度看一遍。'},
+ {n:'钟表匠',tag:'钟表匠',act:'校准一件被你拖了很久的小事。'},
+ {n:'地图绘制师',tag:'制图师',act:'在心里给今天画一条路线图。'},
+ {n:'守夜人',tag:'守夜人',act:'确认一件约定过但没落实的事。'},
+ {n:'书目编撰者',tag:'编目员',act:'给今天读到的一个句子做标记。'},
+ {n:'天气记录员',tag:'观天者',act:'记下今天天空的样子。'},
+ {n:'咖啡品鉴师',tag:'品鉴师',act:'认真尝一口手边的饮品，别急着刷手机。'},
+ {n:'夜间电台主播',tag:'夜主播',act:'在心里给今天做一段三分钟播报。'},
+ {n:'旧物修复师',tag:'修复师',act:'修好或擦净一件旧物。'},
+ {n:'灯塔看守人',tag:'守灯人',act:'给还在等一个答案的人一点回应。'},
+ {n:'密码译员',tag:'译码员',act:'把一句含糊的话翻译成你的理解。'},
+ {n:'植物标本师',tag:'标本师',act:'拍一张植物或云的照片存档。'},
+ {n:'列车时刻表管理员',tag:'调度员',act:'把明天的安排提前排好顺序。'},
+ {n:'梦境归档员',tag:'归档员',act:'记一个昨晚或午间的梦片段。'},
+ {n:'街角摄影师',tag:'摄影师',act:'只拍一张，不修图。'},
+ {n:'棋子收藏家',tag:'收藏家',act:'收好一件差点被你随手丢掉的小东西。'},
+ {n:'雨伞修理匠',tag:'修伞匠',act:'准备一个备用方案，以防万一。'}
+];
+
+var TRAITS=[
+ {n:'怀疑一切',pre:'审慎',act:'先问一句：证据在哪里？'},
+ {n:'过度礼貌',pre:'温礼',act:'把想拒绝的话说得柔软一点。'},
+ {n:'极度冷静',pre:'冷面',act:'先把情绪放一边，再看一遍事实。'},
+ {n:'莫名乐观',pre:'乐观',act:'找一个今天已经变好的小证据。'},
+ {n:'懒得解释',pre:'沉默',act:'允许一个决定不带说明书。'},
+ {n:'暗中观察',pre:'静观',act:'观察一个人的小习惯，不下结论。'},
+ {n:'假装很忙',pre:'忙碌',act:'把最重要的事放进日程表第一位。'},
+ {n:'随时准备撤退',pre:'退守',act:'提前想好一件事的退路。'},
+ {n:'一丝不苟',pre:'严谨',act:'把一个细节做到位再放手。'},
+ {n:'慢半拍',pre:'慢调',act:'比平时晚三秒再回应。'},
+ {n:'故作镇定',pre:'镇定',act:'先做一件最小的事稳住自己。'},
+ {n:'沉默但可靠',pre:'可靠',act:'兑现一个你没大声说过的小承诺。'},
+ {n:'有点固执',pre:'固执',act:'坚持一件你认为对的小事。'},
+ {n:'格外耐心',pre:'耐心',act:'把一件事从头慢慢做完。'},
+ {n:'不喜欢被打扰',pre:'独行',act:'给自己一段不被打扰的时间。'},
+ {n:'把话留一半',pre:'含蓄',act:'有一句话，今天只说前半句。'},
+ {n:'习惯提前到达',pre:'准时',act:'提前五分钟到约定的地方。'},
+ {n:'总在记录',pre:'记录',act:'写下今天的一句话备忘。'},
+ {n:'对细节过敏',pre:'敏锐',act:'找出一处别人没注意的不对劲。'},
+ {n:'温吞但坚定',pre:'温和',act:'用不激烈的方式守住一个边界。'},
+ {n:'看起来很忙其实在发呆',pre:'走神',act:'认真发呆两分钟，然后回来。'},
+ {n:'言简意赅',pre:'简短',act:'把一段长话压缩成一句话。'},
+ {n:'喜欢拐弯抹角',pre:'迂回',act:'换个角度接近你想说的事。'},
+ {n:'把礼貌当盔甲',pre:'客气',act:'用礼貌保护一次真实想法。'},
+ {n:'宁可晚到一步',pre:'从容',act:'不抢时间，按自己的节奏来。'},
+ {n:'笑得很轻',pre:'轻笑',act:'对一个小小的好笑处笑一下。'}
+];
+
+var TASKS=[
+ {n:'寻找一个线索',act:'翻翻今天被你忽略的三个细节。'},
+ {n:'守护一个秘密',act:'替一个人保守一件小事。'},
+ {n:'完成一次微小善意',act:'做一件不用被感谢的好事。'},
+ {n:'拒绝一件小事',act:'对一件不必要的事说一次不。'},
+ {n:'记录三个细节',act:'记下今天三个具体的瞬间。'},
+ {n:'对一个人说真话',act:'对一个人说一句不带修饰的真话。'},
+ {n:'把一件旧物归位',act:'把一件旧物放回它该在的地方。'},
+ {n:'给今天留一段空白',act:'留出十五分钟，什么都别安排。'},
+ {n:'修复一个小小误会',act:'把一句可能被误解的话解释清楚。'},
+ {n:'在人群中保持沉默',act:'有一次发言机会，选择先听完。'},
+ {n:'认真吃一顿饭',act:'吃饭时把屏幕放下。'},
+ {n:'给未来的自己留一句话',act:'写一句给三个月后的自己。'},
+ {n:'把复杂的事说简单',act:'把一个复杂问题讲给外行听。'},
+ {n:'不解释一个决定',act:'做一个决定，然后不补充说明。'},
+ {n:'走过一条没走过的路',act:'换一条路线去同一个地方。'},
+ {n:'替自己辩解一次',act:'为一件被误解的事说句话。'},
+ {n:'把承诺兑现',act:'完成一个答应过别人的小事。'},
+ {n:'承认一次不知道',act:'说一句“这个我还不知道”。'},
+ {n:'收好一件不再需要的东西',act:'整理一件已经用不上的物品。'},
+ {n:'给某个瞬间命名',act:'给今天某个瞬间起个名字。'},
+ {n:'把节奏放慢一拍',act:'把一件急事的速度降一点点。'},
+ {n:'观察一个人的习惯',act:'注意一个人重复做了两次的动作。'},
+ {n:'拒绝一次多余的承担',act:'把不属于你的任务还回去。'},
+ {n:'把好消息留到最后',act:'把一件好事藏到今天结束再享受。'},
+ {n:'原谅一个小小的失误',act:'对今天的一个失误说算了。'},
+ {n:'在无事发生时保持警觉',act:'平静的时候也检查一次重要的事。'}
+];
+
+var OPENINGS=[
+ '今天我只相信证据。',
+ '我建议我们保持距离，但保持联系。',
+ '这件事，我记下了。',
+ '先把今天登记在案。',
+ '我不着急，我等人先开口。',
+ '如果一切如常，那才值得怀疑。',
+ '今天的任务很小，态度要很正。',
+ '我带着一个问题出门。',
+ '不必声张，我已就位。',
+ '今天不做解释，只做记录。',
+ '我会把细节留在备忘录里。',
+ '我的日程表上写着：稍后再说。',
+ '如果有人问起，就说我在路上。',
+ '今天我选择慢一点抵达。',
+ '看起来平静，其实已经排练过三遍。',
+ '我把今天交给巧合，但保留否决权。',
+ '我从一开始就注意到那处不对劲。',
+ '今天只处理一件事，其余的交给明天。',
+ '我不擅长告别，但擅长开始。',
+ '请把声音调低，我在听。',
+ '我带着旧钥匙，去开新的门。',
+ '今天我不下结论，只收集证据。',
+ '我允许自己临时改变计划。',
+ '没有人催，我也要走完这段路。',
+ '今天我把谨慎穿在身上。'
+];
+
+var KEY='dailyPersona.v1', MAX_SWAP=3;
+var $=function(s){return document.querySelector(s)};
+function pad(n){return n<10?'0'+n:''+n}
+function today(){var d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function hash(str){var h=2166136261>>>0;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function rng32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296}}
+function pick(rng,arr){return arr[Math.floor(rng()*arr.length)]}
+function build(date,idx){
+  var seed=hash(date+'#'+idx),rng=rng32(seed);
+  var id=pick(rng,IDENTITIES),tr=pick(rng,TRAITS),tk=pick(rng,TASKS),op=pick(rng,OPENINGS);
+  return {date:date,idx:idx,no:'No.'+date.replace(/-/g,'')+'-'+String(idx).padStart(3,'0'),
+    name:id.n,tag:tr.pre+id.tag,trait:tr.n,task:tk.n,opening:op,
+    acts:[tk.act,tr.act,id.act],seed:seed};
+}
+function defaults(){return {date:today(),swaps:0,current:null,accepted:null,archive:[]}}
+function load(){
+  try{
+    var raw=localStorage.getItem(KEY);
+    if(!raw)return defaults();
+    var s=JSON.parse(raw),base=defaults();
+    if(!s||typeof s!=='object')return base;
+    base.archive=Array.isArray(s.archive)?s.archive:[];
+    if(s.date!==today())return base;
+    base.date=s.date;base.swaps=Number(s.swaps)||0;
+    base.current=s.current||null;base.accepted=s.accepted||null;
+    return base;
+  }catch(e){return defaults()}
+}
+var state=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+
+function render(){
+  var r=state.accepted||state.current;
+  if(!r){r=state.current=build(state.date,0);save()}
+  $('#dateLabel').textContent=r.date.replace(/-/g,' / ');
+  $('#noLabel').textContent=r.no;
+  $('#pName').textContent=r.name;
+  $('#pTag').textContent=r.tag;
+  $('#pOpening').textContent='“'+r.opening+'”';
+  var html='';
+  for(var i=0;i<r.acts.length;i++){
+    html+='<li><span class="num">0'+(i+1)+'</span><span>'+r.acts[i]+'</span></li>';
+  }
+  $('#pActs').innerHTML=html;
+  $('#traitLine').textContent='气质 / '+r.trait;
+  $('#taskLine').textContent='今日任务 / '+r.task;
+  var done=!!state.accepted;
+  $('#stamp').classList.toggle('done',done);
+  $('#stamp span').textContent=done?'已归档':'待确认';
+  $('#pendingActions').hidden=done;
+  $('#acceptedActions').hidden=!done;
+  $('#swapLeft').textContent='（剩 '+Math.max(0,MAX_SWAP-state.swaps)+' 次）';
+  $('#swapBtn').disabled=state.swaps>=MAX_SWAP;
+  $('#note').textContent=done?'已接受。今天就用这个人设营业吧。':
+    (state.swaps>=MAX_SWAP?'今天的 3 次换卡机会已用完，明天再来。':'同一天再打开还是这张；每天有 3 次换卡机会。');
+  renderArchive();
+}
+
+function renderArchive(){
+  var box=$('#archiveList'),list=state.archive.slice().sort(function(a,b){return b.date.localeCompare(a.date)});
+  if(!list.length){box.innerHTML='<div class="empty">还没有接受过人设。<br>先去领一张今天的吧。</div>';return}
+  box.innerHTML=list.map(function(r,i){
+    return '<button class="archive-item" data-i="'+i+'" type="button">'+
+      '<span class="day">'+r.date.slice(5).replace('-','.')+'</span>'+
+      '<span class="body"><strong>'+r.name+' · '+r.tag+'</strong><span>'+r.no+'　'+r.trait+'</span></span></button>';
+  }).join('');
+  var sorted=list;
+  Array.prototype.forEach.call(box.querySelectorAll('.archive-item'),function(btn){
+    btn.addEventListener('click',function(){openShare(sorted[Number(btn.getAttribute('data-i'))])});
+  });
+}
+
+function wrap(ctx,text,maxWidth){
+  var lines=[],line='';
+  for(var i=0;i<text.length;i++){
+    var ch=text[i];
+    if(ctx.measureText(line+ch).width>maxWidth&&line){lines.push(line);line=ch}
+    else{line+=ch}
+  }
+  if(line)lines.push(line);
+  return lines;
+}
+function drawLines(ctx,lines,x,y,lh){
+  for(var i=0;i<lines.length;i++)ctx.fillText(lines[i],x,y+i*lh);
+  return y+lines.length*lh;
+}
+function drawShare(r){
+  var c=document.createElement('canvas');c.width=1080;c.height=1920;
+  var x=c.getContext('2d'),serif='"Songti SC","STSong","SimSun",serif',sans='"PingFang SC","Microsoft YaHei",sans-serif';
+  x.fillStyle='#F4E8CE';x.fillRect(0,0,1080,1920);
+  var nr=rng32(r.seed||1);x.fillStyle='rgba(112,82,42,0.085)';
+  for(var i=0;i<1100;i++)x.fillRect(nr()*1080,nr()*1920,1.4,1.4);
+  x.strokeStyle='#BCA884';x.lineWidth=3;x.strokeRect(48,48,984,1824);
+  x.strokeStyle='#D6C6A4';x.lineWidth=2;x.strokeRect(64,64,952,1792);
+
+  x.textAlign='left';x.textBaseline='alphabetic';
+  x.fillStyle='#6C5B44';x.font='500 26px "Courier New",monospace';
+  x.fillText('PERSONA ARCHIVE  ·  人设管理局',110,140);
+  x.textAlign='right';x.fillText(r.date.replace(/-/g,'.'),970,140);
+  x.textAlign='center';x.fillStyle='#A8322A';
+  x.font='500 34px '+serif;x.fillText('今 日 人 设',540,270);
+  x.fillStyle='#2B2318';x.font='500 104px '+serif;x.fillText(r.name,540,410);
+  x.fillStyle='#A8322A';x.font='500 40px '+serif;x.fillText('【'+r.tag+'】',540,486);
+  x.strokeStyle='#BCA884';x.lineWidth=2;
+  x.beginPath();x.moveTo(110,520);x.lineTo(970,520);x.stroke();
+
+  x.save();x.translate(900,228);x.rotate(-0.19);
+  x.strokeStyle='#A8322A';x.lineWidth=7;x.beginPath();x.arc(0,0,70,0,Math.PI*2);x.stroke();
+  x.lineWidth=2.5;x.beginPath();x.arc(0,0,56,0,Math.PI*2);x.stroke();
+  x.fillStyle='#A8322A';x.textAlign='center';x.textBaseline='middle';x.font='500 25px '+serif;
+  x.fillText('今日限定',0,-14);x.fillText('已接受',0,18);x.restore();
+  x.textBaseline='alphabetic';
+
+  x.fillStyle='#3A2F22';x.font='500 42px '+serif;x.textAlign='left';
+  var ql=wrap(x,'“'+r.opening+'”',782);
+  var qh=Math.max(148,ql.length*64+80);
+  x.fillStyle='#EBDCBC';x.fillRect(110,566,860,qh);
+  x.strokeStyle='#D0BC96';x.lineWidth=2;x.strokeRect(110,566,860,qh);
+  x.fillStyle='#3A2F22';x.font='500 42px '+serif;
+  drawLines(x,ql,150,636,64);
+  x.textAlign='center';
+  var sep=566+qh+38;
+  x.strokeStyle='#BCA884';x.lineWidth=2;x.beginPath();x.moveTo(110,sep);x.lineTo(970,sep);x.stroke();
+
+  x.textAlign='left';x.fillStyle='#6C5B44';x.font='500 36px '+serif;
+  x.fillText('今日行动建议',110,sep+66);
+  x.fillStyle='#A8322A';x.fillRect(110,sep+84,132,5);
+  var ys=[sep+164,sep+342,sep+520];
+  for(var j=0;j<r.acts.length;j++){
+    x.fillStyle='#A8322A';x.beginPath();x.arc(148,ys[j]-12,27,0,Math.PI*2);x.fill();
+    x.fillStyle='#FFF4E4';x.textAlign='center';x.textBaseline='middle';
+    x.font='500 25px "Courier New",monospace';x.fillText('0'+(j+1),148,ys[j]-11);
+    x.textAlign='left';x.textBaseline='alphabetic';x.fillStyle='#392F23';x.font='500 38px '+sans;
+    var al=wrap(x,r.acts[j],770);
+    drawLines(x,al,212,ys[j],58);
+  }
+  var ruleY=sep+672;
+  x.strokeStyle='#BCA884';x.lineWidth=2;
+  x.beginPath();x.moveTo(110,ruleY);x.lineTo(970,ruleY);x.stroke();
+  x.textAlign='center';x.fillStyle='#2B2318';x.font='500 44px '+serif;
+  x.fillText('按这个人设，过今天。',540,ruleY+80);
+  x.fillStyle='#6C5B44';x.font='24px "Courier New",monospace';
+  x.fillText(r.no+'  ·  '+r.trait+'  /  '+r.task,540,ruleY+138);
+  var br=rng32((r.seed||1)+7);var bx=392;
+  x.fillStyle='#6C5B44';
+  while(bx<688){var w=2+Math.floor(br()*6);x.fillRect(bx,ruleY+190,w,52);bx+=w+4+Math.floor(br()*9)}
+  x.fillStyle='#9A8B72';x.font='20px "Courier New",monospace';
+  x.fillText('DAILY PERSONA  ·  '+r.date.replace(/-/g,'/'),540,ruleY+320);
+  return c.toDataURL('image/png');
+}
+function textVersion(r){
+  return '【今日人设】'+r.name+' · '+r.tag+'\n'+r.date+'　'+r.no+'\n“'+r.opening+'”\n'+
+    r.acts.map(function(a,i){return (i+1)+'. '+a}).join('\n')+
+    '\n气质：'+r.trait+'　今日任务：'+r.task+'\n——按这个人设，过今天。';
+}
+function openShare(r){
+  if(!r)return;
+  var url=drawShare(r);
+  $('#shareImg').src=url;
+  $('#downloadBtn').href=url;
+  $('#downloadBtn').download='今日人设-'+r.date+'.png';
+  $('#textBackup').textContent=textVersion(r);
+  $('#copyBtn').textContent='复制文字版';
+  $('#shareModal').hidden=false;
+}
+function closeShare(){$('#shareModal').hidden=true}
+function showTab(t){
+  var today=t==='today';
+  $('#todayView').hidden=!today;$('#archiveView').hidden=today;
+  $('#tabToday').classList.toggle('active',today);
+  $('#tabArchive').classList.toggle('active',!today);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+$('#swapBtn').addEventListener('click',function(){
+  if(state.swaps>=MAX_SWAP||state.accepted)return;
+  state.swaps+=1;state.current=build(state.date,state.swaps);save();render();
+});
+$('#acceptBtn').addEventListener('click',function(){
+  if(state.accepted)return;
+  state.accepted=state.current;
+  var exists=false;
+  for(var i=0;i<state.archive.length;i++)if(state.archive[i].no===state.accepted.no){exists=true;break}
+  if(!exists)state.archive.unshift(state.accepted);
+  save();render();
+});
+$('#shareBtn').addEventListener('click',function(){openShare(state.accepted)});
+$('#toArchiveBtn').addEventListener('click',function(){showTab('archive')});
+$('#tabToday').addEventListener('click',function(){showTab('today')});
+$('#tabArchive').addEventListener('click',function(){showTab('archive')});
+$('#clearBtn').addEventListener('click',function(){
+  if(!state.archive.length)return;
+  if(window.confirm('确定清空本地档案吗？此操作不可恢复。')){state.archive=[];save();renderArchive()}
+});
+$('#closeShare').addEventListener('click',closeShare);
+$('#shareModal').addEventListener('click',function(e){if(e.target===this)closeShare()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeShare()});
+$('#copyBtn').addEventListener('click',function(){
+  var text=$('#textBackup').textContent;
+  function done(){this.textContent='已复制';}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done.bind(this),function(){fallback()});
+  }else{fallback()}
+  function fallback(){
+    var ta=document.createElement('textarea');ta.value=text;
+    ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');done.call($('#copyBtn'))}catch(e){$('#copyBtn').textContent='请手动复制'}
+    document.body.removeChild(ta);
+  }
+});
+
+render();
+})();
+</script>
+</body>
+</html>
