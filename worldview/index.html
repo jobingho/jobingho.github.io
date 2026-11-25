@@ -462,11 +462,14 @@ function sinaNews(lid,num){
     return arr.map(function(x){return {title:x.title||x.stitle||'',url:x.url||'',time:x.ctime?fmtTime(x.ctime):'',source:'新浪新闻',summary:x.wapsummary||''}}).filter(function(x){return x.title});
   });
 }
+function mapEcon(j){
+  var arr=(j&&j.data&&j.data.fastNewsList)||[];
+  return arr.map(function(x){return {title:x.title||'',url:'https://finance.eastmoney.com/a/'+x.code+'.html',time:(x.showTime||'').slice(5,16),source:'东方财富',summary:(x.summary||'').replace(/^【|】$/g,'')}}).filter(function(x){return x.title});
+}
 function eastMoneyNews(num){
-  var url='https://np-listapi.eastmoney.com/comm/web/getFastNewsList?client=web&biz=web_news_col&fastColumn=102&sortType=1&sortEnd=0&pageSize='+(num||14)+'&pageNo=1&req_trace=1&callback=cb&_='+Date.now();
-  return jsonp(url,'callback').then(function(j){
-    var arr=(j&&j.data&&j.data.fastNewsList)||[];
-    return arr.map(function(x){return {title:x.title||'',url:'https://finance.eastmoney.com/a/'+x.code+'.html',time:(x.showTime||'').slice(5,16),source:'东方财富',summary:(x.summary||'').replace(/^【|】$/g,'')}}).filter(function(x){return x.title});
+  return proxyGet('/api/econ').then(function(r){return mapEcon(r&&r.ok?r.data:null)}).catch(function(){
+    var url='https://np-listapi.eastmoney.com/comm/web/getFastNewsList?client=web&biz=web_news_col&fastColumn=102&sortType=1&sortEnd=0&pageSize='+(num||14)+'&pageNo=1&req_trace=1&callback=cb&_='+Date.now();
+    return jsonp(url,'callback').then(mapEcon);
   });
 }
 function parseHot(j){
